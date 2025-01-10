@@ -4,7 +4,7 @@ This project focuses on developing a machine learning model capable of classifyi
 
 - Fruit and Vegetable Disease (https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten/data)
 
-
+The dataset consists of images of 14 different fruits. For each fruit there are two classes: healthy and rotten. There is around 29300 images in total, taking up around 5gb.
 
 We are going to be using huggingface transformers as our framework and specifically expect to use a resnet-50 model(https://huggingface.co/microsoft/resnet-50).
 
