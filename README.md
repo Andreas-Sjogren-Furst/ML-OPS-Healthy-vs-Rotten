@@ -9,15 +9,6 @@ The dataset consists of images of 14 different fruits. For each fruit there are 
 We are going to be using huggingface transformers as our framework and specifically expect to use a resnet-50 model(https://huggingface.co/microsoft/resnet-50).
 
 
-
-When you have come up with an idea, write a project description. The description is the delivery for today and should be at least 300 words. Try to answer the following questions in the description:
-
-Overall goal of the project
-What framework are you going to use, and you do you intend to include the framework into your project?
-What data are you going to run on (initially, may change)
-What models do you expect to use
-
-
 Data set: https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten/data?fbclid=IwZXh0bgNhZW0CMTEAAR2U3lpnkUaODqRrqhH7s9b1xtbiXHJo30SUkUsRnGED05tyG6nFjjcHNEE_aem_ZGETeN_5JNM60wXPqtClXw
 
 ## Project structure
