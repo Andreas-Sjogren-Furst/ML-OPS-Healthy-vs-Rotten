@@ -2,12 +2,12 @@
 ## Project Description
 
 ### Goal
-The goal of the machine-learning model is to be capable of classifying fruits as healthy or rotten based on image data. 
-The main goal of the project is to implement the model together with the technologies and theories learned throughout the course.
+The objective of the machine-learning model is to be capable of classifying fruits as healthy or rotten based on image data. 
+The main goal of the project is to implement the model together with the technologies, frameworks and theories learned throughout the course.
 
 ### Framework
-For our third-party package, we are going to be using hugging face transformers. 
-The framework contains pre-trained models for classification etc which we could apply in our project. 
+We are going to be using hugging face transformers as our third-party package. 
+The framework contains pre-trained models for classification, etc, which we are going to apply in the project. 
 
 ### Dataset
 The dataset is found on Kaggle and only consists of one dataset so we will have to split it into a train and test set. (https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten/data)
