@@ -1,12 +1,24 @@
 # healthy_vs_rotten
 ## Project Description
-This project focuses on developing a machine learning model capable of classifying fruits as healthy or rotten based on image data. We will be using the following dataset for both training and testing our model:
 
-- Fruit and Vegetable Disease (https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten/data)
+### Goal
+The goal of the machine-learning model is to be capable of classifying fruits as healthy or rotten based on image data. 
+The main goal of the project is to implement the model together with the technologies and theories learned throughout the course.
 
-The dataset consists of images of 14 different fruits. For each fruit there are two classes: healthy and rotten. There is around 29300 images in total, taking up around 5gb.
+### Framework
+For our third-party package, we are going to be using hugging face transformers. 
+The framework contains pre-trained models for classification etc which we could apply in our project. 
 
-We are going to be using huggingface transformers as our framework and specifically expect to use a resnet-50 model(https://huggingface.co/microsoft/resnet-50).
+### Dataset
+The dataset is found on Kaggle and only consists of one dataset so we will have to split it into a train and test set. (https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten/data)
+The dataset consists of 28 different classes of 14 different fruits and vegetables. For each fruit and vegetable, there are two classes: healthy and rotten.
+There is around 29300 images of both rotten and healthy of the 14 fruit and vegetables. The dataset takes up around 5 GB of memory.
+
+### Models
+We are utilizing the Hugging Face framework to obtain a pre-trained model for our project. 
+The model we are going to use is called the resnet-50 model(https://huggingface.co/microsoft/resnet-50). ResNet-50, a widely used convolutional neural network, is well-suited for image classification tasks due to its deep residual learning architecture. This model will be fine-tuned on our dataset to ensure optimal performance for the binary classification task.
+By utilising the hugging face framework we can fast and efficiently implement a model thereby allowing more time on the DevOps part of the project. 
+Hopefully, by creating a well-implemented project we can easily evaluate and compare other models from hugging face for our problem also. 
 
 ## Project structure
 
