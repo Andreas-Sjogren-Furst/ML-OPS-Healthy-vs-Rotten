@@ -1,6 +1,21 @@
 # healthy_vs_rotten
 ## Project Description
-This project focuses on developing a machine learning model capable of classifying fruits as healthy or rotten based on image data. By leveraging computer vision techniques, the model aims to assist in automating quality control processes in agriculture, supply chains, and retail sectors.
+This project focuses on developing a machine learning model capable of classifying fruits as healthy or rotten based on image data. We will be using the following dataset for both training and testing our model:
+
+- Fruit and Vegetable Disease (https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten/data)
+
+
+
+We are going to be using huggingface transformers as our framework and specifically expect to use a resnet-50 model(https://huggingface.co/microsoft/resnet-50).
+
+
+
+When you have come up with an idea, write a project description. The description is the delivery for today and should be at least 300 words. Try to answer the following questions in the description:
+
+Overall goal of the project
+What framework are you going to use, and you do you intend to include the framework into your project?
+What data are you going to run on (initially, may change)
+What models do you expect to use
 
 
 Data set: https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten/data?fbclid=IwZXh0bgNhZW0CMTEAAR2U3lpnkUaODqRrqhH7s9b1xtbiXHJo30SUkUsRnGED05tyG6nFjjcHNEE_aem_ZGETeN_5JNM60wXPqtClXw
