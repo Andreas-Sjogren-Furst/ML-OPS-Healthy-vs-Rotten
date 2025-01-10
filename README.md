@@ -8,9 +8,6 @@ The dataset consists of images of 14 different fruits. For each fruit there are 
 
 We are going to be using huggingface transformers as our framework and specifically expect to use a resnet-50 model(https://huggingface.co/microsoft/resnet-50).
 
-
-Data set: https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten/data?fbclid=IwZXh0bgNhZW0CMTEAAR2U3lpnkUaODqRrqhH7s9b1xtbiXHJo30SUkUsRnGED05tyG6nFjjcHNEE_aem_ZGETeN_5JNM60wXPqtClXw
-
 ## Project structure
 
 The directory structure of the project looks like this:
