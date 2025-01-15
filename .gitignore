@@ -177,8 +177,13 @@ cython_debug/
 #.idea/
 
 # Data directories
+data/processed/*
 data/raw/*
 !data/raw/.gitkeep
+
+# Model directories
+models/*
+!models/.gitkeep
 
 # Kaggle credentials
 kaggle.json
