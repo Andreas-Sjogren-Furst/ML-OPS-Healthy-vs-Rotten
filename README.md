@@ -18,7 +18,36 @@ There is around 29300 images of both rotten and healthy of the 14 fruit and vege
 We are utilizing the Hugging Face framework to obtain a pre-trained model for our project. 
 The model we are going to use is called the resnet-50 model(https://huggingface.co/microsoft/resnet-50). ResNet-50, a widely used convolutional neural network, is well-suited for image classification tasks due to its deep residual learning architecture. This model will be fine-tuned on our dataset to ensure optimal performance for the binary classification task.
 By utilising the hugging face framework we can fast and efficiently implement a model thereby allowing more time on the DevOps part of the project. 
-Hopefully, by creating a well-implemented project we can easily evaluate and compare other models from hugging face for our problem also. 
+Hopefully, by creating a well-implemented project we can easily evaluate and compare other models from hugging face for our problem also.
+
+
+# Dataset Setup
+
+This project uses the [Fruits and Vegetables Disease Dataset](https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten) from Kaggle.
+
+## Download Instructions (Windows)
+
+1. Install requirements:
+   ```powershell
+   pip install kaggle
+   ```
+
+2. Set up Kaggle credentials (unsure whether this is necessary):
+   - Create a Kaggle account if you don't have one
+   - Go to kaggle.com/account
+   - Click "Create New API Token" in the API section
+   - Move the downloaded `kaggle.json` to your `.kaggle` folder:
+     ```powershell
+     New-Item -Path "$env:USERPROFILE\.kaggle" -ItemType Directory -Force
+     Move-Item -Path "$env:USERPROFILE\Downloads\kaggle.json" -Destination "$env:USERPROFILE\.kaggle\kaggle.json"
+     ```
+
+3. Run the download script:
+   ```powershell
+   python download_dataset.py
+   ```
+
+The dataset will be downloaded to `data/raw/`.
 
 ## Project structure
 
