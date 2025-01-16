@@ -1,33 +1,65 @@
+from dataclasses import dataclass
+from pathlib import Path
+
+import hydra
+import torch
+from hydra.utils import instantiate
+from omegaconf import OmegaConf
 from torch import nn
-from transformers import ResNetModel, ResNetConfig
+from transformers import ResNetModel
+
+@dataclass
+class ModelParams:
+    pretrained_model_name: str = "microsoft/resnet-50"
+    hidden_dim: int = 512
+    dropout_rate: float = 0.2
+
+@dataclass
+class Config:
+    model_params: ModelParams
 
 class FruitClassifier(nn.Module):
     """Binary classifier for healthy/rotten fruit classification."""
-    
-    def __init__(self, pretrained_model_name: str = "microsoft/resnet-50"):
+
+    def __init__(self, params: ModelParams) -> None:
         super().__init__()
         
         # Load pretrained model
-        self.backbone = ResNetModel.from_pretrained(pretrained_model_name)
+        self.backbone = ResNetModel.from_pretrained(params.pretrained_model_name)
         
         # Get the correct input size for the classifier
         # ResNet-50's last layer outputs 2048 features
         self.classifier = nn.Sequential(
-            nn.Linear(2048, 512),
+            nn.Linear(2048, params.hidden_dim),
             nn.ReLU(),
-            nn.Dropout(0.2),
-            nn.Linear(512, 1)
+            nn.Dropout(params.dropout_rate),
+            nn.Linear(params.hidden_dim, 1)
         )
         
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         # Get features from backbone
         # The last_hidden_state has shape (batch_size, num_channels, height, width)
         features = self.backbone(x).last_hidden_state
         
         # Global average pooling to get a feature vector
-        # Average over height and width dimensions
-        features = features.mean([-2, -1])  # Result shape: (batch_size, 2048)
+        features = features.mean(dim=[2, 3])
         
-        # Classify
-        logits = self.classifier(features)
-        return logits
+        # Pass through classifier
+        return self.classifier(features)
+
+project_root = Path(__file__).resolve().parents[2]  # Adjust as needed
+config_path = str(project_root / "configs/model_experiments")
+
+@hydra.main(config_path=config_path, config_name="model1.yaml")
+def main(cfg):
+    print("Configuration:")
+    print(OmegaConf.to_yaml(cfg))
+
+    # Instantiate the model using Hydra
+    model = instantiate(cfg.model)
+    print(f"Model architecture: {model}")
+    print(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")
+
+
+if __name__ == "__main__":
+    main()

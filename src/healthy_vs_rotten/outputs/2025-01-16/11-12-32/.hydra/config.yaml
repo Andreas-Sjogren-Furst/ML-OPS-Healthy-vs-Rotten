@@ -1,0 +1,7 @@
+model_params:
+  pretrained_model_name: microsoft/resnet-50
+  hidden_dim: 512
+  dropout_rate: 0.5
+model:
+  _target_: __main__.FruitClassifier
+  params: ${model_params}
