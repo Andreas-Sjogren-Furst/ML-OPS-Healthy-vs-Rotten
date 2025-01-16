@@ -1,0 +1,17 @@
+defaults:
+  - model: default
+  - training: test
+  - _self_
+
+paths:
+  data_dir: ${hydra:runtime.cwd}/data/processed
+  output_dir: ${hydra:runtime.cwd}/models
+
+wandb:
+  mode: online
+  project: ${oc.env:WANDB_PROJECT}
+  entity: ${oc.env:WANDB_ENTITY}
+
+hydra:
+  job:
+    chdir: false

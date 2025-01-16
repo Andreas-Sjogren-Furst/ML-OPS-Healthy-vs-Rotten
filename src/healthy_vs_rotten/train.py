@@ -2,21 +2,19 @@ from pathlib import Path
 import torch
 from torch import nn, optim
 from torch.utils.data import DataLoader, Subset
-from torchvision import transforms
-import typer
+import hydra
+from omegaconf import DictConfig
 from tqdm import tqdm
 import random
 import numpy as np
 import wandb
 from dotenv import load_dotenv
 import os
-from typing import Optional
 
 from data import FruitVegDataset
 from model import FruitClassifier
 
-
-def setup_wandb(wandb_mode: str = "online") -> None:
+def setup_wandb(cfg: DictConfig) -> None:
     """Setup Weights & Biases configuration from environment variables."""
     # Load environment variables
     if not load_dotenv():
@@ -37,63 +35,52 @@ def setup_wandb(wandb_mode: str = "online") -> None:
     # Login to wandb
     wandb.login(key=os.getenv("WANDB_API_KEY"))
 
+project_root = Path(__file__).resolve().parents[2]  # Adjust as needed
+config_path = str(project_root / "configs")
 
-def train(
-    data_dir: Path = Path("data/processed"),
-    output_dir: Path = Path("models"),
-    batch_size: int = 32,
-    learning_rate: float = 1e-4,
-    num_epochs: int = 10,
-    small_dataset: bool = False,
-    small_dataset_proportion: float = 0.1,
-    save_model: bool = True,
-    device: str = "cuda" if torch.cuda.is_available() else "cpu",
-    wandb_mode: str = "online"
-) -> None:
-    """Train the model using W&B configuration from .env file.
+@hydra.main(version_base=None, config_path=config_path, config_name="config")
+def train(cfg: DictConfig) -> None:
+    """Train the model using Hydra configuration.
     
     Args:
-        data_dir: Directory containing the processed data
-        output_dir: Directory to save the model
-        batch_size: Batch size for training
-        learning_rate: Learning rate for optimization
-        num_epochs: Number of training epochs
-        small_dataset: If True, use only a subset of data for quick testing
-        small_dataset_proportion: Proportion of data to use for training a small model
-        save_model: Set to False if you do not wish to save the model
-        device: Device to train on
-        wandb_mode: W&B mode ("online", "offline", or "disabled")
+        cfg: Hydra configuration object
     """
     # Setup directories
+    data_dir = Path(cfg.paths.data_dir)
+    output_dir = Path(cfg.paths.output_dir)
     output_dir.mkdir(exist_ok=True)
     
+    # Specify device
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+
     # Setup W&B
-    setup_wandb(wandb_mode)
+    setup_wandb(cfg)
     
     # Initialize W&B run
     config = {
-        "learning_rate": learning_rate,
-        "batch_size": batch_size,
-        "num_epochs": num_epochs,
-        "small_dataset": small_dataset,
-        "small_dataset_proportion": small_dataset_proportion,
+        "learning_rate": cfg.training.learning_rate,
+        "batch_size": cfg.training.batch_size,
+        "num_epochs": cfg.training.num_epochs,
+        "small_dataset": cfg.training.small_dataset,
+        "small_dataset_proportion": cfg.training.small_dataset_proportion,
         "device": device,
         "optimizer": "AdamW",
-        "architecture": "FruitClassifier"
+        "architecture": "FruitClassifier",
+        "model": dict(cfg.model)
     }
     
     wandb.init(
-        project=os.getenv("WANDB_PROJECT"),
-        entity=os.getenv("WANDB_ENTITY"),
+        project=cfg.wandb.project,
+        entity=cfg.wandb.entity,
         config=config,
-        mode=wandb_mode
+        mode=cfg.wandb.mode
     )
     
     # Load datasets
     train_dataset = FruitVegDataset(data_dir / "train")
     val_dataset = FruitVegDataset(data_dir / "val")
     
-    if small_dataset:
+    if cfg.training.small_dataset:
         # Get indices for each class
         train_healthy_idx = [i for i, (_, label) in enumerate(train_dataset.samples) if label == 1]
         train_rotten_idx = [i for i, (_, label) in enumerate(train_dataset.samples) if label == 0]
@@ -102,10 +89,10 @@ def train(
         
         # Randomly select samples based on proportion
         random.seed(42)
-        train_indices = (random.sample(train_healthy_idx, int(np.floor(small_dataset_proportion*len(train_healthy_idx)))) + 
-                        random.sample(train_rotten_idx, int(np.floor(small_dataset_proportion*len(train_rotten_idx)))))
-        val_indices = (random.sample(val_healthy_idx, int(np.floor(small_dataset_proportion*len(val_healthy_idx)))) + 
-                      random.sample(val_rotten_idx, int(np.floor(small_dataset_proportion*len(val_rotten_idx)))))
+        train_indices = (random.sample(train_healthy_idx, int(np.floor(cfg.training.small_dataset_proportion*len(train_healthy_idx)))) + 
+                        random.sample(train_rotten_idx, int(np.floor(cfg.training.small_dataset_proportion*len(train_rotten_idx)))))
+        val_indices = (random.sample(val_healthy_idx, int(np.floor(cfg.training.small_dataset_proportion*len(val_healthy_idx)))) + 
+                      random.sample(val_rotten_idx, int(np.floor(cfg.training.small_dataset_proportion*len(val_rotten_idx)))))
         
         # Create subset datasets
         train_dataset = Subset(train_dataset, train_indices)
@@ -114,28 +101,30 @@ def train(
         print(f"Debug mode: Using {len(train_dataset)} training samples and {len(val_dataset)} validation samples")
         wandb.config.update({"train_samples": len(train_dataset), "val_samples": len(val_dataset)})
     
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=batch_size)
+    train_loader = DataLoader(train_dataset, batch_size=cfg.training.batch_size, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=cfg.training.batch_size)
     
     # Initialize model and watch gradients
-    model = FruitClassifier().to(device)
+    model = hydra.utils.instantiate(cfg.model)
+    model = model.to(device)
     wandb.watch(model, log="all", log_freq=10)
     
     criterion = nn.BCEWithLogitsLoss()
-    optimizer = optim.AdamW(model.parameters(), lr=learning_rate)
+    optimizer = optim.AdamW(model.parameters(), lr=cfg.training.learning_rate)
     
     # Training loop
     best_val_loss = float('inf')
     
-    for epoch in range(num_epochs):
+    for epoch in range(cfg.training.num_epochs):
         # Training phase
         model.train()
         train_loss = 0
         train_correct = 0
         train_total = 0
         
-        for step, (images, labels) in enumerate(tqdm(train_loader, desc=f"Epoch {epoch+1}/{num_epochs}")):
-            images, labels = images.to(device), labels.float().to(device)
+        for step, (images, labels) in enumerate(tqdm(train_loader, desc=f"Epoch {epoch+1}/{cfg.training.num_epochs}")):
+            images = images.to(device)
+            labels = labels.float().to(device)
             
             optimizer.zero_grad()
             outputs = model(images).squeeze()
@@ -167,7 +156,8 @@ def train(
         
         with torch.no_grad():
             for images, labels in val_loader:
-                images, labels = images.to(device), labels.float().to(device)
+                images = images.to(device)
+                labels = labels.float().to(device)
                 outputs = model(images).squeeze()
                 loss = criterion(outputs, labels)
                 
@@ -205,7 +195,7 @@ def train(
         })
         
         # Print metrics
-        print(f"\nEpoch {epoch+1}/{num_epochs}")
+        print(f"\nEpoch {epoch+1}/{cfg.training.num_epochs}")
         print(f"Train Loss: {train_loss:.4f}")
         print(f"Train Accuracy: {train_acc:.2f}%")
         print(f"Val Loss: {val_loss:.4f}")
@@ -214,7 +204,7 @@ def train(
         # Save best model
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-            if save_model:
+            if cfg.training.save_model:
                 model_path = output_dir / "best_model.pt"
                 torch.save(model.state_dict(), model_path)
                 print("Saved best model!")
@@ -229,15 +219,5 @@ def train(
     
     wandb.finish()
 
-
 if __name__ == "__main__":
-    """
-    Example usage:
-    
-    # Regular training
-    python train.py
-    
-    # Small dataset training in offline mode
-    python train.py --small-dataset --wandb-mode offline
-    """
-    typer.run(train)
+    train()

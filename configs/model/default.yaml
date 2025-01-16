@@ -1,0 +1,5 @@
+_target_: model.FruitClassifier
+pretrained_model_name: microsoft/resnet-50
+classifier:
+  hidden_size: 512
+  dropout: 0.2
