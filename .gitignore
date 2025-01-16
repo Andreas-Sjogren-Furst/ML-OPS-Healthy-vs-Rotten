@@ -193,3 +193,6 @@ kaggle.json
 
 # Local weights and biases output
 wandb/
+
+# Hydra outputs folder
+outputs/
