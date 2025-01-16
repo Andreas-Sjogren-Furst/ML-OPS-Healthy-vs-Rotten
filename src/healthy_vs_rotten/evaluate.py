@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader
 import typer
 from sklearn.metrics import classification_report
 import numpy as np
-
+from loguru import logger
 from data import FruitVegDataset
 from model import FruitClassifier
 
@@ -38,6 +38,7 @@ def evaluate(
             all_preds.extend(predictions.cpu().numpy())
             all_labels.extend(labels.numpy())
     
+    logger.info("Evaluation complete.")
     # Print metrics
     print("\nTest Set Evaluation:")
     print(classification_report(

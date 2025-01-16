@@ -6,7 +6,7 @@ import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
 import typer
-
+from loguru import logger
 
 class FruitVegDataset(Dataset):
     """Dataset for healthy vs rotten fruit/vegetable classification."""
@@ -47,6 +47,7 @@ class FruitVegDataset(Dataset):
 
     def preprocess(self, output_folder: Path) -> None:
         """Organize data into train/val/test splits."""
+        logger.info("Preprocessing data...")
         # Create output directories
         splits = ['train', 'val', 'test']
         classes = ['healthy', 'rotten']
@@ -76,6 +77,7 @@ class FruitVegDataset(Dataset):
                 cls = 'healthy' if label == 1 else 'rotten'
                 dest = output_folder / split / cls / img_path.name
                 shutil.copy2(img_path, dest)
+        logger.info("Preprocessing complete.")
 
 
 def preprocess(
@@ -83,10 +85,9 @@ def preprocess(
     output_folder: Path = Path("data/processed")
 ) -> None:
     """Preprocess the raw data and save it to the output folder."""
-    print("Preprocessing data...")
     dataset = FruitVegDataset(raw_data_path)
     dataset.preprocess(output_folder)
-    print(f"Data preprocessed and saved to {output_folder}")
+    logger.info(f"Saved succesfully to folder \"{output_folder}\"")
 
 
 if __name__ == "__main__":

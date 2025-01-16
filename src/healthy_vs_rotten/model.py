@@ -4,6 +4,7 @@ from omegaconf import DictConfig
 import hydra
 import torch
 from pathlib import Path
+from loguru import logger
 
 class FruitClassifier(nn.Module):
     """Binary classifier for healthy/rotten fruit classification."""
@@ -51,7 +52,7 @@ config_path = str(project_root / "configs")
 def print_model_info(cfg: DictConfig) -> None:
     # Initialize model
     model = hydra.utils.instantiate(cfg.model)
-    
+    logger.info("Model initialized.")
     # Print model information
     print("\n" + "="*50)
     print("FruitClassifier Model Information")
