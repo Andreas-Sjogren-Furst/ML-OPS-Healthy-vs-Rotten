@@ -1,6 +1,5 @@
 from torch import nn
-from transformers import ResNetModel, ResNetConfig
-from dataclasses import dataclass
+from transformers import ResNetModel
 from omegaconf import DictConfig
 import hydra
 import torch
