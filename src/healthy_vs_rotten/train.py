@@ -127,7 +127,7 @@ def train(cfg: DictConfig) -> None:
             labels = labels.float().to(device)
             
             optimizer.zero_grad()
-            outputs = model(images).squeeze()
+            outputs = model(images).squeeze(-1)
             loss = criterion(outputs, labels)
             
             loss.backward()
