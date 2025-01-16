@@ -187,3 +187,9 @@ models/*
 
 # Kaggle credentials
 kaggle.json
+
+# .env file
+.env
+
+# Local weights and biases output
+wandb/
