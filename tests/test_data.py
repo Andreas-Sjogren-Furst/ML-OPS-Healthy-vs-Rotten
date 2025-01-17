@@ -1,40 +1,47 @@
-from torch.utils.data import preprocess
-from healthy_vs_rotten.data import FruitVegDataset
 import pytest
 import os.path
-from tests import _PATH_TEST_DATA, _PATH_DATA
-from pathlib import Path
+from tests import _PATH_TEST_DATA
 import shutil
+from src.healthy_vs_rotten.data import FruitVegDataset
 
 
-
-@pytest.mark.skipif(not os.path.exists("data/raw/Fruit And Vegetable Diseases Dataset"))
+@pytest.mark.skipif(not os.path.exists(_PATH_TEST_DATA / "raw/Fruit And Vegetable Diseases Dataset"), 
+                    reason="Dataset 'Fruit And Vegetable Diseases Dataset' not found")
 def test_data():
-    preprocess()
-
-
-
-def test_my_dataset():
     """Test the MyDataset class."""
-    dataset = FruitVegDataset("data/raw")
+    dataset = FruitVegDataset(_PATH_TEST_DATA / 'raw/Fruit And Vegetable Diseases Dataset')
     assert isinstance(dataset, FruitVegDataset)
+    
+    processed_path = _PATH_TEST_DATA / 'processed'
+    
+    os.makedirs(processed_path, exist_ok=True)
+
+    dataset.preprocess(processed_path)
+
+    splits = ['train', 'val', 'test']
+    classes = ['healthy', 'rotten']
+    
+    for split in splits:
+        for cls in classes:
+            split_cls_dir = processed_path / split / cls
+            # Assert that the directory exists
+            assert split_cls_dir.exists(), f"{split_cls_dir} does not exist"
+    
+    # Verify that each directory contains files (to check if files were copied correctly)
+    
+    for cls in classes:
+        numb_classes = 0
+        for split in splits:
+            split_cls_dir = processed_path / split / cls
+            files = list(split_cls_dir.glob('*.jpg'))  # Assuming files are jpg
+            numb_classes += len(files)
+        assert numb_classes > 0, f"No images found in {split_cls_dir}"
+
+    shutil.rmtree(processed_path)
+
+    assert not os.path.exists(processed_path)
+
+    print("Test completed successfully. Directories and files have been validated.")
 
 
-
-def create_test_dataset(testdataset_path: Path = _PATH_TEST_DATA, dataset_path: Path = _PATH_DATA) -> None:
-    """
-    Create a mock test dataset with small images for unit testing.
-    """
-    # Ensure the dataset directory exists
-    (testdataset_path / 'raw').mkdir(parents=True, exist_ok=True)
-    (testdataset_path / 'processed').mkdir(parents=True, exist_ok=True)
-
-    # Create mock images
-    healthy_image_path = dataset_path / 'raw' / 'Fruit And Vegetable Diseases Dataset' / 'Bellpepper_Healthy' / 'freshPepper(1).jpg'
-    rotten_image_path = dataset_path / 'raw' / 'Fruit And Vegetable Diseases Dataset' / 'Bellpepper_Rotten' / 'rottenPepper(1).jpg'
-
-    shutil.copy(healthy_image_path, testdataset_path / 'raw')
-    shutil.copy(rotten_image_path, testdataset_path / 'raw')
-
-    print(f"Test dataset created at {testdataset_path}")
 
