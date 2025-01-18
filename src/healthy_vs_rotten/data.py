@@ -81,8 +81,8 @@ class FruitVegDataset(Dataset):
 
 
 def preprocess(
-    raw_data_path: Path = Path("data/raw/Fruit And Vegetable Diseases Dataset"),
-    output_folder: Path = Path("data/processed")
+    raw_data_path: Path = typer.Argument("data/raw/Fruit And Vegetable Diseases Dataset"),
+    output_folder: Path = typer.Argument("data/processed")
 ) -> None:
     """Preprocess the raw data and save it to the output folder."""
     dataset = FruitVegDataset(raw_data_path)
