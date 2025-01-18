@@ -64,6 +64,55 @@ You can find your entity and project in the URL:
 https://wandb.ai/<entity>/<project>
 ```
 
+# Project Automation with Invoke
+
+This project uses [Invoke](https://www.pyinvoke.org/) for task automation.
+
+## Setup Commands
+
+Ensure you have invoke installed:
+```bash
+pip install invoke
+```
+
+- **Create Environment**: Create a Conda environment.
+  ```bash
+  invoke create-environment
+  ```
+- **Install Requirements**: Install project dependencies.
+  ```bash
+  invoke requirements
+  ```
+- **Install Dev Requirements**: Install development dependencies.
+  ```bash
+  invoke dev-requirements
+  ```
+
+## Project Commands
+
+- **Preprocess Data**: Process raw data to create processed datasets.
+  ```bash
+  invoke preprocess-data --raw-data-folder=<raw> --processed-data-folder=<processed>
+  ```
+- **Train Model**: Train the machine learning model.
+  ```bash
+  invoke train
+  ```
+- **Run Tests**: Run tests and generate a coverage report.
+  ```bash
+  invoke test
+  ```
+
+## Workflow
+
+1. Create environment: `invoke create-environment`
+2. Install dependencies: `invoke requirements`
+3. Preprocess data: `invoke preprocess-data`
+4. Train model: `invoke train`
+5. Test code: `invoke test`
+
+
+
 ## Project structure
 
 The directory structure of the project looks like this:
