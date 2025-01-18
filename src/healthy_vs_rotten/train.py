@@ -19,7 +19,7 @@ def setup_wandb(cfg: DictConfig) -> None:
     # Load environment variables
     if not load_dotenv():
         raise FileNotFoundError(
-            ".env file not found. Please copy .env.template to .env and fill in your values."
+            ".env file not found. Please copy .env.template to .env and fill in your values. WANDB_API_KEY, WANDB_ENTITY, and WANDB_PROJECT are required."
         )
     
     # Check for required environment variables
