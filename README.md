@@ -114,14 +114,14 @@ pip install invoke
 
 # Google Cloud Storage with DVC
 
-## Setup
+## Setup (already done in our repo)
 
 1. **Install DVC Google Cloud Extension**  
    ```bash
    pip install dvc-gs
    ```
 
-2. **Configure Remote Storage**  
+2. **Configure Remote Storage** 
    ```bash
    dvc remote add -d remote_storage gs://<bucket-name>
    dvc remote modify remote_storage version_aware true
@@ -129,7 +129,7 @@ pip install invoke
    git commit -m "Configure DVC remote storage"
    ```
 
-## Workflow
+## Workflow with DVC. 
 
 1. **Add Data**  
    ```bash
