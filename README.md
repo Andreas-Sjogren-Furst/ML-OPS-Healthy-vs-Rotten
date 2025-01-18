@@ -49,6 +49,20 @@ This project uses the [Fruits and Vegetables Disease Dataset](https://www.kaggle
 
 The dataset will be downloaded to `data/raw/`.
 
+
+## Wandb Setup
+
+1. Add `WANDB_API_KEY`
+2. Add `WANDB_ENTITY`
+3. Add `WANDB_PROJECT`
+
+### How to Get Entity and Project
+
+You can find your entity and project in the URL:
+```
+https://wandb.ai/<entity>/<project>
+```
+
 ## Project structure
 
 The directory structure of the project looks like this:
