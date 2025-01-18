@@ -196,3 +196,4 @@ wandb/
 
 # Hydra outputs folder
 outputs/
+/data
