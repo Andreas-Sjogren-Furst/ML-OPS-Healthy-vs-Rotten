@@ -112,6 +112,49 @@ pip install invoke
 5. Test code: `invoke test`
 
 
+# Google Cloud Storage with DVC
+
+## Setup
+
+1. **Install DVC Google Cloud Extension**  
+   ```bash
+   pip install dvc-gs
+   ```
+
+2. **Configure Remote Storage**  
+   ```bash
+   dvc remote add -d remote_storage gs://<bucket-name>
+   dvc remote modify remote_storage version_aware true
+   git add .dvc/config
+   git commit -m "Configure DVC remote storage"
+   ```
+
+## Workflow
+
+1. **Add Data**  
+   ```bash
+   dvc add <file_or_folder>
+   git add <file_or_folder>.dvc
+   git commit -m "Track data with DVC"
+   ```
+
+2. **Push Data**  
+   ```bash
+   dvc push --no-run-cache
+   ```
+
+3. **Pull Data**  
+   ```bash
+   dvc pull --no-run-cache
+   ```
+
+4. **Verify Storage**  
+   ```bash
+   gsutil ls gs://<bucket-name>
+   ```
+
+This ensures your data is tracked, versioned, and stored in Google Cloud.
+
 
 ## Project structure
 
