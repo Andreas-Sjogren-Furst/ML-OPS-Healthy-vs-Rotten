@@ -28,3 +28,5 @@ transformers==4.48.0
 typer==0.15.1
 typing-extensions==4.12.2
 urllib3==2.3.0
+torch==2.5.1
+torchvision==0.20.1
