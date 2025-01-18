@@ -16,3 +16,4 @@ coverage==7.6.10
 invoke==2.2.0
 transformers==4.48.0
 omegaconf==2.3.0
+dvc-gs==3.0.1
