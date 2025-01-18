@@ -52,6 +52,7 @@ The dataset will be downloaded to `data/raw/`.
 
 ## Wandb Setup
 
+Add the following secrets to your repository's .env file:
 1. Add `WANDB_API_KEY`
 2. Add `WANDB_ENTITY`
 3. Add `WANDB_PROJECT`
