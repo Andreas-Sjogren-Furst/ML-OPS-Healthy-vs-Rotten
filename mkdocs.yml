@@ -1,6 +1,5 @@
 site_name: healthy_vs_rotten
 site_author: DTU_MLOPS_Group_16
-docs_dir: source
 
 theme:
   language: en
@@ -20,4 +19,5 @@ plugins:
             show_signature_annotations: true
 
 nav:
-  - Home: index.md
+  - Home: source/index.md
+  - API: source/my_api.md

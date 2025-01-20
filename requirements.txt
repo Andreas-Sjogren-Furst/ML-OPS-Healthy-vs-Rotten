@@ -20,3 +20,6 @@ dvc-gs==3.0.1
 numpy==2.2.1
 pylint==3.3.3
 kaggle==1.6.17
+mkdocs-material >= 4.8.0
+mkdocstrings >= 0.9.0
+"mkdocstrings[python]" >= 0.9.0
