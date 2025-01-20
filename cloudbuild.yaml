@@ -7,7 +7,7 @@ steps:
     '-t',
     'europe-west1-docker.pkg.dev/$PROJECT_ID/ai-image-repo/ml-healthy-vs-rotten-classification-model',
     '-f',
-    'dockerfiles/evaluate.dockerfile'
+    'dockerfiles/train.dockerfile'
   ]
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Push container image'
