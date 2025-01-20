@@ -15,4 +15,20 @@ steps:
     'push',
     'europe-west1-docker.pkg.dev/$PROJECT_ID/ai-image-repo/ml-healthy-vs-rotten-classification-model'
   ]
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build evaluate container image'
+  args: [
+    'build',
+    '.',
+    '-t',
+    'europe-west1-docker.pkg.dev/$PROJECT_ID/ai-image-repo/ml-healthy-vs-rotten-evaluate-model',
+    '-f',
+    'dockerfiles/evaluate.dockerfile'
+  ]
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push evaluate container image'
+  args: [
+    'push',
+    'europe-west1-docker.pkg.dev/$PROJECT_ID/ai-image-repo/ml-healthy-vs-rotten-evaluate-model'
+  ]
 logsBucket: "gs://ml-ops-healthy-vs-rotten-data/" 
