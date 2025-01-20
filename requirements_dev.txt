@@ -1,6 +1,7 @@
 # commands
 invoke==2.2.0
 pipreqs==0.5.0
+kaggle
 
 
 # pre-commit
