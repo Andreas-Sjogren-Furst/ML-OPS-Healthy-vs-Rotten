@@ -194,7 +194,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 6 fill here ---
+--- Yes. We used pylint for linting and ruff for formatting. For pylint, we set up a GitHub action, which would automatically run the pylint command. We specified rules in the pylintrc file, such as setting the maximum line length to 130 characters and disabling certain warnings like wrong-import-order, too-many-statements, no-value-for-parameter, and unused-argument. We removed these since were conflicting with hydra, ruff and our training loop. For formatting, ruff was configured with pre-commit hooks to automatically format the code before each commit. These concepts are important in larger projects because they maintain code consistency, improve readability, and reduce the likelihood of bugs. Proper typing and documentation further enhance code quality by making the codebase easier to understand and maintain, facilitating collaboration among team members.---
 
 ## Version control
 
