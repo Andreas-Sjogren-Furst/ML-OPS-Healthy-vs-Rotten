@@ -18,3 +18,4 @@ transformers==4.48.0
 omegaconf==2.3.0
 dvc-gs==3.0.1
 numpy==2.2.1
+pylint==3.3.3
