@@ -1,7 +1,8 @@
-import pytest
+"""Tests for the data module."""
 import os.path
-from tests import _PATH_TEST_DATA
 import shutil
+import pytest
+from tests import _PATH_TEST_DATA
 from src.healthy_vs_rotten.data import FruitVegDataset
 
 

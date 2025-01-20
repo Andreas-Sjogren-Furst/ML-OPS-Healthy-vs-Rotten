@@ -1,6 +1,9 @@
+"""Data handling utilities for the fruit classification project."""
 from pathlib import Path
 import shutil
 from typing import Tuple
+import random
+
 from PIL import Image
 import torch
 from torch.utils.data import Dataset
@@ -57,8 +60,6 @@ class FruitVegDataset(Dataset):
                 (output_folder / split / cls).mkdir(parents=True, exist_ok=True)
 
         # Split data (80/10/10)
-        import random
-
         random.seed(133)
         random.shuffle(self.samples)
 

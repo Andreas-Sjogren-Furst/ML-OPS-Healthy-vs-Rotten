@@ -1,15 +1,17 @@
+"""Training script for the fruit classifier model."""
+import os
+import random
 from pathlib import Path
+
+import numpy as np
 import torch
 from torch import nn, optim
 from torch.utils.data import DataLoader, Subset
 import hydra
 from omegaconf import DictConfig
 from tqdm import tqdm
-import random
-import numpy as np
 import wandb
 from dotenv import load_dotenv
-import os
 
 from data import FruitVegDataset
 

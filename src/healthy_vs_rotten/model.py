@@ -1,9 +1,11 @@
+"""Model definition for fruit classification."""
+from pathlib import Path
+
+import torch
 from torch import nn
 from transformers import ResNetModel
 from omegaconf import DictConfig
 import hydra
-import torch
-from pathlib import Path
 from loguru import logger
 
 
@@ -27,6 +29,14 @@ class FruitClassifier(nn.Module):
         )
 
     def forward(self, x):
+        """Forward pass of the model.
+
+        Args:
+            x: Input tensor of shape (batch_size, channels, height, width)
+
+        Returns:
+            Tensor of shape (batch_size, 1) containing logits
+        """
         # Get features from backbone
         # The last_hidden_state has shape (batch_size, num_channels, height, width)
         features = self.backbone(x).last_hidden_state
@@ -40,11 +50,11 @@ class FruitClassifier(nn.Module):
         return logits
 
 
-project_root = Path(__file__).resolve().parents[2]  # Adjust as needed
-config_path = str(project_root / "configs")
+project_root = Path(__file__).resolve().parents[2]
+CONFIG_PATH = str(project_root / "configs")  # Fixed constant naming
 
 
-@hydra.main(version_base=None, config_path=config_path, config_name="config")
+@hydra.main(version_base=None, config_path=CONFIG_PATH, config_name="config")
 def print_model_info(cfg: DictConfig) -> None:
     # Initialize model
     model = hydra.utils.instantiate(cfg.model)

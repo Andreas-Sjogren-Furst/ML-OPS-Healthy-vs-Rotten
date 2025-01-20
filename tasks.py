@@ -1,3 +1,4 @@
+"""Task definitions for project automation using invoke."""
 import os
 
 from invoke import Context, task
