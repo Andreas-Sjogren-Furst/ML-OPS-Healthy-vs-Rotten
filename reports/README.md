@@ -326,6 +326,8 @@ DVC optimizes the storage of the data by only tracking different versions of the
 
 --- question 13 fill here ---
 
+We ensured reproducibility and prevented information loss by using YAML configuration files and comprehensive experiment tracking. All parameters, such as data paths, model settings, and output directories, are centralized in the `config.yaml` file, ensuring consistency across runs. Then we use the yaml files in model and training dir to set parameters for the model and training. Additionally, Weights and Biases (WandB) is integrated to log all experiment metadata, including hyperparameters, training results, and other details, providing a complete record of each experiment. To reproduce an experiment, one simply needs to load the corresponding configuration file, install the dependencies specified in `requirements.txt`, and execute the experiment. The use of Hydra adds flexibility by allowing parameters to be dynamically overridden while ensuring traceability, making it easy to adjust settings without compromising reproducibility. This approach guarantees that all experiments are consistent, traceable, and repeatable.
+
 ### Question 14
 
 > **Upload 1 to 3 screenshots that show the experiments that you have done in W&B (or another experiment tracking**
