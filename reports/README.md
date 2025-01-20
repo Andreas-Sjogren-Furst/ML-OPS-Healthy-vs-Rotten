@@ -244,6 +244,10 @@ will check the repositories and the code to verify your answers.
 > Answer:
 
 --- question 9 fill here ---
+No did we not use branches and pull requests, but we made sure to pull before pushing to minimize the probability merge conflicts. 
+Branches can help with version control, because it allows users to work on features without affecting the main branch. Furthermore, it is easy to save specific feature implementation by having a dedicated branch for it. 
+One advantage of pull request is that it helps improve version control, because it ensures that another member have looked over the code before it accepted into the main branch. Both of these methods will help lower the amount of merge conflicts and the mistakes in the project. 
+
 
 ### Question 10
 
@@ -259,6 +263,15 @@ will check the repositories and the code to verify your answers.
 > Answer:
 
 --- question 10 fill here ---
+We did not use DVC for managing data, because we found different implementation problems in the module. 
+
+It would be beneficial, because it keep version controls of the data. If you want to re-create a specific version of a trained model then you must ensure that you have the specific data used for that version. Data Version Control saves every version of the data and is able restore those specific versions.  
+
+DVC optimizes the storage of the data by only tracking different versions of the data. This ensures that we do not keep the same data multiple times, but rather using the same data. 
+
+
+
+
 
 ### Question 11
 
@@ -295,6 +308,8 @@ will check the repositories and the code to verify your answers.
 > Answer:
 
 --- question 12 fill here ---
+
+
 
 ### Question 13
 
