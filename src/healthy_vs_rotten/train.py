@@ -13,7 +13,7 @@ from tqdm import tqdm
 import wandb
 from dotenv import load_dotenv
 
-from data import FruitVegDataset
+from healthy_vs_rotten.data import FruitVegDataset
 
 
 def setup_wandb(cfg: DictConfig) -> None:
@@ -21,7 +21,8 @@ def setup_wandb(cfg: DictConfig) -> None:
     # Load environment variables
     if not load_dotenv():
         raise FileNotFoundError(
-            ".env file not found. Please copy .env.template to .env and fill in your values. WANDB_API_KEY, WANDB_ENTITY, and WANDB_PROJECT are required."
+            ".env file not found. Please copy .env.template to .env and fill in your values. "
+            "WANDB_API_KEY, WANDB_ENTITY, and WANDB_PROJECT are required."
         )
 
     # Check for required environment variables
@@ -38,10 +39,10 @@ def setup_wandb(cfg: DictConfig) -> None:
 
 
 project_root = Path(__file__).resolve().parents[2]  # Adjust as needed
-config_path = str(project_root / "configs")
+CONFIG_PATH = str(project_root / "configs")
 
 
-@hydra.main(version_base=None, config_path=config_path, config_name="config")
+@hydra.main(version_base=None, config_path=CONFIG_PATH, config_name="config")
 def train(cfg: DictConfig) -> None:
     """Train the model using Hydra configuration.
 

@@ -56,6 +56,11 @@ CONFIG_PATH = str(project_root / "configs")  # Fixed constant naming
 
 @hydra.main(version_base=None, config_path=CONFIG_PATH, config_name="config")
 def print_model_info(cfg: DictConfig) -> None:
+    """Print information about the FruitClassifier
+
+    Args:
+        cfg (DictConfig): Hydra configuration object
+    """
     # Initialize model
     model = hydra.utils.instantiate(cfg.model)
     logger.info("Model initialized.")

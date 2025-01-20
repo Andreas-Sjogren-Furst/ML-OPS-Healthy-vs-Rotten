@@ -1,3 +1,8 @@
+"""Visualize random samples of healthy and rotten produce.
+
+    Returns:
+        _type_: None
+"""
 from pathlib import Path
 import random
 import matplotlib.pyplot as plt
@@ -5,7 +10,7 @@ import typer
 from PIL import Image
 import numpy as np
 
-from data import FruitVegDataset
+from healthy_vs_rotten.data import FruitVegDataset
 
 
 def show_images(images, titles, processed=False, figsize=(15, 8)):

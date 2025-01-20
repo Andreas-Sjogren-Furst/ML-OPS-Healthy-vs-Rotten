@@ -1,3 +1,6 @@
+"""
+    This module contains the paths to the root of the project, the root of the test folder, and the root of the data folder.
+"""
 import os
 from pathlib import Path
 

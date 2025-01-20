@@ -1,11 +1,13 @@
+"""Evaluate the model on the test set."""
+
 from pathlib import Path
 import torch
 from torch.utils.data import DataLoader
 import typer
 from sklearn.metrics import classification_report
 from loguru import logger
-from data import FruitVegDataset
-from model import FruitClassifier
+from healthy_vs_rotten.data import FruitVegDataset
+from healthy_vs_rotten.model import FruitClassifier
 
 
 def evaluate(

@@ -1,0 +1,11 @@
+[FORMAT]
+max-line-length=130
+
+[MESSAGES CONTROL]
+disable=
+    wrong-import-order,
+    too-many-locals,
+    too-many-statements,
+    no-value-for-parameter,
+    unused-argument,
+
