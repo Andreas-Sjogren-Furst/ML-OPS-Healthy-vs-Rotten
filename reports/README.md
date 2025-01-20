@@ -244,6 +244,8 @@ will check the repositories and the code to verify your answers.
 > Answer:
 
 --- question 9 fill here ---
+No did we not use branches and pull requests, but we made sure to pull before pushing to minimize the probability merge conflicts. 
+Branches can help version control, because 
 
 ### Question 10
 
