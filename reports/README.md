@@ -248,8 +248,7 @@ The overall structure of the project adheres closely to the cookiecutter templat
 >
 > Answer:
 
---- ### Revised Answer to Question 8
-
+--- 
 The total code coverage of our code is **65%**, as measured by the `coverage` tool. This includes modules such as `data.py` (81%) and `model.py` (48%). The provided test suite focuses on verifying key functionalities, such as preprocessing data (`data.py`) and testing the forward pass of the `FruitClassifier` model with different batch sizes (`model.py`). 
 
 While 65% coverage ensures that a significant portion of the code is tested, critical areas remain untested. For example, the data preprocessing tests validate directory structures and file existence but do not handle edge cases like malformed image files or empty directories. Similarly, the model tests only validate the output shape of the forward pass but do not check for numerical stability, overfitting behavior, or inference correctness.
