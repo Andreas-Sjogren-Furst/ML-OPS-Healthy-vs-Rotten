@@ -1,4 +1,7 @@
-"""This script loads a trained model and predicts whether the fruit/vegetable is healthy or rotten for a list of images."""
+"""
+This module contains the functions and classes for predicting whether fruits/vegetables are healthy or rotten.
+"""
+
 import torch
 from torchvision import transforms
 from PIL import Image
@@ -12,7 +15,8 @@ app = typer.Typer()
 
 
 class ImageDataset(Dataset):
-    """Dataset for loading images."""
+    """Dataset class for loading and transforming images."""
+
     def __init__(self, image_paths: List[str], transform=None):
         self.image_paths = image_paths
         self.transform = transform
