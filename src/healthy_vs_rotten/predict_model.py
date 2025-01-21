@@ -12,6 +12,7 @@ app = typer.Typer()
 
 
 class ImageDataset(Dataset):
+    """Dataset for loading images."""
     def __init__(self, image_paths: List[str], transform=None):
         self.image_paths = image_paths
         self.transform = transform
