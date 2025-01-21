@@ -233,7 +233,7 @@ The overall structure of the project adheres closely to the cookiecutter templat
 >
 > Answer:
 
---- question 7 fill here ---
+--- In total, we have implemented **two tests**. The first test validates the `FruitVegDataset` class, ensuring correct data preprocessing, directory structure creation, and file copying for training, validation, and testing splits. It also verifies that all expected directories exist and contain images. The second test evaluates the `FruitClassifier` model, specifically testing its forward pass with different batch sizes to ensure the output has the correct shape. These tests focus on the most critical parts of the application: data handling and model functionality, ensuring they work as expected under typical conditions. ---
 
 ### Question 8
 
@@ -248,7 +248,15 @@ The overall structure of the project adheres closely to the cookiecutter templat
 >
 > Answer:
 
---- question 8 fill here ---
+--- ### Revised Answer to Question 8
+
+The total code coverage of our code is **65%**, as measured by the `coverage` tool. This includes modules such as `data.py` (81%) and `model.py` (48%). The provided test suite focuses on verifying key functionalities, such as preprocessing data (`data.py`) and testing the forward pass of the `FruitClassifier` model with different batch sizes (`model.py`). 
+
+While 65% coverage ensures that a significant portion of the code is tested, critical areas remain untested. For example, the data preprocessing tests validate directory structures and file existence but do not handle edge cases like malformed image files or empty directories. Similarly, the model tests only validate the output shape of the forward pass but do not check for numerical stability, overfitting behavior, or inference correctness.
+
+Even with 100% coverage, errors could persist because coverage measures whether code is executed, not whether it behaves correctly. For instance, logical errors, untested edge cases, or unexpected data could still lead to failures. Furthermore, integration points between modules (e.g., passing preprocessed data into the model) remain untested.
+
+To improve trust in the system, we need to expand tests to cover edge cases, validate outputs thoroughly, and implement integration tests. This, along with high coverage, will ensure robustness and reliability in real-world scenarios. ---
 
 ### Question 9
 
