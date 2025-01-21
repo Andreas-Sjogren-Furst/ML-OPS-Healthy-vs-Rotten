@@ -368,12 +368,12 @@ Example workflow trigger links:
 >
 > Answer:
 
---- question 12 fill here ---
-
-We did use config files for saving parameters for the model and the training of the model. 
+--- We did use config files for saving parameters for the model and the training of the model. 
 When we ran the experiments then the parameters from the choosen config files was applied.
 We utilized the typer-module to easily conduct experiments from the command line in the following way: 
-python src/healthy_vs_rotten/train.py
+python src/healthy_vs_rotten/train.py ---
+
+
 
 python src/healthy_vs_rotten/evaluate.py --batch_size=32.
 
@@ -391,12 +391,12 @@ python src/healthy_vs_rotten/evaluate.py --batch_size=32.
 >
 > Answer:
 
---- question 13 fill here ---
-
-We ensured reproducibility and prevented information loss by using YAML configuration files and comprehensive experiment tracking. All parameters, such as data paths, model settings, and output directories, are centralized in the `config.yaml` file, ensuring consistency across runs.
+--- We ensured reproducibility and prevented information loss by using YAML configuration files and comprehensive experiment tracking. All parameters, such as data paths, model settings, and output directories, are centralized in the `config.yaml` file, ensuring consistency across runs.
 Then we use the yaml files in model and training dir to set parameters for the model and training. Additionally, Weights and Biases (WandB) is integrated to log all experiment metadata, including hyperparameters, training results, and other details, providing a complete record of each experiment. 
 To reproduce an experiment, one simply needs to load the corresponding configuration file, install the dependencies specified in `requirements.txt`, and execute the experiment. The use of Hydra adds flexibility by allowing parameters to be dynamically overridden while ensuring traceability, making it easy to adjust settings without compromising reproducibility. 
-This approach guarantees that all experiments are consistent, traceable, and repeatable.
+This approach guarantees that all experiments are consistent, traceable, and repeatable. ---
+
+
 
 ### Question 14
 
