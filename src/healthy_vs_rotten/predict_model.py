@@ -104,7 +104,7 @@ def predict_images(
     for image_path, prediction in zip(image_paths, predictions):
         prediction_value = torch.sigmoid(prediction).item()
         print(f"Prediction for {image_path}: {prediction_value}")
-        if prediction_value > 0.5:  # strictly greater
+        if prediction_value > 0.5:
             print(f"The produce in the image {image_path} is healthy.")
         else:
             print(f"The produce in the image {image_path} is rotten.")
@@ -116,7 +116,7 @@ CONFIG_PATH = str(project_root / "configs")  # Fixed constant naming
 
 @hydra.main(version_base=None, config_path=CONFIG_PATH, config_name="config")
 def main(cfg: DictConfig):
-    print("Starting the prediction script...")
+    """Main function to run the prediction script."""
     predict_images(cfg)
 
 
