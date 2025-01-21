@@ -129,7 +129,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- *s201189, s214940, s214925, s216163, * ---
+--- *s201189, s214940, s214925, s216163, s214624* ---
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -143,7 +143,11 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 3 fill here ---
+--- We used the third-party framework Hugging Face in our project. Specifically, we leveraged its functionality to download and utilize a pre-trained model called microsoft-resnet, a ResNet-based architecture for image classification tasks.
+
+The framework provided an easy and efficient way to access the model from its comprehensive model hub, eliminating the need to train a complex model from scratch. Using Hugging Face's tools, we seamlessly integrated the microsoft-resnet model into our workflow and applied it to classify images in our dataset.
+
+Hugging Face's built-in functions for preprocessing inputs and managing outputs significantly simplified the implementation process. The flexibility and modularity of the framework allowed us to focus on other aspects of the project, such as fine-tuning the model and analyzing results. Overall, Hugging Face was instrumental in helping us complete the project efficiently and with high-quality results. ---
 
 ## Coding environment
 
@@ -163,7 +167,18 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 4 fill here ---
+--- We used Conda for managing dependencies in our project, along with a requirements.txt file for additional Python package installations. A YAML file was created to define the Conda environment, which includes all the dependencies, versions, and configurations required to replicate the development environment accurately.
+To set up an exact copy of our environment, a new team member would follow these steps:
+1.	Install Conda (Anaconda or Miniconda) if not already installed.
+2.	Clone the project repository to their local machine.
+3.	Create the Conda environment using the provided environment.yml file by running the command:
+conda env create -f environment.yml
+4.	Activate the environment:
+conda activate <environment-name>
+5.	Install additional Python packages listed in the requirements.txt file:
+pip install -r requirements.txt
+This process ensures a consistent and reproducible development environment for all team members.
+ ---
 
 ### Question 5
 
@@ -179,7 +194,12 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 5 fill here ---
+--- From the cookiecutter template, we have primarily filled out the src, data, and models folders. The src folder contains the main implementation code for our project, including data processing scripts and the integration of the pre-trained microsoft-resnet model. The data folder is used to store raw and processed datasets, while the models folder contains the trained models and related configurations.
+
+We followed the standard setup provided by the template without significant modifications. Notably, we did not include any Jupyter notebooks in our project, as all tasks were implemented and executed through scripts in the src folder. This choice ensured a cleaner and more streamlined workflow focused on reproducibility and version control.
+
+The overall structure of the project adheres closely to the cookiecutter template, making it organized and easy to navigate for future collaborators.
+ ---
 
 ### Question 6
 
