@@ -1,3 +1,4 @@
+"""This script loads a trained model and predicts whether the fruit/vegetable is healthy or rotten for a list of images."""
 import torch
 from torchvision import transforms
 from PIL import Image
