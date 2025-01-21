@@ -315,7 +315,37 @@ DVC optimizes the storage of the data by only tracking different versions of the
 >
 > Answer:
 
---- question 11 fill here ---
+--- ### Revised Answer to Question 11
+
+We have organized our continuous integration (CI) setup into multiple workflows using GitHub Actions and Google Cloud Build. These workflows ensure code quality, functionality, and deployment readiness across different stages of the project.
+
+1. **Linting**:  
+   The `Pylint` workflow analyzes the codebase for adherence to coding standards using `pylint`. This workflow runs on `ubuntu-latest` with Python version `3.11`. It checks all Python files in the `src/` and `tests/` directories for potential issues. To optimize runtime, it uses caching for pip dependencies (`~/.cache/pip`). This workflow helps maintain high code quality and readability.
+
+
+2. **Unit Testing**:  
+   The `Unit Tests` workflow verifies the correctness of the codebase using `pytest`. It runs tests across multiple operating systems (`ubuntu-latest`, `windows-latest`, `macos-latest`) and Python versions (`3.11` and `3.12`). This ensures that the application behaves consistently in diverse environments. The workflow includes caching for pip dependencies and generates a detailed code coverage report using `coverage`. These reports help identify untested code and improve test coverage.
+
+
+3. **Cloud Build for Images**:  
+   We have integrated **Google Cloud Build** to automate the creation of Docker images for three critical components: **training**, **evaluation**, and **inference**. This workflow ensures that each stage of the machine learning lifecycle has its own isolated and reproducible environment. The cloud build process:
+   - Pulls the code from the repository.
+   - Builds Docker images for training, evaluation, and inference using the `Dockerfile` configurations stored in the project.
+   - Pushes the built images to a Artifact Registry on our GCP, making them ready for deployment.
+
+   This setup ensures that the training and inference environments are consistent with the evaluation phase, reducing potential discrepancies.
+
+4. **Key Features**:
+   - **Environment Testing**: Unit tests run across three operating systems and two Python versions.
+   - **Caching**: Both GitHub Actions and Cloud Build workflows utilize caching mechanisms to improve runtime efficiency.
+   - **Cloud Build Automation**: Fully automated creation and deployment of Docker images for the entire machine learning lifecycle.
+
+These workflows collectively ensure the project is robust, scalable, and ready for deployment in real-world scenarios.
+
+Example workflow trigger links:
+- Pylint: `https://github.com/Andreas-Sjogren-Furst/ML-OPS-Healthy-vs-Rotten/actions/workflows/pylint.yml`
+- Unit Tests: `https://github.com/Andreas-Sjogren-Furst/ML-OPS-Healthy-vs-Rotten/actions/workflows/tests.yaml`
+- Cloud Build example: `https://github.com/Andreas-Sjogren-Furst/ML-OPS-Healthy-vs-Rotten/runs/35923224988` ---
 
 ## Running code and tracking experiments
 
