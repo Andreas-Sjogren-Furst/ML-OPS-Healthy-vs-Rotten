@@ -265,11 +265,12 @@ One advantage of pull request is that it helps improve version control, because 
 --- question 10 fill here ---
 We did not use DVC for managing data, because we found different implementation problems in the module. 
 
-It would be beneficial, because it keep version controls of the data. If you want to re-create a specific version of a trained model then you must ensure that you have the specific data used for that version. Data Version Control saves every version of the data and is able restore those specific versions.  
+It would be beneficial, because it keep version controls of the data. If you want to re-create a specific version of a trained model 
+then you must ensure that you have the specific data used for that version. Data Version Control saves every version of the data and 
+is able restore those specific versions.  
 
-DVC optimizes the storage of the data by only tracking different versions of the data. This ensures that we do not keep the same data multiple times, but rather using the same data. 
-
-
+DVC optimizes the storage of the data by only tracking different versions of the data. This ensures that we do not keep the same 
+data multiple times, but rather using the same data. 
 
 
 
@@ -290,6 +291,9 @@ DVC optimizes the storage of the data by only tracking different versions of the
 
 --- question 11 fill here ---
 
+
+
+
 ## Running code and tracking experiments
 
 > In the following section we are interested in learning more about the experimental setup for running your code and
@@ -309,6 +313,12 @@ DVC optimizes the storage of the data by only tracking different versions of the
 
 --- question 12 fill here ---
 
+We did use config files for saving parameters for the model and the training of the model. 
+When we ran the experiments then the parameters from the choosen config files was applied.
+We utilized the typer-module to easily conduct experiments from the command line in the following way: 
+python src/healthy_vs_rotten/train.py
+
+python src/healthy_vs_rotten/evaluate.py --batch_size=32.
 
 
 ### Question 13
