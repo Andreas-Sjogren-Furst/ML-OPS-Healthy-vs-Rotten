@@ -9,7 +9,7 @@ COPY pyproject.toml pyproject.toml
 COPY src/ src/
 
 WORKDIR /
-RUN pip install -r requuiremenets.txt --no-cache-dir
+RUN pip install -r requiremenets.txt --no-cache-dir
 RUN pip install . --no-deps --no-cache-dir
 
 ENTRYPOINT ["python", "-u", "src/healty_vs_rotten/evaluate.py"]
