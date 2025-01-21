@@ -1,13 +1,15 @@
+"""Tests for the model module."""
+import pytest
+from omegaconf import OmegaConf
 import torch
-from healthy_vs_rotten.model import FruitClassifier, ModelParams
+from src.healthy_vs_rotten.model import FruitClassifier
 
 
-def test_fruit_classifier():
-    """
-    Test the FruitClassifier model's forward pass.
-    """
-    params = ModelParams(pretrained_model_name="microsoft/resnet-50", hidden_dim=512, dropout_rate=0.2)
-    model = FruitClassifier(params)
-    x = torch.randn(1, 3, 224, 224)
-    output = model(x)
-    assert output.shape == (1, 1)
+@pytest.mark.parametrize("batch_size", [32, 64])
+def test_model(batch_size: int):
+    """Test the model's forward pass with different batch sizes."""
+    cfg = OmegaConf.load("configs/model/default.yaml")
+    model = FruitClassifier(cfg["pretrained_model_name"], cfg["classifier"])
+    x = torch.randn(batch_size, 3, 28, 28)
+    y = model(x)
+    assert y.shape == (batch_size, 1)
