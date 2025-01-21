@@ -466,7 +466,14 @@ These services collectively enabled us to build, manage, and deploy our project 
 >
 > Answer:
 
---- question 19 fill here ---
+--- 
+To fulfill this requirement, we have included two images of our GCP bucket:
+
+myBucket.png: This image shows the structure of our GCP bucket, including the main folders and files used in our project. It demonstrates how we organized our data, models, and configuration files.
+
+myBucketData.png: This image provides a detailed view of the specific datasets stored in the bucket, showcasing the filenames, sizes, and types of data used in our experiments.
+
+These images illustrate the way we managed and stored our resources in the GCP bucket for efficient access and processing. They are located under files ---
 
 ### Question 20
 
