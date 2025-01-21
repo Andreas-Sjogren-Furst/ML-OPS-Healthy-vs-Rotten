@@ -214,7 +214,7 @@ The overall structure of the project adheres closely to the cookiecutter templat
 >
 > Answer:
 
---- question 6 fill here ---
+--- Yes. We used pylint for linting and ruff for formatting. For pylint, we set up a GitHub action, which would automatically run the pylint command. We specified rules in the pylintrc file, such as setting the maximum line length to 130 characters and disabling certain warnings like wrong-import-order, too-many-statements, no-value-for-parameter, and unused-argument. We removed these since were conflicting with hydra, ruff and our training loop. For formatting, ruff was configured with pre-commit hooks to automatically format the code before each commit. These concepts are important in larger projects because they maintain code consistency, improve readability, and reduce the likelihood of bugs. Proper typing and documentation further enhance code quality by making the codebase easier to understand and maintain, facilitating collaboration among team members.---
 
 ## Version control
 
@@ -264,6 +264,10 @@ The overall structure of the project adheres closely to the cookiecutter templat
 > Answer:
 
 --- question 9 fill here ---
+No did we not use branches and pull requests, but we made sure to pull before pushing to minimize the probability merge conflicts. 
+Branches can help with version control, because it allows users to work on features without affecting the main branch. Furthermore, it is easy to save specific feature implementation by having a dedicated branch for it. 
+One advantage of pull request is that it helps improve version control, because it ensures that another member have looked over the code before it accepted into the main branch. Both of these methods will help lower the amount of merge conflicts and the mistakes in the project. 
+
 
 ### Question 10
 
@@ -279,6 +283,15 @@ The overall structure of the project adheres closely to the cookiecutter templat
 > Answer:
 
 --- question 10 fill here ---
+We did not use DVC for managing data, because we found different implementation problems in the module. 
+
+It would be beneficial, because it keep version controls of the data. If you want to re-create a specific version of a trained model then you must ensure that you have the specific data used for that version. Data Version Control saves every version of the data and is able restore those specific versions.  
+
+DVC optimizes the storage of the data by only tracking different versions of the data. This ensures that we do not keep the same data multiple times, but rather using the same data. 
+
+
+
+
 
 ### Question 11
 
@@ -316,6 +329,8 @@ The overall structure of the project adheres closely to the cookiecutter templat
 
 --- question 12 fill here ---
 
+
+
 ### Question 13
 
 > **Reproducibility of experiments are important. Related to the last question, how did you secure that no information**
@@ -330,6 +345,11 @@ The overall structure of the project adheres closely to the cookiecutter templat
 > Answer:
 
 --- question 13 fill here ---
+
+We ensured reproducibility and prevented information loss by using YAML configuration files and comprehensive experiment tracking. All parameters, such as data paths, model settings, and output directories, are centralized in the `config.yaml` file, ensuring consistency across runs.
+Then we use the yaml files in model and training dir to set parameters for the model and training. Additionally, Weights and Biases (WandB) is integrated to log all experiment metadata, including hyperparameters, training results, and other details, providing a complete record of each experiment. 
+To reproduce an experiment, one simply needs to load the corresponding configuration file, install the dependencies specified in `requirements.txt`, and execute the experiment. The use of Hydra adds flexibility by allowing parameters to be dynamically overridden while ensuring traceability, making it easy to adjust settings without compromising reproducibility. 
+This approach guarantees that all experiments are consistent, traceable, and repeatable.
 
 ### Question 14
 
