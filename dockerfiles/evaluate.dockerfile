@@ -7,10 +7,9 @@ RUN apt update && \
 COPY requirements.txt requirements.txt
 COPY pyproject.toml pyproject.toml
 COPY src/ src/
-COPY data/ data/
 
 WORKDIR /
-RUN pip install -r requuiremenets.txt --no-cache-dir
+RUN pip install -r requirements.txt --no-cache-dir
 RUN pip install . --no-deps --no-cache-dir
 
 ENTRYPOINT ["python", "-u", "src/healty_vs_rotten/evaluate.py"]

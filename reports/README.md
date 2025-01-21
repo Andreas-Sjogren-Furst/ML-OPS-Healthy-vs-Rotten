@@ -129,7 +129,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- *s201189, s214940, s214925, s216163, * ---
+--- *s201189, s214940, s214925, s216163, s214624* ---
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -143,7 +143,11 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 3 fill here ---
+--- We used the third-party framework Hugging Face in our project. Specifically, we leveraged its functionality to download and utilize a pre-trained model called microsoft-resnet, a ResNet-based architecture for image classification tasks.
+
+The framework provided an easy and efficient way to access the model from its comprehensive model hub, eliminating the need to train a complex model from scratch. Using Hugging Face's tools, we seamlessly integrated the microsoft-resnet model into our workflow and applied it to classify images in our dataset.
+
+Hugging Face's built-in functions for preprocessing inputs and managing outputs significantly simplified the implementation process. The flexibility and modularity of the framework allowed us to focus on other aspects of the project, such as fine-tuning the model and analyzing results. Overall, Hugging Face was instrumental in helping us complete the project efficiently and with high-quality results. ---
 
 ## Coding environment
 
@@ -163,7 +167,18 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 4 fill here ---
+--- We used Conda for managing dependencies in our project, along with a requirements.txt file for additional Python package installations. A YAML file was created to define the Conda environment, which includes all the dependencies, versions, and configurations required to replicate the development environment accurately.
+To set up an exact copy of our environment, a new team member would follow these steps:
+1.	Install Conda (Anaconda or Miniconda) if not already installed.
+2.	Clone the project repository to their local machine.
+3.	Create the Conda environment using the provided environment.yml file by running the command:
+conda env create -f environment.yml
+4.	Activate the environment:
+conda activate <environment-name>
+5.	Install additional Python packages listed in the requirements.txt file:
+pip install -r requirements.txt
+This process ensures a consistent and reproducible development environment for all team members.
+ ---
 
 ### Question 5
 
@@ -179,7 +194,12 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 5 fill here ---
+--- From the cookiecutter template, we have primarily filled out the src, data, and models folders. The src folder contains the main implementation code for our project, including data processing scripts and the integration of the pre-trained microsoft-resnet model. The data folder is used to store raw and processed datasets, while the models folder contains the trained models and related configurations.
+
+We followed the standard setup provided by the template without significant modifications. Notably, we did not include any Jupyter notebooks in our project, as all tasks were implemented and executed through scripts in the src folder. This choice ensured a cleaner and more streamlined workflow focused on reproducibility and version control.
+
+The overall structure of the project adheres closely to the cookiecutter template, making it organized and easy to navigate for future collaborators.
+ ---
 
 ### Question 6
 
@@ -213,7 +233,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 7 fill here ---
+--- In total, we have implemented **two tests**. The first test validates the `FruitVegDataset` class, ensuring correct data preprocessing, directory structure creation, and file copying for training, validation, and testing splits. It also verifies that all expected directories exist and contain images. The second test evaluates the `FruitClassifier` model, specifically testing its forward pass with different batch sizes to ensure the output has the correct shape. These tests focus on the most critical parts of the application: data handling and model functionality, ensuring they work as expected under typical conditions. ---
 
 ### Question 8
 
@@ -228,7 +248,14 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 8 fill here ---
+--- 
+The total code coverage of our code is **65%**, as measured by the `coverage` tool. This includes modules such as `data.py` (81%) and `model.py` (48%). The provided test suite focuses on verifying key functionalities, such as preprocessing data (`data.py`) and testing the forward pass of the `FruitClassifier` model with different batch sizes (`model.py`). 
+
+While 65% coverage ensures that a significant portion of the code is tested, critical areas remain untested. For example, the data preprocessing tests validate directory structures and file existence but do not handle edge cases like malformed image files or empty directories. Similarly, the model tests only validate the output shape of the forward pass but do not check for numerical stability, overfitting behavior, or inference correctness.
+
+Even with 100% coverage, errors could persist because coverage measures whether code is executed, not whether it behaves correctly. For instance, logical errors, untested edge cases, or unexpected data could still lead to failures. Furthermore, integration points between modules (e.g., passing preprocessed data into the model) remain untested.
+
+To improve trust in the system, we need to expand tests to cover edge cases, validate outputs thoroughly, and implement integration tests. This, along with high coverage, will ensure robustness and reliability in real-world scenarios. ---
 
 ### Question 9
 
@@ -371,7 +398,15 @@ This approach guarantees that all experiments are consistent, traceable, and rep
 >
 > Answer:
 
---- question 15 fill here ---
+--- 
+For our project, we developed three Docker images to streamline different stages of the workflow: model, data, and train. The model image contains all dependencies and configurations required for loading and using the microsoft-resnet pre-trained model. The data image is used for data preprocessing and includes scripts to manage the dataset. Finally, the train image is responsible for training and fine-tuning the model on the processed dataset.
+
+To run the respective images, the following commands can be used:
+1. docker run model:latest
+2. docker run data:latest
+3. docker run train:latest lr=1e-3 batch_size=64
+These commands allow for easy execution of each stage in an isolated and reproducible environment. You can find the Dockerfile under: !!!MANGLER!!!. The use of Docker ensured consistency across different systems and simplified the setup process for our experiments.
+---
 
 ### Question 16
 
@@ -386,7 +421,9 @@ This approach guarantees that all experiments are consistent, traceable, and rep
 >
 > Answer:
 
---- question 16 fill here ---
+--- Our debugging methods included using unit tests, logging, and the Python debugger (pdb). Unit tests were written to verify the correctness of individual components in isolation, which helped us identify bugs at an early stage. Logging was extensively used throughout the codebase to monitor execution flow and capture critical information, making it easier to trace issues when errors occurred. For more intricate bugs, we used the Python debugger (pdb) to step through the code interactively and inspect variable states.
+
+We did not perform any explicit profiling of our code, as we deemed its performance sufficient for the scope of our project. The primary focus was on functionality and correctness rather than optimization, as the runtime of our experiments met our expectations. However, if the project were to scale or encounter performance bottlenecks, profiling would be a logical next step to ensure efficiency. ---
 
 ## Working in the cloud
 
@@ -403,7 +440,19 @@ This approach guarantees that all experiments are consistent, traceable, and rep
 >
 > Answer:
 
---- question 17 fill here ---
+--- We used the following GCP services in our project:
+
+Compute Engine: This service was used to provision virtual machines for running computationally intensive tasks, such as training and fine-tuning the microsoft-resnet model.
+
+Cloud Storage: We utilized Cloud Storage to store and manage our datasets, pre-trained models, and other artifacts. It provided a scalable and secure solution for handling large amounts of data.
+
+IAM and Admin: This service was used to manage access control and permissions for our team members and service accounts, ensuring secure and role-based access to GCP resources.
+
+Cloud Build: We used Cloud Build to automate the building and packaging of our Docker images. It streamlined the process of containerizing different components of the project.
+
+Cloud Run: This service was used to deploy our containerized applications, allowing us to run our model and related services in a serverless environment with scalable and cost-efficient performance.
+
+These services collectively enabled us to build, manage, and deploy our project in a secure and efficient manner. ---
 
 ### Question 18
 
@@ -427,7 +476,14 @@ This approach guarantees that all experiments are consistent, traceable, and rep
 >
 > Answer:
 
---- question 19 fill here ---
+--- 
+To fulfill this requirement, we have included two images of our GCP bucket:
+
+myBucket.png: This image shows the structure of our GCP bucket, including the main folders and files used in our project. It demonstrates how we organized our data, models, and configuration files.
+
+myBucketData.png: This image provides a detailed view of the specific datasets stored in the bucket, showcasing the filenames, sizes, and types of data used in our experiments.
+
+These images illustrate the way we managed and stored our resources in the GCP bucket for efficient access and processing. They are located under files ---
 
 ### Question 20
 
