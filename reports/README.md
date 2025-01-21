@@ -381,7 +381,15 @@ This approach guarantees that all experiments are consistent, traceable, and rep
 >
 > Answer:
 
---- question 15 fill here ---
+--- 
+For our project, we developed three Docker images to streamline different stages of the workflow: model, data, and train. The model image contains all dependencies and configurations required for loading and using the microsoft-resnet pre-trained model. The data image is used for data preprocessing and includes scripts to manage the dataset. Finally, the train image is responsible for training and fine-tuning the model on the processed dataset.
+
+To run the respective images, the following commands can be used:
+1. docker run model:latest
+2. docker run data:latest
+3. docker run train:latest lr=1e-3 batch_size=64
+These commands allow for easy execution of each stage in an isolated and reproducible environment. You can find the Dockerfile under: !!!MANGLER!!!. The use of Docker ensured consistency across different systems and simplified the setup process for our experiments.
+---
 
 ### Question 16
 
@@ -415,7 +423,19 @@ We did not perform any explicit profiling of our code, as we deemed its performa
 >
 > Answer:
 
---- question 17 fill here ---
+--- We used the following GCP services in our project:
+
+Compute Engine: This service was used to provision virtual machines for running computationally intensive tasks, such as training and fine-tuning the microsoft-resnet model.
+
+Cloud Storage: We utilized Cloud Storage to store and manage our datasets, pre-trained models, and other artifacts. It provided a scalable and secure solution for handling large amounts of data.
+
+IAM and Admin: This service was used to manage access control and permissions for our team members and service accounts, ensuring secure and role-based access to GCP resources.
+
+Cloud Build: We used Cloud Build to automate the building and packaging of our Docker images. It streamlined the process of containerizing different components of the project.
+
+Cloud Run: This service was used to deploy our containerized applications, allowing us to run our model and related services in a serverless environment with scalable and cost-efficient performance.
+
+These services collectively enabled us to build, manage, and deploy our project in a secure and efficient manner. ---
 
 ### Question 18
 
