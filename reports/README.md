@@ -507,7 +507,7 @@ These services collectively enabled us to build, manage, and deploy our project 
 > Answer:
 
 --- 
-To fulfill this requirement, we have included two images of our GCP bucket:
+We have included two images of our GCP bucket:
 
 myBucket.png: This image shows the structure of our GCP bucket, including the main folders and files used in our project. It demonstrates how we organized our data, models, and configuration files.
 
@@ -522,7 +522,12 @@ These images illustrate the way we managed and stored our resources in the GCP b
 >
 > Answer:
 
---- question 20 fill here ---
+--- 
+To address this requirement, we have included a single image from our GCP Artifact Registry:
+
+myRegistry.png: This image provides a detailed view of our GCP Artifact Registry, showing the Docker images stored for our project. It includes the names and tags of the images used for tasks such as data preprocessing, model deployment, and training.
+This image illustrates how we managed and organized our Docker images within the GCP Artifact Registry to ensure efficient and consistent deployment throughout the project.
+---
 
 ### Question 21
 
