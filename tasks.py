@@ -59,7 +59,10 @@ def pylint(ctx: Context) -> None:
     """Run pylint."""
     ctx.run("pylint src/ tests/", echo=True, pty=not WINDOWS)
     
-    
+@task
+def serve(ctx: Context) -> None:
+    """Serve API."""
+    ctx.run("uvicorn --reload --port 8000 healthy_vs_rotten.api:app", echo=True, pty=not WINDOWS)
 
 
 @task

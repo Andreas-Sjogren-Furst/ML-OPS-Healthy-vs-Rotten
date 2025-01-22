@@ -157,6 +157,8 @@ This ensures your data is tracked, versioned, and stored in Google Cloud.
 
 
 # API Documentation TODO: finish documenation once deployed. 
+local deveopment
+ ```invoke serve```
 api-url/docs
 api-url/redoc
 
