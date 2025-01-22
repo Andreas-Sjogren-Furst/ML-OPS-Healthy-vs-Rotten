@@ -1,97 +1,100 @@
-"""This script loads a trained model and predicts whether the fruit/vegetable is healthy or rotten for a list of images."""
+"""
+This script loads a trained model and predicts whether the fruit/vegetable is healthy or rotten for a list of images.
+"""
+
+from io import BytesIO
 import torch
 from torchvision import transforms
 from PIL import Image
 import typer
 from torch.utils.data import DataLoader, Dataset
 from typing import List
+from omegaconf import DictConfig
+import hydra
 
-from healthy_vs_rotten.model import FruitClassifier, ModelParams
+from healthy_vs_rotten.model import FruitClassifier
 
 app = typer.Typer()
 
 
 class ImageDataset(Dataset):
-    """Dataset for loading images."""
-    def __init__(self, image_paths: List[str], transform=None):
-        self.image_paths = image_paths
+    """Dataset for loading images from in-memory bytes (instead of file paths)."""
+    def __init__(self, images: List[bytes], transform=None):
+        self.images = images
         self.transform = transform
 
     def __len__(self):
-        return len(self.image_paths)
+        return len(self.images)
 
     def __getitem__(self, idx):
-        image_path = self.image_paths[idx]
-        image = Image.open(image_path).convert("RGB")
+        image_bytes = self.images[idx]
+        # Wrap the raw bytes in a BytesIO buffer
+        with BytesIO(image_bytes) as buffer:
+            image = Image.open(buffer).convert("RGB")
+
         if self.transform:
             image = self.transform(image)
         return image
 
+def load_config(config_path: str, config_name: str = "config") -> DictConfig:
+    """
+    Load Hydra config from a given path and config name.
+    This function can be called once at startup.
+    """
+    with hydra.initialize_config_dir(version_base=None, config_dir=config_path):
+        cfg = hydra.compose(config_name=config_name)
+    return cfg
 
-def load_model(model_path: str, params: ModelParams) -> FruitClassifier:
-    """Load the trained model from a file."""
-    model = FruitClassifier(params)
+def load_model(cfg: DictConfig, model_path: str) -> FruitClassifier:
+    """
+    Load the trained model from a file.
+    
+    :param cfg: Hydra DictConfig object
+    :param model_path: Path to your saved .pt or .pth file
+    :return: An instance of your PyTorch model
+    """
+    model: FruitClassifier = hydra.utils.instantiate(cfg.model)
     model.load_state_dict(torch.load(model_path, map_location=torch.device("cpu")))
     model.eval()
     return model
 
 
-def preprocess_images(image_paths: List[str]) -> DataLoader:
-    """Preprocess the input images and create a dataloader."""
-    transform = transforms.Compose(
-        [
-            transforms.Resize((224, 224)),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        ]
-    )
-    dataset = ImageDataset(image_paths, transform=transform)
+def preprocess_images(images: List[bytes]) -> DataLoader:
+    """
+    Preprocess the input images (in bytes) and create a DataLoader.
+
+    :param images: list of image bytes
+    :return: A DataLoader for these images
+    """
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),
+        transforms.ToTensor(),
+        transforms.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225]
+        ),
+    ])
+
+    dataset = ImageDataset(images, transform=transform)
     dataloader = DataLoader(dataset, batch_size=1, shuffle=False)
     return dataloader
 
 
-def predict(model: torch.nn.Module, dataloader: DataLoader) -> torch.Tensor:
-    """Run prediction for a given model and dataloader.
+def run_inference(model: torch.nn.Module, dataloader: DataLoader) -> torch.Tensor:
+    """
+    Run prediction on a batch of images using the loaded model.
 
-    Args:
-        model: model to use for prediction
-        dataloader: dataloader with batches
-
-    Returns:
-        Tensor of shape [N, d] where N is the number of samples and d is the output dimension of the model
+    :param model: A PyTorch model (FruitClassifier)
+    :param dataloader: DataLoader with images
+    :return: A tensor of concatenated model outputs
     """
     model.eval()
     predictions = []
+
     with torch.no_grad():
         for batch in dataloader:
             output = model(batch)
             predictions.append(output)
-    return torch.cat(predictions, dim=0)
 
-
-@app.command()
-def predict_images(image_paths: List[str], model_path: str):
-    """Predict whether the fruit/vegetable is healthy or rotten for a list of images."""
-    # Define your model parameters
-    params = ModelParams(pretrained_model_name="microsoft/resnet-50", hidden_dim=512, dropout_rate=0.2)
-
-    # Load the model
-    model = load_model(model_path, params)
-
-    # Preprocess the images and create a dataloader
-    dataloader = preprocess_images(image_paths)
-
-    # Make predictions
-    predictions = predict(model, dataloader)
-
-    # Print the results
-    for image_path, prediction in zip(image_paths, predictions):
-        prediction = torch.sigmoid(prediction).item()
-        if prediction > 0.5:
-            print(f"The produce in the image {image_path} is healthy.")
-        else:
-            print(f"The produce in the image {image_path} is rotten.")
-
-
-if __name__ == "__main__":
-    app()
+    predictions_tensor = torch.cat(predictions, dim=0)
+    return predictions_tensor
