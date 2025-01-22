@@ -292,13 +292,9 @@ One advantage of pull request is that it helps improve version control, because 
 --- question 10 fill here ---
 We did not use DVC for managing data, because we found different implementation problems in the module. 
 
-It would be beneficial, because it keep version controls of the data. If you want to re-create a specific version of a trained model 
-then you must ensure that you have the specific data used for that version. Data Version Control saves every version of the data and 
-is able restore those specific versions.  
+It would be beneficial, because it keep version controls of the data. If you want to re-create a specific version of a trained model then you must ensure that you have the specific data used for that version. Data Version Control saves every version of the data and is able restore those specific versions.  
 
-DVC optimizes the storage of the data by only tracking different versions of the data. This ensures that we do not keep the same 
-data multiple times, but rather using the same data. 
-
+DVC optimizes the storage of the data by only tracking different versions of the data. This ensures that we do not keep the same data multiple times, but rather using the same data. 
 
 
 ### Question 11
@@ -316,40 +312,27 @@ data multiple times, but rather using the same data.
 >
 > Answer:
 
---- ### Revised Answer to Question 11
+--- We have organized our continuous integration (CI) setup into a single GitHub Actions workflow that covers unit testing, linting, and compatibility testing across multiple operating systems and Python versions. This setup ensures a robust development pipeline where code quality and compatibility are thoroughly validated.
 
-We have organized our continuous integration (CI) setup into multiple workflows using GitHub Actions and Google Cloud Build. These workflows ensure code quality, functionality, and deployment readiness across different stages of the project.
+Continuous Integration Details:
+Unit Testing:
 
-1. **Linting**:  
-   The `Pylint` workflow analyzes the codebase for adherence to coding standards using `pylint`. This workflow runs on `ubuntu-latest` with Python version `3.11`. It checks all Python files in the `src/` and `tests/` directories for potential issues. To optimize runtime, it uses caching for pip dependencies (`~/.cache/pip`). This workflow helps maintain high code quality and readability.
+We implemented unit tests to verify the correctness of individual components in the project. These tests are triggered automatically with every push or pull request to the repository.
+Linting:
 
+Code linting is performed using tools like flake8 to enforce coding standards and detect syntax or style errors, ensuring the codebase remains clean and maintainable.
+Multiple Operating Systems:
 
-2. **Unit Testing**:  
-   The `Unit Tests` workflow verifies the correctness of the codebase using `pytest`. It runs tests across multiple operating systems (`ubuntu-latest`, `windows-latest`, `macos-latest`) and Python versions (`3.11` and `3.12`). This ensures that the application behaves consistently in diverse environments. The workflow includes caching for pip dependencies and generates a detailed code coverage report using `coverage`. These reports help identify untested code and improve test coverage.
+The CI workflow tests our code on Ubuntu, Windows, and macOS to ensure cross-platform compatibility.
+Python Versions:
 
+We tested our code on Python versions 3.11 and 3.12, ensuring that the project works consistently with the latest Python releases.
+Caching:
 
-3. **Cloud Build for Images**:  
-   We have integrated **Google Cloud Build** to automate the creation of Docker images for three critical components: **training**, **evaluation**, and **inference**. This workflow ensures that each stage of the machine learning lifecycle has its own isolated and reproducible environment. The cloud build process:
-   - Pulls the code from the repository.
-   - Builds Docker images for training, evaluation, and inference using the `Dockerfile` configurations stored in the project.
-   - Pushes the built images to a Artifact Registry on our GCP, making them ready for deployment.
+We made use of caching for Python dependencies and Docker layers, significantly speeding up the CI pipeline by avoiding redundant installations and builds.
+An example of our triggered workflow can be seen here: Link to GitHub Actions Workflow.
 
-   This setup ensures that the training and inference environments are consistent with the evaluation phase, reducing potential discrepancies.
-
-4. **Key Features**:
-   - **Environment Testing**: Unit tests run across three operating systems and two Python versions.
-   - **Caching**: Both GitHub Actions and Cloud Build workflows utilize caching mechanisms to improve runtime efficiency.
-   - **Cloud Build Automation**: Fully automated creation and deployment of Docker images for the entire machine learning lifecycle.
-
-These workflows collectively ensure the project is robust, scalable, and ready for deployment in real-world scenarios.
-
-Example workflow trigger links:
-- Pylint: `https://github.com/Andreas-Sjogren-Furst/ML-OPS-Healthy-vs-Rotten/actions/workflows/pylint.yml`
-- Unit Tests: `https://github.com/Andreas-Sjogren-Furst/ML-OPS-Healthy-vs-Rotten/actions/workflows/tests.yaml`
-- Cloud Build example: `https://github.com/Andreas-Sjogren-Furst/ML-OPS-Healthy-vs-Rotten/runs/35923224988` ---
-
-
-
+This comprehensive CI setup has helped us maintain a high standard of code quality while ensuring compatibility and efficiency throughout the project lifecycle. ---
 
 ## Running code and tracking experiments
 
@@ -368,15 +351,15 @@ Example workflow trigger links:
 >
 > Answer:
 
---- We did use config files for saving parameters for the model and the training of the model. 
-When we ran the experiments then the parameters from the choosen config files was applied.
-We utilized the typer-module to easily conduct experiments from the command line in the following way: 
-python src/healthy_vs_rotten/train.py ---
+--- 
+We used Hydra to configure our experiments, with parameters such as learning rate, batch size, and random seed assigned directly in the configuration files and scripts. The configuration files define all necessary hyperparameters for both training and model setup, ensuring consistency and ease of reproducibility.
 
+In our scripts, these parameters are loaded automatically using Hydra, eliminating the need for manual argument passing. To run an experiment, we simply execute the script:
 
+- python my_script.py
 
-python src/healthy_vs_rotten/evaluate.py --batch_size=32.
-
+Hydra ensures that the parameters in the configuration file are properly integrated into the script, allowing for easy management of experiment settings while keeping the workflow simple and reproducible. 
+---
 
 ### Question 13
 
@@ -391,12 +374,12 @@ python src/healthy_vs_rotten/evaluate.py --batch_size=32.
 >
 > Answer:
 
---- We ensured reproducibility and prevented information loss by using YAML configuration files and comprehensive experiment tracking. All parameters, such as data paths, model settings, and output directories, are centralized in the `config.yaml` file, ensuring consistency across runs.
+--- question 13 fill here ---
+
+We ensured reproducibility and prevented information loss by using YAML configuration files and comprehensive experiment tracking. All parameters, such as data paths, model settings, and output directories, are centralized in the `config.yaml` file, ensuring consistency across runs.
 Then we use the yaml files in model and training dir to set parameters for the model and training. Additionally, Weights and Biases (WandB) is integrated to log all experiment metadata, including hyperparameters, training results, and other details, providing a complete record of each experiment. 
 To reproduce an experiment, one simply needs to load the corresponding configuration file, install the dependencies specified in `requirements.txt`, and execute the experiment. The use of Hydra adds flexibility by allowing parameters to be dynamically overridden while ensuring traceability, making it easy to adjust settings without compromising reproducibility. 
-This approach guarantees that all experiments are consistent, traceable, and repeatable. ---
-
-
+This approach guarantees that all experiments are consistent, traceable, and repeatable.
 
 ### Question 14
 
@@ -526,7 +509,7 @@ These images illustrate the way we managed and stored our resources in the GCP b
 To address this requirement, we have included a single image from our GCP Artifact Registry:
 
 myRegistry.png: This image provides a detailed view of our GCP Artifact Registry, showing the Docker images stored for our project. It includes the names and tags of the images used for tasks such as data preprocessing, model deployment, and training.
-This image illustrates how we managed and organized our Docker images within the GCP Artifact Registry to ensure efficient and consistent deployment throughout the project.
+This image illustrates how we managed and organized our Docker images within the GCP Artifact Registry to ensure efficient and consistent deployment throughout the project. The image is stored under [this figure](figures/myRegistry.png).
 ---
 
 ### Question 21
@@ -536,7 +519,11 @@ This image illustrates how we managed and organized our Docker images within the
 >
 > Answer:
 
---- question 21 fill here ---
+--- 
+To address this requirement, we have included a single image from our GCP Cloud Build history:
+myBuild.png: This image shows the history of builds in our project, including details such as the build ID, status, and timestamps. It provides a clear view of the Docker images that were built during the project and demonstrates the successful execution of our build pipeline.
+This image highlights our use of GCP Cloud Build to automate and manage the creation of Docker images, ensuring an efficient and traceable development process. The image is stored under [this figure](figures/myBuild.png).
+---
 
 ### Question 22
 
