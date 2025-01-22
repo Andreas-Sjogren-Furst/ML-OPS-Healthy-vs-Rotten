@@ -52,6 +52,14 @@ def test(ctx: Context) -> None:
     """Run tests."""
     ctx.run("coverage run -m pytest tests/", echo=True, pty=not WINDOWS)
     ctx.run("coverage report -m", echo=True, pty=not WINDOWS)
+    ctx.run("pylint src/ tests/", echo=True, pty=not WINDOWS)
+    
+@task
+def pylint(ctx: Context) -> None:
+    """Run pylint."""
+    ctx.run("pylint src/ tests/", echo=True, pty=not WINDOWS)
+    
+    
 
 
 @task

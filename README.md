@@ -156,6 +156,10 @@ pip install invoke
 This ensures your data is tracked, versioned, and stored in Google Cloud.
 
 
+# API Documentation TODO: finish documenation once deployed. 
+api-url/docs
+api-url/redoc
+
 ## Project structure
 
 The directory structure of the project looks like this:
