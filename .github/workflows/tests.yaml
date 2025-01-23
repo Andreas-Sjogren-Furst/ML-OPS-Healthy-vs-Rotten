@@ -37,6 +37,8 @@ jobs:
         run: echo "PYTHONPATH=$GITHUB_WORKSPACE/src" >> $GITHUB_ENV
 
       - name: Run tests & coverage
+        env:
+          PYTHONPATH: ${{ env.PYTHONPATH }}
         run: |
           coverage run -m pytest tests/
           coverage report -m
