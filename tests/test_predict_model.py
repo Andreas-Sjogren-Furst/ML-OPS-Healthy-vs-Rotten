@@ -1,11 +1,8 @@
 
-from src.healthy_vs_rotten.predict_model import preprocess_images
+from healthy_vs_rotten.predict_model import preprocess_images
 
-import pytest
 from io import BytesIO
 from PIL import Image
-import torch
-from torchvision import transforms
 from torch.utils.data import DataLoader
 
 

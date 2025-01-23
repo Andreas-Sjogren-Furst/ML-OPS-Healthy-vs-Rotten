@@ -1,10 +1,8 @@
 
 import pytest
 from fastapi.testclient import TestClient
-from pathlib import Path
-from io import BytesIO
 from unittest.mock import patch
-from src.healthy_vs_rotten.api import app  # Adjust the import path if necessary
+from healthy_vs_rotten.api import app  # Adjust the import path if necessary
 
 # Initialize TestClient
 client = TestClient(app)
