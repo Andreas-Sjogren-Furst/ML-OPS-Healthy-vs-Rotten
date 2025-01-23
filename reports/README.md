@@ -118,7 +118,9 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- 16 ---
+--- 
+16 
+---
 
 ### Question 2
 > **Enter the study number for each member in the group**
@@ -129,7 +131,9 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- *s201189, s214940, s214925, s216163, s214624* ---
+--- 
+*s201189, s214940, s214925, s216163, s214624* 
+---
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -143,11 +147,13 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- We used the third-party framework Hugging Face in our project. Specifically, we leveraged its functionality to download and utilize a pre-trained model called microsoft-resnet, a ResNet-based architecture for image classification tasks.
+--- 
+We used the third-party framework Hugging Face in our project. Specifically, we leveraged its functionality to download and utilize a pre-trained model called microsoft-resnet, a ResNet-based architecture for image classification tasks.
 
 The framework provided an easy and efficient way to access the model from its comprehensive model hub, eliminating the need to train a complex model from scratch. Using Hugging Face's tools, we seamlessly integrated the microsoft-resnet model into our workflow and applied it to classify images in our dataset.
 
-Hugging Face's built-in functions for preprocessing inputs and managing outputs significantly simplified the implementation process. The flexibility and modularity of the framework allowed us to focus on other aspects of the project, such as fine-tuning the model and analyzing results. Overall, Hugging Face was instrumental in helping us complete the project efficiently and with high-quality results. ---
+Hugging Face's built-in functions for preprocessing inputs and managing outputs significantly simplified the implementation process. The flexibility and modularity of the framework allowed us to focus on other aspects of the project, such as fine-tuning the model and analyzing results. Overall, Hugging Face was instrumental in helping us complete the project efficiently and with high-quality results. 
+---
 
 ## Coding environment
 
@@ -167,7 +173,8 @@ Hugging Face's built-in functions for preprocessing inputs and managing outputs 
 >
 > Answer:
 
---- We used Conda for managing dependencies in our project, along with a requirements.txt file for additional Python package installations. A YAML file was created to define the Conda environment, which includes all the dependencies, versions, and configurations required to replicate the development environment accurately.
+--- 
+We used Conda for managing dependencies in our project, along with a requirements.txt file for additional Python package installations. A YAML file was created to define the Conda environment, which includes all the dependencies, versions, and configurations required to replicate the development environment accurately.
 To set up an exact copy of our environment, a new team member would follow these steps:
 1.	Install Conda (Anaconda or Miniconda) if not already installed.
 2.	Clone the project repository to their local machine.
@@ -178,7 +185,7 @@ conda activate <environment-name>
 5.	Install additional Python packages listed in the requirements.txt file:
 pip install -r requirements.txt
 This process ensures a consistent and reproducible development environment for all team members.
- ---
+---
 
 ### Question 5
 
@@ -194,12 +201,13 @@ This process ensures a consistent and reproducible development environment for a
 >
 > Answer:
 
---- From the cookiecutter template, we have primarily filled out the src, data, and models folders. The src folder contains the main implementation code for our project, including data processing scripts and the integration of the pre-trained microsoft-resnet model. The data folder is used to store raw and processed datasets, while the models folder contains the trained models and related configurations.
+--- 
+From the cookiecutter template, we have primarily filled out the src, data, and models folders. The src folder contains the main implementation code for our project, including data processing scripts and the integration of the pre-trained microsoft-resnet model. The data folder is used to store raw and processed datasets, while the models folder contains the trained models and related configurations.
 
 We followed the standard setup provided by the template without significant modifications. Notably, we did not include any Jupyter notebooks in our project, as all tasks were implemented and executed through scripts in the src folder. This choice ensured a cleaner and more streamlined workflow focused on reproducibility and version control.
 
 The overall structure of the project adheres closely to the cookiecutter template, making it organized and easy to navigate for future collaborators.
- ---
+---
 
 ### Question 6
 
@@ -214,7 +222,9 @@ The overall structure of the project adheres closely to the cookiecutter templat
 >
 > Answer:
 
---- Yes. We used pylint for linting and ruff for formatting. For pylint, we set up a GitHub action, which would automatically run the pylint command. We specified rules in the pylintrc file, such as setting the maximum line length to 130 characters and disabling certain warnings like wrong-import-order, too-many-statements, no-value-for-parameter, and unused-argument. We removed these since were conflicting with hydra, ruff and our training loop. For formatting, ruff was configured with pre-commit hooks to automatically format the code before each commit. These concepts are important in larger projects because they maintain code consistency, improve readability, and reduce the likelihood of bugs. Proper typing and documentation further enhance code quality by making the codebase easier to understand and maintain, facilitating collaboration among team members.---
+--- 
+Yes. We used pylint for linting and ruff for formatting. For pylint, we set up a GitHub action, which would automatically run the pylint command. We specified rules in the pylintrc file, such as setting the maximum line length to 130 characters and disabling certain warnings like wrong-import-order, too-many-statements, no-value-for-parameter, and unused-argument. We removed these since were conflicting with hydra, ruff and our training loop. For formatting, ruff was configured with pre-commit hooks to automatically format the code before each commit. These concepts are important in larger projects because they maintain code consistency, improve readability, and reduce the likelihood of bugs. Proper typing and documentation further enhance code quality by making the codebase easier to understand and maintain, facilitating collaboration among team members.
+---
 
 ## Version control
 
@@ -233,7 +243,9 @@ The overall structure of the project adheres closely to the cookiecutter templat
 >
 > Answer:
 
---- In total, we have implemented **two tests**. The first test validates the `FruitVegDataset` class, ensuring correct data preprocessing, directory structure creation, and file copying for training, validation, and testing splits. It also verifies that all expected directories exist and contain images. The second test evaluates the `FruitClassifier` model, specifically testing its forward pass with different batch sizes to ensure the output has the correct shape. These tests focus on the most critical parts of the application: data handling and model functionality, ensuring they work as expected under typical conditions. ---
+--- 
+In total, we have implemented **two tests**. The first test validates the `FruitVegDataset` class, ensuring correct data preprocessing, directory structure creation, and file copying for training, validation, and testing splits. It also verifies that all expected directories exist and contain images. The second test evaluates the `FruitClassifier` model, specifically testing its forward pass with different batch sizes to ensure the output has the correct shape. These tests focus on the most critical parts of the application: data handling and model functionality, ensuring they work as expected under typical conditions. 
+---
 
 ### Question 8
 
@@ -255,7 +267,8 @@ While 65% coverage ensures that a significant portion of the code is tested, cri
 
 Even with 100% coverage, errors could persist because coverage measures whether code is executed, not whether it behaves correctly. For instance, logical errors, untested edge cases, or unexpected data could still lead to failures. Furthermore, integration points between modules (e.g., passing preprocessed data into the model) remain untested.
 
-To improve trust in the system, we need to expand tests to cover edge cases, validate outputs thoroughly, and implement integration tests. This, along with high coverage, will ensure robustness and reliability in real-world scenarios. ---
+To improve trust in the system, we need to expand tests to cover edge cases, validate outputs thoroughly, and implement integration tests. This, along with high coverage, will ensure robustness and reliability in real-world scenarios. 
+---
 
 ### Question 9
 
@@ -270,10 +283,12 @@ To improve trust in the system, we need to expand tests to cover edge cases, val
 >
 > Answer:
 
---- question 9 fill here ---
+--- 
 No did we not use branches and pull requests, but we made sure to pull before pushing to minimize the probability merge conflicts. 
 Branches can help with version control, because it allows users to work on features without affecting the main branch. Furthermore, it is easy to save specific feature implementation by having a dedicated branch for it. 
-One advantage of pull request is that it helps improve version control, because it ensures that another member have looked over the code before it accepted into the main branch. Both of these methods will help lower the amount of merge conflicts and the mistakes in the project. 
+One advantage of pull request is that it helps improve version control, because it ensures that another member have looked over the code before it accepted into the main branch. Both of these methods will help lower the amount of merge conflicts and the mistakes in the project.
+---
+ 
 
 
 ### Question 10
@@ -289,12 +304,14 @@ One advantage of pull request is that it helps improve version control, because 
 >
 > Answer:
 
---- question 10 fill here ---
+--- 
 We did not use DVC for managing data, because we found different implementation problems in the module. 
 
 It would be beneficial, because it keep version controls of the data. If you want to re-create a specific version of a trained model then you must ensure that you have the specific data used for that version. Data Version Control saves every version of the data and is able restore those specific versions.  
 
 DVC optimizes the storage of the data by only tracking different versions of the data. This ensures that we do not keep the same data multiple times, but rather using the same data. 
+---
+
 
 
 ### Question 11
@@ -332,7 +349,8 @@ Caching:
 We made use of caching for Python dependencies and Docker layers, significantly speeding up the CI pipeline by avoiding redundant installations and builds.
 An example of our triggered workflow can be seen here: Link to GitHub Actions Workflow.
 
-This comprehensive CI setup has helped us maintain a high standard of code quality while ensuring compatibility and efficiency throughout the project lifecycle. ---
+This comprehensive CI setup has helped us maintain a high standard of code quality while ensuring compatibility and efficiency throughout the project lifecycle. 
+---
 
 ## Running code and tracking experiments
 
@@ -374,12 +392,14 @@ Hydra ensures that the parameters in the configuration file are properly integra
 >
 > Answer:
 
---- question 13 fill here ---
-
+--- 
 We ensured reproducibility and prevented information loss by using YAML configuration files and comprehensive experiment tracking. All parameters, such as data paths, model settings, and output directories, are centralized in the `config.yaml` file, ensuring consistency across runs.
 Then we use the yaml files in model and training dir to set parameters for the model and training. Additionally, Weights and Biases (WandB) is integrated to log all experiment metadata, including hyperparameters, training results, and other details, providing a complete record of each experiment. 
 To reproduce an experiment, one simply needs to load the corresponding configuration file, install the dependencies specified in `requirements.txt`, and execute the experiment. The use of Hydra adds flexibility by allowing parameters to be dynamically overridden while ensuring traceability, making it easy to adjust settings without compromising reproducibility. 
 This approach guarantees that all experiments are consistent, traceable, and repeatable.
+---
+
+
 
 ### Question 14
 
@@ -436,7 +456,8 @@ These commands allow for easy execution of each stage in an isolated and reprodu
 
 --- Our debugging methods included using unit tests, logging, and the Python debugger (pdb). Unit tests were written to verify the correctness of individual components in isolation, which helped us identify bugs at an early stage. Logging was extensively used throughout the codebase to monitor execution flow and capture critical information, making it easier to trace issues when errors occurred. For more intricate bugs, we used the Python debugger (pdb) to step through the code interactively and inspect variable states.
 
-We did not perform any explicit profiling of our code, as we deemed its performance sufficient for the scope of our project. The primary focus was on functionality and correctness rather than optimization, as the runtime of our experiments met our expectations. However, if the project were to scale or encounter performance bottlenecks, profiling would be a logical next step to ensure efficiency. ---
+We did not perform any explicit profiling of our code, as we deemed its performance sufficient for the scope of our project. The primary focus was on functionality and correctness rather than optimization, as the runtime of our experiments met our expectations. However, if the project were to scale or encounter performance bottlenecks, profiling would be a logical next step to ensure efficiency. 
+---
 
 ## Working in the cloud
 
@@ -465,7 +486,8 @@ Cloud Build: We used Cloud Build to automate the building and packaging of our D
 
 Cloud Run: This service was used to deploy our containerized applications, allowing us to run our model and related services in a serverless environment with scalable and cost-efficient performance.
 
-These services collectively enabled us to build, manage, and deploy our project in a secure and efficient manner. ---
+These services collectively enabled us to build, manage, and deploy our project in a secure and efficient manner. 
+---
 
 ### Question 18
 
@@ -496,7 +518,8 @@ myBucket.png: This image shows the structure of our GCP bucket, including the ma
 
 myBucketData.png: This image provides a detailed view of the specific datasets stored in the bucket, showcasing the filenames, sizes, and types of data used in our experiments.
 
-These images illustrate the way we managed and stored our resources in the GCP bucket for efficient access and processing. They are located under files ---
+These images illustrate the way we managed and stored our resources in the GCP bucket for efficient access and processing. They are located under files 
+---
 
 ### Question 20
 
