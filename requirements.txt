@@ -22,6 +22,8 @@ pylint==3.3.3
 kaggle==1.6.17
 mkdocs-material >= 4.8.0
 mkdocstrings >= 0.9.0
-httpx==0.20.0
+google-cloud-core==2.4.1
+google-cloud-storage==2.19.0
+httpx>=0.24,<1.0
 pre-commit >= 2.15.0
 python-multipart==0.0.5
