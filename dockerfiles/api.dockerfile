@@ -8,7 +8,8 @@ RUN apt update && \
 COPY src src/
 COPY requirements.txt requirements.txt
 COPY pyproject.toml pyproject.toml
-COPY configs configs/
+COPY configs /usr/local/lib/python3.11/configs
+COPY tmp tmp/
 
 RUN pip install -r requirements.txt --no-cache-dir --verbose
 RUN pip install . --no-deps --no-cache-dir --verbose
