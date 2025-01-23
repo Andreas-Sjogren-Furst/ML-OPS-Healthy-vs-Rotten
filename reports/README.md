@@ -660,7 +660,9 @@ This image highlights our use of GCP Cloud Build to automate and manage the crea
 >
 > Answer:
 
---- question 28 fill here ---
+---
+As an extra thing we made documentation in the same way as in M32. We used our Readme and published it to HTML to see the results which we made locally and saved under the directory site which we haven't pushed into our GitHub. We added our network and prediction to this site, and our entire README. We decided not to deploy this since we just was testing it for our project locally.
+---
 
 ### Question 29
 
