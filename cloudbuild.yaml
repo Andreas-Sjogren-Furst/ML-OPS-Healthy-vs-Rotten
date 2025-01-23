@@ -27,6 +27,9 @@ steps:
     'europe-west1',
     '--platform',
     'managed',
+    '--execution-environment',
+    'gen2',
+    '--monitoring'
   ]
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build container image'
