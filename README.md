@@ -160,8 +160,8 @@ This ensures your data is tracked, versioned, and stored in Google Cloud.
 # API Documentation TODO: finish documenation once deployed. 
 local deveopment
  ```invoke serve```
-api-url/docs
-api-url/redoc
+[api-url](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs)
+[api-url](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc)
 
 # Docker Setup
 Remeber to open docker desktop. 
