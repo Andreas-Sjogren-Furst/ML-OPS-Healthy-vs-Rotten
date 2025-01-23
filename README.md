@@ -165,7 +165,7 @@ api-url/redoc
 
 # Docker Setup
 Remeber to open docker desktop. 
-Remeber Docker file needs gcloud service account to download model weights. 
+Remeber Docker file needs gcloud service account to download model weights, or you can place this manually in the /tmp folder named "best_model.pt"
 
 ## How to build Docker
 Example of how to build the docker image for the API:
@@ -175,6 +175,8 @@ Example of how to build the docker image for the API:
 Example of how to run the docker image for the API:
  ``` docker run --rm --name experimentapi api:latest ```
 
+Example of exposing the api publicly at localhost: 
+   ``` docker run --rm -p 8000:8000 --name experimentapi api:latest ```
 
 
 ## Project structure
