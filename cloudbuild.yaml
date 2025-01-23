@@ -1,5 +1,21 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
+  id: 'Build API container image'
+  args: [
+    'build',
+    '.',
+    '-t',
+    'europe-west1-docker.pkg.dev/$PROJECT_ID/ai-image-repo/ml-healthy-vs-rotten-api',
+    '-f',
+    'dockerfiles/api.dockerfile'
+  ]
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push API container image'
+  args: [
+    'push',
+    'europe-west1-docker.pkg.dev/$PROJECT_ID/ai-image-repo/ml-healthy-vs-rotten-api'
+  ]
+- name: 'gcr.io/cloud-builders/docker'
   id: 'Build container image'
   args: [
     'build',
@@ -30,21 +46,5 @@ steps:
   args: [
     'push',
     'europe-west1-docker.pkg.dev/$PROJECT_ID/ai-image-repo/ml-healthy-vs-rotten-evaluate-model'
-  ]
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'Build API container image'
-  args: [
-    'build',
-    '.',
-    '-t',
-    'europe-west1-docker.pkg.dev/$PROJECT_ID/ai-image-repo/ml-healthy-vs-rotten-api',
-    '-f',
-    'dockerfiles/api.dockerfile'
-  ]
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'Push API container image'
-  args: [
-    'push',
-    'europe-west1-docker.pkg.dev/$PROJECT_ID/ai-image-repo/ml-healthy-vs-rotten-api'
   ]
 logsBucket: "gs://ml-ops-healthy-vs-rotten-data/" 
