@@ -64,9 +64,8 @@ def on_startup():
     Loads the model and configuration files for inference.
     """
     global CONFIG, MODEL
-    
-    if not (Path(CONTAINER_MODEL_PATH).exists()):
-        if not (Path("./tmp").exists()):
+    if not Path(CONTAINER_MODEL_PATH).exists():
+        if not Path("./tmp").exists():
             Path("./tmp").mkdir()
         download_model_from_gcs(bucket_name=BUCKET_NAME, blob_path=MODEL_BLOB_PATH, local_path=CONTAINER_MODEL_PATH)
     CONFIG = load_config(config_path=CONFIG_DIR, config_name="config")

@@ -36,7 +36,7 @@ class FruitVegDataset(Dataset):
             # Label is 1 for healthy, 0 for rotten
             label = 1 if "healthy" in str(img_path).lower() else 0
             self.samples.append((img_path, label))
-        
+
         if not self.samples:
             logger.warning(f"No images found in {data_path}. Supported formats: {self.SUPPORTED_FORMATS}")
             logger.info("Please check your data directory structure and image formats.")
