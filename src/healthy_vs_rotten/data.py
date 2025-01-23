@@ -12,6 +12,7 @@ from torchvision import transforms
 import typer
 from loguru import logger
 from tqdm import tqdm
+import os
 
 
 class FruitVegDataset(Dataset):
@@ -36,7 +37,12 @@ class FruitVegDataset(Dataset):
         self.samples = []
         for img_path in self.get_image_files(data_path):
             # Label is 1 for healthy, 0 for rotten
-            label = 1 if "healthy" in str(img_path).lower() else 0
+            healthy = ["Apple__Healthy", "Banana__Healthy", "Bellpepper__Healthy", "Carrot__Healthy", 
+                    "Cucumber__Healthy", "Grape__Healthy", "Guava__Healthy", "Jujube__Healthy", 
+                    "Mango__Healthy", "Orange__Healthy", "Pomegrante__Healthy", "Potato__Healthy", 
+                    "Strawberry__Healthy", "Tomato__Healthy", "healthy"]
+            folder_name = os.path.dirname(img_path)
+            label = 1 if any(h in str(folder_name) for h in healthy) else 0
             self.samples.append((img_path, label))
 
         if not self.samples:

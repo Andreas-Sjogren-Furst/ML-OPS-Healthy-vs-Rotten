@@ -11,7 +11,7 @@ from healthy_vs_rotten.model import FruitClassifier
 
 
 def evaluate(
-    model_path: Path = Path("models/best_model.pt"),
+    model_path: Path = Path("models/best_model_1.pt"),
     data_dir: Path = Path("data/processed"),
     batch_size: int = 32,
     device: str = "cuda" if torch.cuda.is_available() else "cpu",
@@ -23,7 +23,7 @@ def evaluate(
 
     # Load model
     model = FruitClassifier().to(device)
-    model.load_state_dict(torch.load(model_path))
+    model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
     model.eval()
 
     # Evaluation
