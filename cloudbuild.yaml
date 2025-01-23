@@ -15,6 +15,19 @@ steps:
     'push',
     'europe-west1-docker.pkg.dev/$PROJECT_ID/ai-image-repo/ml-healthy-vs-rotten-api'
   ]
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: 'Deploy to Cloud Run'
+  args: [
+    'run',
+    'deploy',
+    'ml-healthy-vs-rotten-api',
+    '--image',
+    'europe-west1-docker.pkg.dev/$PROJECT_ID/ai-image-repo/ml-healthy-vs-rotten-api',
+    '--region',
+    'europe-west1',
+    '--platform',
+    'managed',
+  ]
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build container image'
   args: [
