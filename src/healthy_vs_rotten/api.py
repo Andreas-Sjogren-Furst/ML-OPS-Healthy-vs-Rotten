@@ -3,6 +3,8 @@ FastAPI application for Healthy vs. Rotten image classification.
 [... rest of the module docstring ...]
 """
 from pathlib import Path
+from google.cloud import storage
+
 import uvicorn
 from fastapi import (
     FastAPI,
@@ -24,8 +26,20 @@ from healthy_vs_rotten.predict_model import (
 
 project_root = Path(__file__).resolve().parents[2]
 CONFIG_DIR = str(project_root / "configs")
-MODEL_PATH = "models/best_model.pt"
+#MODEL_PATH = "models/best_model.pt"
+CONTAINER_MODEL_PATH = "./tmp/best_model.pt"  # Cloud Run allows writing to /tmp
+BUCKET_NAME = "ml-ops-healthy-vs-rotten-data"
+MODEL_BLOB_PATH = "models/best_model.pt"
 
+def download_model_from_gcs(bucket_name: str, blob_path : str, local_path: str ="./models/best_model.pt"):
+    """
+    Download model file from Google Cloud Storage to a local path.
+    """
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(blob_path)
+    blob.download_to_filename(local_path)
+    print(f"[Startup] Model downloaded from GCS: gs://{bucket_name}/{blob_path}")
 class PredictionResponse(BaseModel):
     """
     Response model for image predictions.
@@ -50,8 +64,13 @@ def on_startup():
     Loads the model and configuration files for inference.
     """
     global CONFIG, MODEL
+    
+    if not (Path(CONTAINER_MODEL_PATH).exists()):
+        if not (Path("./tmp").exists()):
+            Path("./tmp").mkdir()
+        download_model_from_gcs(bucket_name=BUCKET_NAME, blob_path=MODEL_BLOB_PATH, local_path=CONTAINER_MODEL_PATH)
     CONFIG = load_config(config_path=CONFIG_DIR, config_name="config")
-    MODEL = load_model(CONFIG, MODEL_PATH)
+    MODEL = load_model(CONFIG, CONTAINER_MODEL_PATH)
     print("[Startup] Model loaded successfully!")
 
 @app.get("/")
