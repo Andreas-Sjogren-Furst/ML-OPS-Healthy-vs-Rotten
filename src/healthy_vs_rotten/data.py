@@ -15,16 +15,31 @@ from loguru import logger
 class FruitVegDataset(Dataset):
     """Dataset for healthy vs rotten fruit/vegetable classification."""
 
+    # Common image formats to support
+    SUPPORTED_FORMATS = ('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')
+
+    @classmethod
+    def get_image_files(cls, path: Path) -> list:
+        """Get all supported image files in a directory."""
+        files = []
+        for img_format in cls.SUPPORTED_FORMATS:
+            files.extend(path.rglob(f"*{img_format}"))
+        return files
+
     def __init__(self, data_path: Path, transform=None) -> None:
         self.data_path = data_path
         self.transform = transform if transform else self._get_default_transforms()
 
         # Get all image paths and labels
         self.samples = []
-        for img_path in data_path.rglob("*.jpg"):
+        for img_path in self.get_image_files(data_path):
             # Label is 1 for healthy, 0 for rotten
             label = 1 if "healthy" in str(img_path).lower() else 0
             self.samples.append((img_path, label))
+        
+        if not self.samples:
+            logger.warning(f"No images found in {data_path}. Supported formats: {self.SUPPORTED_FORMATS}")
+            logger.info("Please check your data directory structure and image formats.")
 
     def __len__(self) -> int:
         return len(self.samples)
