@@ -105,8 +105,8 @@ def train(cfg: DictConfig) -> None:
         print(f"Debug mode: Using {len(train_dataset)} training samples and {len(val_dataset)} validation samples")
         wandb.config.update({"train_samples": len(train_dataset), "val_samples": len(val_dataset)})
 
-    train_loader = DataLoader(train_dataset, batch_size=cfg.training.batch_size, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=cfg.training.batch_size)
+    train_loader = DataLoader(train_dataset, batch_size=cfg.training.batch_size, shuffle=True, num_workers=4)
+    val_loader = DataLoader(val_dataset, batch_size=cfg.training.batch_size, num_workers=4)
 
     # Initialize model and watch gradients
     model = hydra.utils.instantiate(cfg.model)
@@ -164,7 +164,7 @@ def train(cfg: DictConfig) -> None:
             for images, labels in val_loader:
                 images = images.to(device)
                 labels = labels.float().to(device)
-                outputs = model(images).squeeze()
+                outputs = model(images).squeeze(-1)
                 loss = criterion(outputs, labels)
 
                 val_loss += loss.item()

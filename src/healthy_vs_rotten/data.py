@@ -11,13 +11,14 @@ from torch.utils.data import Dataset
 from torchvision import transforms
 import typer
 from loguru import logger
+from tqdm import tqdm
 
 
 class FruitVegDataset(Dataset):
     """Dataset for healthy vs rotten fruit/vegetable classification."""
 
     # Common image formats to support
-    SUPPORTED_FORMATS = (".jpg", ".jpeg", ".png", ".JPG", ".JPEG", ".PNG")
+    SUPPORTED_FORMATS = (".jpg", ".jpeg", ".png")
 
     @classmethod
     def get_image_files(cls, path: Path) -> list:
@@ -90,8 +91,8 @@ class FruitVegDataset(Dataset):
         }
 
         # Copy files to new structure
-        for split, samples in splits_dict.items():
-            for img_path, label in samples:
+        for split, samples in tqdm(splits_dict.items()):
+            for img_path, label in tqdm(samples):
                 cls = "healthy" if label == 1 else "rotten"
                 dest = output_folder / split / cls / img_path.name
                 shutil.copy2(img_path, dest)
