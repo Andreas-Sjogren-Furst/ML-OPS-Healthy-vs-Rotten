@@ -1,4 +1,5 @@
 """Training script for the fruit classifier model."""
+
 import os
 import random
 from pathlib import Path

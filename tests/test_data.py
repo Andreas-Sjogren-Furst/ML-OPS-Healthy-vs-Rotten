@@ -1,4 +1,5 @@
 """Tests for the data module."""
+
 import os.path
 import shutil
 import pytest

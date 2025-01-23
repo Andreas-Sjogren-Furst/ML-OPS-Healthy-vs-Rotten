@@ -1,4 +1,5 @@
 """Tests for the model module."""
+
 import pytest
 from omegaconf import OmegaConf
 import torch

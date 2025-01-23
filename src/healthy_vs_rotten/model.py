@@ -1,4 +1,5 @@
 """Model definition for fruit classification."""
+
 from pathlib import Path
 
 import torch

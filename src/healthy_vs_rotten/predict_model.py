@@ -19,6 +19,7 @@ app = typer.Typer()
 
 class ImageDataset(Dataset):
     """Dataset for loading images from in-memory bytes (instead of file paths)."""
+
     def __init__(self, images: List[bytes], transform=None):
         self.images = images
         self.transform = transform
@@ -36,6 +37,7 @@ class ImageDataset(Dataset):
             image = self.transform(image)
         return image
 
+
 def load_config(config_path: str, config_name: str = "config") -> DictConfig:
     """
     Load Hydra config from a given path and config name.
@@ -45,10 +47,11 @@ def load_config(config_path: str, config_name: str = "config") -> DictConfig:
         cfg = hydra.compose(config_name=config_name)
     return cfg
 
+
 def load_model(cfg: DictConfig, model_path: str) -> FruitClassifier:
     """
     Load the trained model from a file.
-    
+
     :param cfg: Hydra DictConfig object
     :param model_path: Path to your saved .pt or .pth file
     :return: An instance of your PyTorch model
@@ -66,14 +69,13 @@ def preprocess_images(images: List[bytes]) -> DataLoader:
     :param images: list of image bytes
     :return: A DataLoader for these images
     """
-    transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Normalize(
-            mean=[0.485, 0.456, 0.406],
-            std=[0.229, 0.224, 0.225]
-        ),
-    ])
+    transform = transforms.Compose(
+        [
+            transforms.Resize((224, 224)),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        ]
+    )
 
     dataset = ImageDataset(images, transform=transform)
     dataloader = DataLoader(dataset, batch_size=1, shuffle=False)

@@ -1,4 +1,5 @@
 """Task definitions for project automation using invoke."""
+
 import os
 
 from invoke import Context, task
@@ -53,12 +54,14 @@ def test(ctx: Context) -> None:
     ctx.run("coverage run -m pytest tests/", echo=True, pty=not WINDOWS)
     ctx.run("coverage report -m", echo=True, pty=not WINDOWS)
     ctx.run("pylint src/ tests/", echo=True, pty=not WINDOWS)
-    
+
+
 @task
 def pylint(ctx: Context) -> None:
     """Run pylint."""
     ctx.run("pylint src/ tests/", echo=True, pty=not WINDOWS)
-    
+
+
 @task
 def serve(ctx: Context) -> None:
     """Serve API."""

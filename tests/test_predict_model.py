@@ -1,4 +1,3 @@
-
 from src.healthy_vs_rotten.predict_model import preprocess_images
 
 from io import BytesIO
@@ -7,11 +6,12 @@ from torch.utils.data import DataLoader
 
 
 def generate_image_bytes():
-    img = Image.new('RGB', (100, 100), color=(73, 109, 137))
+    img = Image.new("RGB", (100, 100), color=(73, 109, 137))
     byte_io = BytesIO()
-    img.save(byte_io, 'JPEG')
+    img.save(byte_io, "JPEG")
     byte_io.seek(0)
     return byte_io.read()
+
 
 def test_preprocess_images():
     # Generate mock image bytes

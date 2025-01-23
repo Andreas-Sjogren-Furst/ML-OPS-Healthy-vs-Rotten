@@ -1,4 +1,5 @@
 """Data handling utilities for the fruit classification project."""
+
 from pathlib import Path
 import shutil
 from typing import Tuple
@@ -16,7 +17,7 @@ class FruitVegDataset(Dataset):
     """Dataset for healthy vs rotten fruit/vegetable classification."""
 
     # Common image formats to support
-    SUPPORTED_FORMATS = ('.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG')
+    SUPPORTED_FORMATS = (".jpg", ".jpeg", ".png", ".JPG", ".JPEG", ".PNG")
 
     @classmethod
     def get_image_files(cls, path: Path) -> list:
@@ -36,7 +37,7 @@ class FruitVegDataset(Dataset):
             # Label is 1 for healthy, 0 for rotten
             label = 1 if "healthy" in str(img_path).lower() else 0
             self.samples.append((img_path, label))
-        
+
         if not self.samples:
             logger.warning(f"No images found in {data_path}. Supported formats: {self.SUPPORTED_FORMATS}")
             logger.info("Please check your data directory structure and image formats.")

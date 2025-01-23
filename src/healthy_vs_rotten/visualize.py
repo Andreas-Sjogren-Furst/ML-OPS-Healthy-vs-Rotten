@@ -1,8 +1,9 @@
 """Visualize random samples of healthy and rotten produce.
 
-    Returns:
-        _type_: None
+Returns:
+    _type_: None
 """
+
 from pathlib import Path
 import random
 import matplotlib.pyplot as plt

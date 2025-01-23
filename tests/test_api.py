@@ -1,4 +1,3 @@
-
 import pytest
 from fastapi.testclient import TestClient
 from unittest.mock import patch
@@ -8,10 +7,7 @@ from src.healthy_vs_rotten.api import app  # Adjust the import path if necessary
 client = TestClient(app)
 
 # Mocked configurations and model for testing
-mock_config = {
-    "data": {"batch_size": 8},
-    "model": {"input_size": 224}
-}
+mock_config = {"data": {"batch_size": 8}, "model": {"input_size": 224}}
 
 mock_model = "mocked_model_object"
 
@@ -41,5 +37,3 @@ def test_predict_images_no_files():
     """
     response = client.post("/predict", files=[])
     assert response.status_code == 422
-
-
