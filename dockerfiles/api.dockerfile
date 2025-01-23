@@ -13,6 +13,5 @@ COPY configs configs/
 RUN pip install -r requirements.txt --no-cache-dir --verbose
 RUN pip install . --no-deps --no-cache-dir --verbose
 
-
-ENTRYPOINT [ "python", "-u", "src/healthy_vs_rotten/api.py" ]
-
+EXPOSE 8080
+ENTRYPOINT ["uvicorn", "healthy_vs_rotten.api:app", "--host", "0.0.0.0", "--port", "8000"]

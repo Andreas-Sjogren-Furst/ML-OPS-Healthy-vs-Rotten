@@ -156,11 +156,26 @@ pip install invoke
 This ensures your data is tracked, versioned, and stored in Google Cloud.
 
 
+
 # API Documentation TODO: finish documenation once deployed. 
 local deveopment
  ```invoke serve```
 api-url/docs
 api-url/redoc
+
+# Docker Setup
+Remeber to open docker desktop. 
+Remeber Docker file needs gcloud service account to download model weights. 
+
+## How to build Docker
+Example of how to build the docker image for the API:
+ ``` docker build -f dockerfiles/api.dockerfile . -t api:latest ```
+
+## How to run Docker
+Example of how to run the docker image for the API:
+ ``` docker run --rm --name experimentapi api:latest ```
+
+
 
 ## Project structure
 
