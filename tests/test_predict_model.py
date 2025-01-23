@@ -1,5 +1,5 @@
 
-from healthy_vs_rotten.predict_model import preprocess_images
+from src.healthy_vs_rotten.predict_model import preprocess_images
 
 from io import BytesIO
 from PIL import Image
