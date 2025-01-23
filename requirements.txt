@@ -27,3 +27,4 @@ google-cloud-storage==2.19.0
 httpx==0.20.0
 pre-commit >= 2.15.0
 python-multipart==0.0.5
+-e .
