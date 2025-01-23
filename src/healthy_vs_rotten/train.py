@@ -164,7 +164,7 @@ def train(cfg: DictConfig) -> None:
             for images, labels in val_loader:
                 images = images.to(device)
                 labels = labels.float().to(device)
-                outputs = model(images).squeeze()
+                outputs = model(images).squeeze(-1)
                 loss = criterion(outputs, labels)
 
                 val_loss += loss.item()
