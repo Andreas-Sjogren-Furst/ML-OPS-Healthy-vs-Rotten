@@ -21,9 +21,29 @@ By utilising the hugging face framework we can fast and efficiently implement a 
 Hopefully, by creating a well-implemented project we can easily evaluate and compare other models from hugging face for our problem also.
 
 
-# Setup Guide
+# Fruit and Vegetable Disease Detection
 
 A machine learning project for detecting diseases in fruits and vegetables using the [Kaggle Fruits and Vegetables Disease Dataset](https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten).
+
+## Repository Setup
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <repository-name>
+   ```
+
+2. Create virtual environment:
+   ```bash
+   # Using venv
+   python -m venv venv
+   source venv/bin/activate  # Linux/macOS
+   .\venv\Scripts\activate   # Windows
+   
+   # OR using conda
+   conda create -n fruit-disease python=3.9
+   conda activate fruit-disease
+   ```
 
 ## Initial Setup
 
