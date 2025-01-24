@@ -91,17 +91,28 @@ A machine learning project for detecting diseases in fruits and vegetables using
 ## API Usage
 
 ### Production Endpoints
-- Swagger: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs)
-- Redoc: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc)
+- Swagger: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs)
+- Redoc: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/redoc)
 
 ### Local Development
+
+Note: Requires gcloud authentication or manually placed `best_model.pt` in `/tmp` folder.
+
 ```bash
 invoke serve  # With Invoke
 # OR
 uvicorn --reload --port 8000 healthy_vs_rotten.api:app  # Without Invoke
 ```
 
-Note: Requires gcloud authentication or manually placed `best_model.pt` in `/tmp` folder.
+### Run streamlit interface
+
+If you want to test a deployed model run:
+
+```bash
+streamlit run src/healthy_vs_rotten/frontend.py
+```
+
+This will start a localhost to a streamlit frontend application. You will be able to drag images which then will be predicted either healthy/rotten.
 
 ## Docker
 
@@ -145,47 +156,31 @@ gsutil ls gs://<bucket-name>  # Verify storage
 
 The directory structure of the project looks like this:
 ```txt
-├── .github/                  # Github actions and dependabot
-│   ├── dependabot.yaml
-│   └── workflows/
-│       └── tests.yaml
-├── configs/                  # Configuration files
-├── data/                     # Data directory
-│   ├── processed
-│   └── raw
-├── dockerfiles/              # Dockerfiles
-│   ├── api.Dockerfile
-│   └── train.Dockerfile
-├── docs/                     # Documentation
-│   ├── mkdocs.yml
-│   └── source/
-│       └── index.md
-├── models/                   # Trained models
-├── notebooks/                # Jupyter notebooks
-├── reports/                  # Reports
-│   └── figures/
-├── src/                      # Source code
-│   ├── project_name/
-│   │   ├── __init__.py
-│   │   ├── api.py
-│   │   ├── data.py
-│   │   ├── evaluate.py
-│   │   ├── models.py
-│   │   ├── train.py
-│   │   └── visualize.py
-└── tests/                    # Tests
-│   ├── __init__.py
-│   ├── test_api.py
-│   ├── test_data.py
-│   └── test_model.py
-├── .gitignore
-├── .pre-commit-config.yaml
-├── LICENSE
-├── pyproject.toml            # Python project file
-├── README.md                 # Project README
-├── requirements.txt          # Project requirements
-├── requirements_dev.txt      # Development requirements
-└── tasks.py                  # Project tasks
+├───configs
+│   ├───model
+│   └───training
+├───data
+│   ├───processed
+│   │   ├───test
+│   │   │   ├───healthy
+│   │   │   └───rotten
+│   │   ├───train
+│   │   │   ├───healthy
+│   │   │   └───rotten
+│   │   └───val
+│   │       ├───healthy
+│   │       └───rotten
+│   └───raw
+│       └───Fruit And Vegetable Diseases Dataset
+│           └───[Fruit]__[Healthy/Rotten]
+├───docs
+├───models
+├───notebooks
+├───reports
+├───src
+│   └───healthy_vs_rotten
+├───tests
+└───visualizations
 ```
 
 
