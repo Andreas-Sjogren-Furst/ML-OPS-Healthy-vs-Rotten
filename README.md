@@ -103,6 +103,16 @@ uvicorn --reload --port 8000 healthy_vs_rotten.api:app  # Without Invoke
 
 Note: Requires gcloud authentication or manually placed `best_model.pt` in `/tmp` folder.
 
+### Run streamlit interface
+
+If you want to test a deployed model run:
+
+```bash
+streamlit run src/healthy_vs_rotten/frontend.py
+```
+
+This will start a localhost to a streamlit frontend application. You will be able to drag images which then will be predicted either healthy/rotten.
+
 ## Docker
 
 Prerequisites:
