@@ -51,6 +51,7 @@ A machine learning project for detecting diseases in fruits and vegetables using
    ```bash
    pip install -r requirements.txt
    pip install -r requirements_dev.txt # For developers
+   pip install -e .
    ```
 
 2. Set up Kaggle credentials:
