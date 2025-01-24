@@ -118,7 +118,7 @@ Requires you are authenticated with gcloud and have the correct service account 
 5. Test code: `invoke test`
 6. Run api locally: `invoke serve` (required gcloud to download model weights, or place them locally in the /tmp folder)
 
-## Run Pre-commit check:
+## Run Pre-commit check on all files before comitting
 pre-commit run --all-files
 
 # Google Cloud Storage with DVC
