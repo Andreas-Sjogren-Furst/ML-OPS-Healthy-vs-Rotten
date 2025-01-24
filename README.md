@@ -116,6 +116,7 @@ Requires you are authenticated with gcloud and have the correct service account 
 3. Preprocess data: `invoke preprocess-data`
 4. Train model: `invoke train`
 5. Test code: `invoke test`
+6. Run api locally: `invoke serve`
 
 
 # Google Cloud Storage with DVC
