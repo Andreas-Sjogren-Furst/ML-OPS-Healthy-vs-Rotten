@@ -259,7 +259,7 @@ Yes. We used pylint for linting and ruff for formatting. For pylint, we set up a
 
 --- 
 
-In total, we have implemented **two tests**. The first test validates the `FruitVegDataset` class, ensuring correct data preprocessing, directory structure creation, and file copying for training, validation, and testing splits. It also verifies that all expected directories exist and contain images. The second test evaluates the `FruitClassifier` model, specifically testing its forward pass with different batch sizes to ensure the output has the correct shape. These tests focus on the most critical parts of the application: data handling and model functionality, ensuring they work as expected under typical conditions. 
+In total, we have implemented **four tests**. The first test validates the `FruitVegDataset` class, ensuring correct data preprocessing, directory structure creation, and file copying for training, validation, and testing splits. The second test evaluates the `FruitClassifier` model, specifically testing its forward pass with different batch sizes to ensure the output has the correct shape. The third tests the api and the fourth test checks the inference part of our model. These tests focus on the most critical parts of the application: data handling, api, inference and model functionality, ensuring they work as expected under typical conditions. 
 
 ---
 
@@ -278,9 +278,9 @@ In total, we have implemented **two tests**. The first test validates the `Fruit
 
 --- 
 
-The total code coverage of our code is **65%**, as measured by the `coverage` tool. This includes modules like `data.py` (81%) and `model.py` (48%). The test suite verifies key functionalities, such as preprocessing data (`data.py`) and testing the forward pass of the `FruitClassifier` model with different batch sizes (`model.py`).
+The total code coverage of our code is **52%**, as measured by the `coverage` tool. This includes modules like `data.py` (82%), `model.py` (48%), `api.py` (34%) and `predict_model.py` (53%) . The test suite verifies key functionalities, such as preprocessing data (`data.py`) and testing the forward pass of the `FruitClassifier` model with different batch sizes (`model.py`).
 
-While 65% coverage ensures a significant portion of the code is tested, critical areas remain untested. For example, data preprocessing tests validate directory structures and file existence but miss edge cases like malformed image files or empty directories. Similarly, model tests validate output shape but don’t check for numerical stability, overfitting behavior, or inference correctness.
+While 55% coverage ensures a significant portion of the code is tested, critical areas remain untested. For example, data preprocessing tests validate directory structures and file existence but miss edge cases like malformed image files or empty directories. Similarly, model tests validate output shape but don’t check for numerical stability, overfitting behavior, or inference correctness. Furthermore for the api and inference we only checked the main functionalities such as the api running and that the model are able to create a prediction. 
 
 Even with 100% coverage, errors could persist since coverage measures execution, not correctness. Logical errors, untested edge cases, or unexpected data could still cause failures. Integration points, like passing preprocessed data into the model, also remain untested.
 
@@ -303,7 +303,7 @@ To build trust in the system, we should expand tests to cover edge cases, valida
 
 --- 
 
-No did we not use branches and pull requests, but we made sure to pull before pushing to minimize the probability merge conflicts. 
+No did we not use branches and pull requests, but we made sure to pull before pushing to minimize the probability of merge conflicts. 
 Branches can help with version control, because it allows users to work on features without affecting the main branch. Furthermore, it is easy to save specific feature implementation by having a dedicated branch for it. 
 One advantage of pull request is that it helps improve version control, because it ensures that another member have looked over the code before it accepted into the main branch. Both of these methods will help lower the amount of merge conflicts and the mistakes in the project.
 
@@ -370,7 +370,7 @@ Python Versions:
 We tested our code on Python versions 3.11 and 3.12, ensuring that the project works consistently with the latest Python releases.
 Caching:
 
-We made use of caching for Python dependencies and Docker layers, significantly speeding up the CI pipeline by avoiding redundant installations and builds.
+We made use of caching for Python dependencies, significantly speeding up the CI pipeline by avoiding redundant installations and builds.
 An example of our triggered workflow can be seen here: Link to GitHub Actions Workflow.
 
 This comprehensive CI setup has helped us maintain a high standard of code quality while ensuring compatibility and efficiency throughout the project lifecycle. 
