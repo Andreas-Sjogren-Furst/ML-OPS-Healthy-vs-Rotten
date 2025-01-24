@@ -1,4 +1,4 @@
-# Fruit and Vegetable Disease Detection
+# Setup Guide
 ## Project Description
 
 ### Goal
