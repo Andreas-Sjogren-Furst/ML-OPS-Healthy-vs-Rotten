@@ -663,11 +663,26 @@ This request uploads two image files for classification. The API processes the i
 > Answer:
 
 --- 
-Yes, we successfully implemented monitoring for our deployed model. We used two main approaches: **Prometheus-compatible metrics** and **Google Cloud Monitoring**. Prometheus metrics were integrated using the `prometheus_client` library to monitor key aspects of the application, such as the number of prediction requests, batch sizes, prediction durations, and success or failure rates. These metrics are exposed via a `/metrics` endpoint and can be scraped by Prometheus for detailed monitoring and analysis.
+### Answer to Question 26
 
-Additionally, we leveraged Google Cloud Monitoring to track custom metrics, such as `custom.googleapis.com/prediction_requests_total` and `custom.googleapis.com/prediction_successes_total`. These metrics are pushed from the application using the `monitoring_v3` API and are associated with the `global` resource type for broad compatibility.
+Yes, we successfully implemented monitoring for our deployed model. We used two main approaches: Prometheus-compatible metrics and Google Cloud Monitoring. Prometheus metrics, integrated using the `prometheus_client` library, track key aspects of the application, such as prediction requests, batch sizes, processing durations, and success or failure rates. These metrics are exposed via a `/metrics` endpoint for detailed monitoring.
 
-Monitoring enables us to proactively identify issues, such as unusual failure rates or performance bottlenecks, and optimize resource utilization. By continuously tracking the model’s performance, we can ensure the application remains reliable and scalable, contributing to its long-term success and effectiveness. This setup provides a comprehensive view of the application’s health and behavior over time. ---
+In Google Cloud Monitoring, we implemented custom metrics such as `custom.googleapis.com/prediction_requests_total`, `custom.googleapis.com/prediction_successes_total`, `custom.googleapis.com/prediction_failures_total`, and more. These metrics are pushed using the `monitoring_v3` API and associated with the `global` resource type for compatibility.
+
+We also defined specific Service Level Objectives (SLOs) to monitor the application’s reliability and performance:
+- **Prediction Failures**: Ensures prediction failures remain below 1% per calendar week.
+- **Prediction Duration**: Tracks that at least 50% of predictions are completed within acceptable response times daily.
+- **Batch Size**: Monitors prediction request sizes, ensuring usage aligns with expectations.
+- **Total Predictions**: Ensures a sufficient number of predictions are made weekly.
+- **Successful Predictions**: Tracks that at least 50% of predictions are successful weekly.
+
+This monitoring setup provides a comprehensive view of the application’s health, enabling us to ensure scalability, reliability, and proactive issue resolution. 
+
+
+![SLOs for Cloud Run](figures/SLOs.png)
+![custom-metrics setup](figures/custom-metrics.png)
+![Cloud Run Dashboard](figures/cloud-run-dashboard.png)
+---
 
 ## Overall discussion of project
 
