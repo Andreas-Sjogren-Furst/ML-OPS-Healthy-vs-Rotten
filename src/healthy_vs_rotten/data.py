@@ -37,9 +37,9 @@ class FruitVegDataset(Dataset):
         self.samples = []
         for img_path in self.get_image_files(data_path):
             # Label is 1 for healthy, 0 for rotten
-            healthy = ["Apple__Healthy", "Banana__Healthy", "Bellpepper__Healthy", "Carrot__Healthy", 
-                    "Cucumber__Healthy", "Grape__Healthy", "Guava__Healthy", "Jujube__Healthy", 
-                    "Mango__Healthy", "Orange__Healthy", "Pomegrante__Healthy", "Potato__Healthy", 
+            healthy = ["Apple__Healthy", "Banana__Healthy", "Bellpepper__Healthy", "Carrot__Healthy",
+                    "Cucumber__Healthy", "Grape__Healthy", "Guava__Healthy", "Jujube__Healthy",
+                    "Mango__Healthy", "Orange__Healthy", "Pomegrante__Healthy", "Potato__Healthy",
                     "Strawberry__Healthy", "Tomato__Healthy", "healthy"]
             folder_name = os.path.dirname(img_path)
             label = 1 if any(h in str(folder_name) for h in healthy) else 0

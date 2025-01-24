@@ -5,7 +5,6 @@ FastAPI application for Healthy vs. Rotten image classification.
 
 import os
 from pathlib import Path
-from google.cloud import storage
 import time
 from prometheus_client import Counter, Histogram, Gauge, generate_latest, CONTENT_TYPE_LATEST
 
@@ -14,9 +13,10 @@ from fastapi import FastAPI, Response, UploadFile, File, HTTPException, status
 from pydantic import BaseModel
 from typing import List
 import torch
-from google.cloud import monitoring_v3
+from google.cloud import storage, monitoring_v3
 from google.protobuf.timestamp_pb2 import Timestamp
 from google.auth import default
+from google.api_core.exceptions import GoogleAPICallError, RetryError, InvalidArgument
 
 from healthy_vs_rotten.predict_model import load_config, load_model, preprocess_images, run_inference
 
@@ -133,9 +133,12 @@ def write_custom_metric(metric_type: str, value: float, labels: dict = None):
         # Send the TimeSeries to Google Cloud Monitoring
         client.create_time_series(name=project_name, time_series=[series])
         print(f"[DEBUG] Metric '{metric_type}' written successfully with value: {value}")
-
-    except Exception as e:
-        print(f"[ERROR] Failed to write metric '{metric_type}': {e}")
+    except InvalidArgument as e:
+        print(f"[ERROR] Invalid argument error while writing metric '{metric_type}': {e}")
+    except GoogleAPICallError as e:
+        print(f"[ERROR] API call error while writing metric '{metric_type}': {e}")
+    except RetryError as e:
+        print(f"[ERROR] Retry error while writing metric '{metric_type}': {e}")
 
 
 
@@ -167,7 +170,6 @@ async def read_root():
 @app.get("/metrics")
 async def metrics():
     """Endpoint for Prometheus metrics."""
-    
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_requests_total",
         value=PREDICTION_REQUESTS._value.get(),
@@ -185,12 +187,12 @@ async def metrics():
     )
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_duration_seconds",
-        value=PREDICTION_DURATION._sum.get(),
+        value=PREDICTION_DURATION.collect()[0].samples[0].value,
         labels={"env": os.getenv("ENVIRONMENT", "local")}
     )
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_batch_size",
-        value=BATCH_SIZE._sum.get(),
+        value=BATCH_SIZE.collect()[0].samples[0].value,
         labels={"env": os.getenv("ENVIRONMENT", "local")}
     )
     write_custom_metric(
@@ -210,7 +212,7 @@ async def predict_images(files: List[UploadFile] = File(...)):
     """
     PREDICTION_REQUESTS.inc()
     BATCH_SIZE.observe(len(files))
-    
+
     start_time = time.time()
     try:
         if not files:

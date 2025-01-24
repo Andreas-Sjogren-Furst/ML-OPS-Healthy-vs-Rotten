@@ -9,4 +9,9 @@ disable=
     no-value-for-parameter,
     unused-argument,
     global-statement,
+    protected-access,
+    no-name-in-module,
+    no-member
+
+    
 
