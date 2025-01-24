@@ -417,9 +417,11 @@ This approach guarantees that all experiments are consistent, traceable, and rep
 > Answer:
 
 ---
-In the first image ![wandbTrain](figures/mywandbTrain.png), we can see multiple tracked metrics related to the training process, such as train/epoch_loss, train/batch_loss, and train/epoch_accuracy. These metrics are essential for understanding the model's learning process over time. The train/epoch_loss graph shows a steady decline, indicating that the model is converging as it learns from the training data. The train/epoch_accuracy graph reaches near 100%, signifying that the model is performing exceptionally well on the training set. However, such high accuracy might warrant further checks for overfitting.
+![wandbTrain](figures/mywandbTrain.png)
+In the first image above, we can see multiple tracked metrics related to the training process, such as train/epoch_loss, train/batch_loss, and train/epoch_accuracy. These metrics are essential for understanding the model's learning process over time. The train/epoch_loss graph shows a steady decline, indicating that the model is converging as it learns from the training data. The train/epoch_accuracy graph reaches near 100%, signifying that the model is performing exceptionally well on the training set. However, such high accuracy might warrant further checks for overfitting.
 
-The second image ![wandbVal](figures/mywandbVal.png) focuses on the validation confusion matrix. This matrix is split into healthy and rotten categories and provides insights into the classification performance on unseen data. By examining the predictions versus the actual values, we can identify any class imbalance or model bias. For example, if the model consistently misclassifies rotten samples as healthy, it might require further fine-tuning or data augmentation to balance the dataset.
+![wandbVal](figures/mywandbVal.png)
+The second image above focuses on the validation confusion matrix. This matrix is split into healthy and rotten categories and provides insights into the classification performance on unseen data. By examining the predictions versus the actual values, we can identify any class imbalance or model bias. For example, if the model consistently misclassifies rotten samples as healthy, it might require further fine-tuning or data augmentation to balance the dataset.
 
 Both images showcase the importance of these metrics in diagnosing issues during training and validation. While the loss and accuracy metrics demonstrate the overall learning progress, the confusion matrix provides a more granular understanding of the model's strengths and weaknesses in specific classifications. Together, these metrics ensure that the model generalizes well and performs reliably in real-world scenarios.
 ---

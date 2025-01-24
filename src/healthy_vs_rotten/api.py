@@ -22,12 +22,13 @@ from healthy_vs_rotten.predict_model import load_config, load_model, preprocess_
 
 project_root = Path(__file__).resolve().parents[2]
 CONFIG_DIR = str(project_root / "configs")
-#MODEL_PATH = "models/best_model.pt"
+# MODEL_PATH = "models/best_model.pt"
 CONTAINER_MODEL_PATH = "./tmp/best_model.pt"  # Cloud Run allows writing to /tmp
 BUCKET_NAME = "ml-ops-healthy-vs-rotten-data"
 MODEL_BLOB_PATH = "models/best_model.pt"
 
-def download_model_from_gcs(bucket_name: str, blob_path : str, local_path: str ="./models/best_model.pt"):
+
+def download_model_from_gcs(bucket_name: str, blob_path: str, local_path: str = "./models/best_model.pt"):
     """
     Download model file from Google Cloud Storage to a local path.
     """
@@ -36,6 +37,8 @@ def download_model_from_gcs(bucket_name: str, blob_path : str, local_path: str =
     blob = bucket.blob(blob_path)
     blob.download_to_filename(local_path)
     print(f"[Startup] Model downloaded from GCS: gs://{bucket_name}/{blob_path}")
+
+
 class PredictionResponse(BaseModel):
     """
     Response model for image predictions.
@@ -56,41 +59,19 @@ CONFIG = None
 MODEL = None
 
 # Prometheus metrics
-PREDICTION_REQUESTS = Counter(
-    'prediction_requests_total',
-    'Number of prediction requests received'
-)
+PREDICTION_REQUESTS = Counter("prediction_requests_total", "Number of prediction requests received")
 
-PREDICTION_SUCCESSES = Counter(
-    'prediction_successes_total',
-    'Number of successful predictions'
-)
+PREDICTION_SUCCESSES = Counter("prediction_successes_total", "Number of successful predictions")
 
-PREDICTION_FAILURES = Counter(
-    'prediction_failures_total',
-    'Number of failed predictions'
-)
+PREDICTION_FAILURES = Counter("prediction_failures_total", "Number of failed predictions")
 
 PREDICTION_DURATION = Histogram(
-    'prediction_duration_seconds',
-    'Time spent processing prediction requests',
-    buckets=[0.1, 0.5, 1.0, 2.0, 5.0]
+    "prediction_duration_seconds", "Time spent processing prediction requests", buckets=[0.1, 0.5, 1.0, 2.0, 5.0]
 )
 
-BATCH_SIZE = Histogram(
-    'prediction_batch_size',
-    'Size of prediction batches',
-    buckets=[1, 2, 5, 10, 20, 50]
-)
+BATCH_SIZE = Histogram("prediction_batch_size", "Size of prediction batches", buckets=[1, 2, 5, 10, 20, 50])
 
-MODEL_VERSION = Gauge(
-    'model_version_info',
-    'Information about the currently loaded model version'
-)
-
-
-
-
+MODEL_VERSION = Gauge("model_version_info", "Information about the currently loaded model version")
 
 
 def write_custom_metric(metric_type: str, value: float, labels: dict = None):
@@ -141,10 +122,6 @@ def write_custom_metric(metric_type: str, value: float, labels: dict = None):
         print(f"[ERROR] Retry error while writing metric '{metric_type}': {e}")
 
 
-
-
-
-
 @app.on_event("startup")
 def on_startup():
     """
@@ -167,38 +144,39 @@ async def read_root():
     """Return welcome message for the API root endpoint."""
     return {"message": "Welcome to the Healthy vs. Rotten API!"}
 
+
 @app.get("/metrics")
 async def metrics():
     """Endpoint for Prometheus metrics."""
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_requests_total",
         value=PREDICTION_REQUESTS._value.get(),
-        labels={"env": os.getenv("ENVIRONMENT", "local")}
+        labels={"env": os.getenv("ENVIRONMENT", "local")},
     )
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_successes_total",
         value=PREDICTION_SUCCESSES._value.get(),
-        labels={"env": os.getenv("ENVIRONMENT", "local")}
+        labels={"env": os.getenv("ENVIRONMENT", "local")},
     )
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_failures_total",
         value=PREDICTION_FAILURES._value.get(),
-        labels={"env": os.getenv("ENVIRONMENT", "local")}
+        labels={"env": os.getenv("ENVIRONMENT", "local")},
     )
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_duration_seconds",
         value=PREDICTION_DURATION.collect()[0].samples[0].value,
-        labels={"env": os.getenv("ENVIRONMENT", "local")}
+        labels={"env": os.getenv("ENVIRONMENT", "local")},
     )
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_batch_size",
         value=BATCH_SIZE.collect()[0].samples[0].value,
-        labels={"env": os.getenv("ENVIRONMENT", "local")}
+        labels={"env": os.getenv("ENVIRONMENT", "local")},
     )
     write_custom_metric(
         metric_type="custom.googleapis.com/model_version_info",
         value=MODEL_VERSION._value.get(),
-        labels={"env": os.getenv("ENVIRONMENT", "local")}
+        labels={"env": os.getenv("ENVIRONMENT", "local")},
     )
 
     return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
