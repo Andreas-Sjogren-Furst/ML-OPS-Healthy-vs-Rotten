@@ -756,11 +756,16 @@ While these obstacles demanded significant time and effort, the lessons learned 
 > Recommended answer length: 50-300 words.
 >
 > Example:
-> *Student s214940 was in charge of cookiecutter, CI to Google Cloud Run of the API incl. automatic build of docker images, and push to cloud run, setup of linting locally and in github actions, Data version control with Google Cloud, Fast API setup & deployment, Project commands with Invoke. *
+> *Student sXXXXXX was in charge of cookiecutter...*
 > *docker containers for training our applications.*
 > *Student sXXXXXX was in charge of training our models in the cloud and deploying them afterwards.*
 > *All members contributed to code by...*
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
---- question 31 fill here ---
+---
+Student s214940 was in charge of cookiecutter, CI to Google Cloud Run of the API incl. automatic build of docker images, and push to cloud run, setup of linting locally and in github actions, Data version control with Google Cloud, Fast API setup & deployment, Project commands with Invoke.
+Student s216163 was in charge of creating configuration files for our experiments, and using Hydra to manage hyperparameters. Additionally, I implemented pre-commit hooks to ensure consistent code quality across the project, wrote the documentation for the application, and contributed to the report.
+All members have worked closely together through out the course, and we have helped each other with all the tasks mentioned above.
+We also used generative AI tools, such as ChatGPT, to assist with debugging, troubleshooting and with the report, and GitHub Copilot helped speed up coding by suggesting solutions for repetitive tasks.
+---
