@@ -49,7 +49,8 @@ A machine learning project for detecting diseases in fruits and vegetables using
 
 1. Install base requirements:
    ```bash
-   pip install invoke kaggle
+   pip install -r requirements.txt
+   pip install -r requirements_dev.txt # For developers
    ```
 
 2. Set up Kaggle credentials:
@@ -66,19 +67,6 @@ A machine learning project for detecting diseases in fruits and vegetables using
    - `WANDB_API_KEY`
    - `WANDB_ENTITY` (from URL: wandb.ai/<entity>/<project>)
    - `WANDB_PROJECT`
-
-## Environment Setup
-
-1. Create environment:
-   ```bash
-   invoke create-environment
-   ```
-
-2. Install dependencies:
-   ```bash
-   invoke requirements
-   invoke dev-requirements  # For development
-   ```
 
 ## Development Workflow
 
