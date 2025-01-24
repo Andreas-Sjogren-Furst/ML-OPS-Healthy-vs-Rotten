@@ -527,11 +527,11 @@ Our container was based on a custom image built with dependencies tailored for o
 --- 
 We have included two images of our GCP bucket:
 
-myBucket.png: This image shows the structure of our GCP bucket, including the main folders and files used in our project. It demonstrates how we organized our data, models, and configuration files.
+![myBucket](figures/myBucket.png): This image shows the structure of our GCP bucket, including the main folders and files used in our project. It demonstrates how we organized our data, models, and configuration files.
 
-myBucketData.png: This image provides a detailed view of the specific datasets stored in the bucket, showcasing the filenames, sizes, and types of data used in our experiments.
+![myBucketData](figures/myBucketData.png): This image provides a detailed view of the specific datasets stored in the bucket, showcasing the filenames, sizes, and types of data used in our experiments.
 
-These images illustrate the way we managed and stored our resources in the GCP bucket for efficient access and processing. They are located under files 
+These images illustrate the way we managed and stored our resources in the GCP bucket for efficient access and processing. They are located under files.
 ---
 
 ### Question 20
@@ -545,7 +545,7 @@ These images illustrate the way we managed and stored our resources in the GCP b
 To address this requirement, we have included a single image from our GCP Artifact Registry:
 
 myRegistry.png: This image provides a detailed view of our GCP Artifact Registry, showing the Docker images stored for our project. It includes the names and tags of the images used for tasks such as data preprocessing, model deployment, and training.
-This image illustrates how we managed and organized our Docker images within the GCP Artifact Registry to ensure efficient and consistent deployment throughout the project. The image is stored under [this figure](figures/myRegistry.png).
+This image illustrates how we managed and organized our Docker images within the GCP Artifact Registry to ensure efficient and consistent deployment throughout the project. The image is stored under ![myRegistry](figures/myRegistry.png).
 ---
 
 ### Question 21
@@ -686,7 +686,9 @@ Monitoring enables us to proactively identify issues, such as unusual failure ra
 >
 > Answer:
 
---- question 27 fill here ---
+---
+We did almost not use any credits, spending a total of 2.1 dollars throughout the project. The breakdown of our usage is as follows: 1.51 USD for Compute Engine, 0.36 USD for Cloud Run, 0.16 USD, 0.06 USD for additional Cloud Run services, and 0.01 USD for networking. The service costing the most was Compute Engine, mainly due to the computational resources we needed to run our tasks. Despite not relying heavily on cloud services, we found that GCP provided us with flexible and scalable resources when needed. Using the cloud for tasks like running containers and managing virtual machines allowed us to avoid hardware limitations and provided quick setup and deployment. Overall, working in the cloud was a positive experience as it simplified many aspects of the project, though we didn’t end up utilizing it as much as we initially anticipated.
+---
 
 ### Question 28
 
