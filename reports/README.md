@@ -736,7 +736,7 @@ We also defined specific Service Level Objectives (SLOs) to monitor the applicat
 - **Total Predictions**: Ensures a sufficient number of predictions are made weekly.
 - **Successful Predictions**: Tracks that at least 50% of predictions are successful weekly.
 
-This monitoring setup provides a comprehensive view of the application’s health, enabling us to ensure scalability, reliability, and proactive issue resolution. 
+This monitoring setup provides a comprehensive view of the application’s health.
 
 
 ![SLOs for Cloud Run](figures/SLOs.png)
