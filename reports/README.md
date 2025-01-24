@@ -662,7 +662,12 @@ This request uploads two image files for classification. The API processes the i
 >
 > Answer:
 
---- question 26 fill here ---
+--- 
+Yes, we successfully implemented monitoring for our deployed model. We used two main approaches: **Prometheus-compatible metrics** and **Google Cloud Monitoring**. Prometheus metrics were integrated using the `prometheus_client` library to monitor key aspects of the application, such as the number of prediction requests, batch sizes, prediction durations, and success or failure rates. These metrics are exposed via a `/metrics` endpoint and can be scraped by Prometheus for detailed monitoring and analysis.
+
+Additionally, we leveraged Google Cloud Monitoring to track custom metrics, such as `custom.googleapis.com/prediction_requests_total` and `custom.googleapis.com/prediction_successes_total`. These metrics are pushed from the application using the `monitoring_v3` API and are associated with the `global` resource type for broad compatibility.
+
+Monitoring enables us to proactively identify issues, such as unusual failure rates or performance bottlenecks, and optimize resource utilization. By continuously tracking the model’s performance, we can ensure the application remains reliable and scalable, contributing to its long-term success and effectiveness. This setup provides a comprehensive view of the application’s health and behavior over time. ---
 
 ## Overall discussion of project
 
