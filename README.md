@@ -1,4 +1,4 @@
-# Setup Guide
+# Fruit and Vegetable Disease Detection
 ## Project Description
 
 ### Goal
@@ -21,7 +21,7 @@ By utilising the hugging face framework we can fast and efficiently implement a 
 Hopefully, by creating a well-implemented project we can easily evaluate and compare other models from hugging face for our problem also.
 
 
-# Fruit and Vegetable Disease Detection
+# Setup Guide
 
 A machine learning project for detecting diseases in fruits and vegetables using the [Kaggle Fruits and Vegetables Disease Dataset](https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten).
 
