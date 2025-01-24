@@ -8,13 +8,10 @@ import streamlit as st
 import requests
 from io import BytesIO
 
+
 def main():
     # Set page config for a cleaner, modern look
-    st.set_page_config(
-        page_title="Healthy vs. Rotten Classifier",
-        layout="wide",
-        initial_sidebar_state="expanded"
-    )
+    st.set_page_config(page_title="Healthy vs. Rotten Classifier", layout="wide", initial_sidebar_state="expanded")
 
     # Custom header styling
     st.markdown(
@@ -23,37 +20,26 @@ def main():
             Healthy vs. Rotten Classifier
         </h1>
         """,
-        unsafe_allow_html=True
+        unsafe_allow_html=True,
     )
     st.write("Upload one or more fruit images to classify them as **healthy** or **rotten**.")
 
     # Replace this URL with the actual endpoint where your FastAPI app is running
     API_ENDPOINT = "https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/predict"
 
-    uploaded_files = st.file_uploader(
-        "Upload fruit images",
-        type=["jpg", "jpeg", "png"],
-        accept_multiple_files=True
-    )
+    uploaded_files = st.file_uploader("Upload fruit images", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
 
     # Store each image in memory for both display and API request
     if uploaded_files:
         images_in_memory = []
         for file in uploaded_files:
             file_bytes = file.read()
-            images_in_memory.append({
-                "name": file.name,
-                "type": file.type,
-                "bytes": file_bytes
-            })
+            images_in_memory.append({"name": file.name, "type": file.type, "bytes": file_bytes})
             file.seek(0)  # reset the pointer if needed
 
         if st.button("Predict"):
             # Prepare files for POST request
-            files_data = [
-                ("files", (img["name"], BytesIO(img["bytes"]), img["type"]))
-                for img in images_in_memory
-            ]
+            files_data = [("files", (img["name"], BytesIO(img["bytes"]), img["type"])) for img in images_in_memory]
 
             with st.spinner("Sending images for prediction..."):
                 try:
@@ -68,11 +54,7 @@ def main():
 
                             with col1:
                                 # Display the image; use_container_width replaces use_column_width
-                                st.image(
-                                    BytesIO(img_data["bytes"]),
-                                    caption=img_data["name"],
-                                    use_container_width=True
-                                )
+                                st.image(BytesIO(img_data["bytes"]), caption=img_data["name"], use_container_width=True)
 
                             with col2:
                                 # Display classification results
@@ -86,6 +68,7 @@ def main():
 
                 except Exception as e:
                     st.error(f"An error occurred: {e}")
+
 
 if __name__ == "__main__":
     main()
