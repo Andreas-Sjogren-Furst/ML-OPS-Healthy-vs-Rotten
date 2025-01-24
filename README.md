@@ -95,13 +95,14 @@ A machine learning project for detecting diseases in fruits and vegetables using
 - Redoc: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc)
 
 ### Local Development
+
+Note: Requires gcloud authentication or manually placed `best_model.pt` in `/tmp` folder.
+
 ```bash
 invoke serve  # With Invoke
 # OR
 uvicorn --reload --port 8000 healthy_vs_rotten.api:app  # Without Invoke
 ```
-
-Note: Requires gcloud authentication or manually placed `best_model.pt` in `/tmp` folder.
 
 ### Run streamlit interface
 
