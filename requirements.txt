@@ -29,3 +29,4 @@ pre-commit >= 2.15.0
 python-multipart==0.0.5
 prometheus-client==0.11.0
 google-cloud-monitoring==2.26.0
+types-protobuf==5.29.1.20241207

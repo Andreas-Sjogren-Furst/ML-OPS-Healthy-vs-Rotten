@@ -85,18 +85,18 @@ will check the repositories and the code to verify your answers.
 * [x] Create a trigger workflow for automatically building your docker images (M21)
 * [x] Get your model training in GCP using either the Engine or Vertex AI (M21)
 * [x] Create a FastAPI application that can do inference using your model (M22)
-* [ ] Deploy your model in GCP using either Functions or Run as the backend (M23)
-* [ ] Write API tests for your application and setup continues integration for these (M24)
+* [x] Deploy your model in GCP using either Functions or Run as the backend (M23)
+* [x] Write API tests for your application and setup continues integration for these (M24)
 * [ ] Load test your application (M24)
 * [ ] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25)
-* [ ] Create a frontend for your API (M26)
+* [x] Create a frontend for your API (M26)
 
 ### Week 3
 
 * [ ] Check how robust your model is towards data drifting (M27)
 * [ ] Deploy to the cloud a drift detection API (M27)
 * [x] Instrument your API with a couple of system metrics (M28)
-* [ ] Setup cloud monitoring of your instrumented application (M28)
+* [x] Setup cloud monitoring of your instrumented application (M28)
 * [x] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
 * [x] If applicable, optimize the performance of your data loading using distributed data loading (M29)
 * [ ] If applicable, optimize the performance of your training pipeline by using distributed training (M30)
@@ -261,13 +261,13 @@ In total, we have implemented **two tests**. The first test validates the `Fruit
 > Answer:
 
 --- 
-The total code coverage of our code is **65%**, as measured by the `coverage` tool. This includes modules such as `data.py` (81%) and `model.py` (48%). The provided test suite focuses on verifying key functionalities, such as preprocessing data (`data.py`) and testing the forward pass of the `FruitClassifier` model with different batch sizes (`model.py`). 
+The total code coverage of our code is **65%**, as measured by the `coverage` tool. This includes modules like `data.py` (81%) and `model.py` (48%). The test suite verifies key functionalities, such as preprocessing data (`data.py`) and testing the forward pass of the `FruitClassifier` model with different batch sizes (`model.py`).
 
-While 65% coverage ensures that a significant portion of the code is tested, critical areas remain untested. For example, the data preprocessing tests validate directory structures and file existence but do not handle edge cases like malformed image files or empty directories. Similarly, the model tests only validate the output shape of the forward pass but do not check for numerical stability, overfitting behavior, or inference correctness.
+While 65% coverage ensures a significant portion of the code is tested, critical areas remain untested. For example, data preprocessing tests validate directory structures and file existence but miss edge cases like malformed image files or empty directories. Similarly, model tests validate output shape but don’t check for numerical stability, overfitting behavior, or inference correctness.
 
-Even with 100% coverage, errors could persist because coverage measures whether code is executed, not whether it behaves correctly. For instance, logical errors, untested edge cases, or unexpected data could still lead to failures. Furthermore, integration points between modules (e.g., passing preprocessed data into the model) remain untested.
+Even with 100% coverage, errors could persist since coverage measures execution, not correctness. Logical errors, untested edge cases, or unexpected data could still cause failures. Integration points, like passing preprocessed data into the model, also remain untested.
 
-To improve trust in the system, we need to expand tests to cover edge cases, validate outputs thoroughly, and implement integration tests. This, along with high coverage, will ensure robustness and reliability in real-world scenarios. 
+To build trust in the system, we should expand tests to cover edge cases, validate outputs thoroughly, and implement integration tests. This, combined with high coverage, will ensure robustness and reliability in real-world scenarios.
 ---
 
 ### Question 9
@@ -329,7 +329,8 @@ DVC optimizes the storage of the data by only tracking different versions of the
 >
 > Answer:
 
---- We have organized our continuous integration (CI) setup into a single GitHub Actions workflow that covers unit testing, linting, and compatibility testing across multiple operating systems and Python versions. This setup ensures a robust development pipeline where code quality and compatibility are thoroughly validated.
+--- 
+We have organized our continuous integration (CI) setup into a single GitHub Actions workflow that covers unit testing, linting, and compatibility testing across multiple operating systems and Python versions. This setup ensures a robust development pipeline where code quality and compatibility are thoroughly validated.
 
 Continuous Integration Details:
 Unit Testing:
@@ -370,11 +371,10 @@ This comprehensive CI setup has helped us maintain a high standard of code quali
 > Answer:
 
 --- 
-We used Hydra to configure our experiments, with parameters such as learning rate, batch size, and random seed assigned directly in the configuration files and scripts. The configuration files define all necessary hyperparameters for both training and model setup, ensuring consistency and ease of reproducibility.
+We used Hydra to configure our experiments, with parameters such as learning rate, batch size, and random seed assigned directly in the configuration files and scripts. The configuration files defines hyperparameters for both training and model setup, which makes it easy to use.
+These parameters are loaded automatically using Hydra, eliminating the need for manual argument passing. To run an experiment, we simply execute the script:
 
-In our scripts, these parameters are loaded automatically using Hydra, eliminating the need for manual argument passing. To run an experiment, we simply execute the script:
-
-- python my_script.py
+python my_script.py
 
 Hydra ensures that the parameters in the configuration file are properly integrated into the script, allowing for easy management of experiment settings while keeping the workflow simple and reproducible. 
 ---
@@ -416,7 +416,15 @@ This approach guarantees that all experiments are consistent, traceable, and rep
 >
 > Answer:
 
---- question 14 fill here ---
+---
+![wandbTrain](figures/mywandbTrain.png)
+In the first image above, we can see multiple tracked metrics related to the training process, such as train/epoch_loss, train/batch_loss, and train/epoch_accuracy. These metrics are essential for understanding the model's learning process over time. The train/epoch_loss graph shows a steady decline, indicating that the model is converging as it learns from the training data. The train/epoch_accuracy graph reaches near 100%, signifying that the model is performing exceptionally well on the training set. However, such high accuracy might warrant further checks for overfitting.
+
+![wandbVal](figures/mywandbVal.png)
+The second image above focuses on the validation confusion matrix. This matrix is split into healthy and rotten categories and provides insights into the classification performance on unseen data. By examining the predictions versus the actual values, we can identify any class imbalance or model bias. For example, if the model consistently misclassifies rotten samples as healthy, it might require further fine-tuning or data augmentation to balance the dataset.
+
+Both images showcase the importance of these metrics in diagnosing issues during training and validation. While the loss and accuracy metrics demonstrate the overall learning progress, the confusion matrix provides a more granular understanding of the model's strengths and weaknesses in specific classifications. Together, these metrics ensure that the model generalizes well and performs reliably in real-world scenarios.
+---
 
 ### Question 15
 
@@ -474,7 +482,8 @@ We did not perform any explicit profiling of our code, as we deemed its performa
 >
 > Answer:
 
---- We used the following GCP services in our project:
+--- 
+We used the following GCP services in our project:
 
 Compute Engine: This service was used to provision virtual machines for running computationally intensive tasks, such as training and fine-tuning the microsoft-resnet model.
 
@@ -502,7 +511,13 @@ These services collectively enabled us to build, manage, and deploy our project 
 >
 > Answer:
 
---- question 18 fill here ---
+--- 
+We leveraged GCP’s Compute Engine primarily through Cloud Run, which offers a serverless computing environment that abstracts much of the complexity of managing virtual machines. While Cloud Run isn't a traditional VM, it operates atop GCP's Compute Engine infrastructure. For our use case, we deployed a containerized application, enabling us to scale effortlessly based on incoming traffic while maintaining high performance and cost efficiency.
+
+The containers ran on instances equivalent to a single virtual CPU with 2 GB of RAM, which provided a balance between computational power and memory for our lightweight tasks. This configuration suited the needs of our preprocessing pipeline, ensuring that each request was handled swiftly without overprovisioning resources.
+
+Our container was based on a custom image built with dependencies tailored for our project, streamlining both deployment and runtime. Additionally, we employed Compute Engine VMs for testing under heavier loads, using n1-standard-2 instances (2 vCPUs, 7.5 GB RAM) to simulate production environments and ensure scalability. This combination of Cloud Run and targeted VM usage optimized resource utilization while maintaining system robustness.
+---
 
 ### Question 19
 
@@ -514,11 +529,11 @@ These services collectively enabled us to build, manage, and deploy our project 
 --- 
 We have included two images of our GCP bucket:
 
-myBucket.png: This image shows the structure of our GCP bucket, including the main folders and files used in our project. It demonstrates how we organized our data, models, and configuration files.
+![myBucket](figures/myBucket.png): This image shows the structure of our GCP bucket, including the main folders and files used in our project. It demonstrates how we organized our data, models, and configuration files.
 
-myBucketData.png: This image provides a detailed view of the specific datasets stored in the bucket, showcasing the filenames, sizes, and types of data used in our experiments.
+![myBucketData](figures/myBucketData.png): This image provides a detailed view of the specific datasets stored in the bucket, showcasing the filenames, sizes, and types of data used in our experiments.
 
-These images illustrate the way we managed and stored our resources in the GCP bucket for efficient access and processing. They are located under files 
+These images illustrate the way we managed and stored our resources in the GCP bucket for efficient access and processing. They are located under files.
 ---
 
 ### Question 20
@@ -532,7 +547,7 @@ These images illustrate the way we managed and stored our resources in the GCP b
 To address this requirement, we have included a single image from our GCP Artifact Registry:
 
 myRegistry.png: This image provides a detailed view of our GCP Artifact Registry, showing the Docker images stored for our project. It includes the names and tags of the images used for tasks such as data preprocessing, model deployment, and training.
-This image illustrates how we managed and organized our Docker images within the GCP Artifact Registry to ensure efficient and consistent deployment throughout the project. The image is stored under [this figure](figures/myRegistry.png).
+This image illustrates how we managed and organized our Docker images within the GCP Artifact Registry to ensure efficient and consistent deployment throughout the project. The image is stored under ![myRegistry](figures/myRegistry.png).
 ---
 
 ### Question 21
@@ -545,7 +560,7 @@ This image illustrates how we managed and organized our Docker images within the
 --- 
 To address this requirement, we have included a single image from our GCP Cloud Build history:
 myBuild.png: This image shows the history of builds in our project, including details such as the build ID, status, and timestamps. It provides a clear view of the Docker images that were built during the project and demonstrates the successful execution of our build pipeline.
-This image highlights our use of GCP Cloud Build to automate and manage the creation of Docker images, ensuring an efficient and traceable development process. The image is stored under [this figure](figures/myBuild.png).
+This image highlights our use of GCP Cloud Build to automate and manage the creation of Docker images, ensuring an efficient and traceable development process. The image is stored under ![this figure](figures/myBuild.png).
 ---
 
 ### Question 22
@@ -561,7 +576,8 @@ This image highlights our use of GCP Cloud Build to automate and manage the crea
 >
 > Answer:
 
---- We did not train the model in the cloud because we utilized the High-Performance Computing (HPC) facilities at DTU to train the model. The HPC infrastructure provided the necessary computational power and resources to handle our training workload efficiently. By using the HPC, we had access to dedicated GPUs, high-speed interconnects, and robust storage solutions, which made it a cost-effective and performant alternative to cloud services. Additionally, the DTU HPC environment was preconfigured for our needs, reducing the setup complexity associated with cloud platforms like the Engine or Vertex AI. This allowed us to focus on model development and training rather than managing cloud resources.
+--- 
+We did not train the model in the cloud because we utilized the High-Performance Computing (HPC) facilities at DTU to train the model. The HPC infrastructure provided the necessary computational power and resources to handle our training workload efficiently. By using the HPC, we had access to dedicated GPUs, high-speed interconnects, and robust storage solutions, which made it a cost-effective and performant alternative to cloud services. Additionally, the DTU HPC environment was preconfigured for our needs, reducing the setup complexity associated with cloud platforms like the Engine or Vertex AI. This allowed us to focus on model development and training rather than managing cloud resources.
 ---
 
 ## Deployment
@@ -579,7 +595,15 @@ This image highlights our use of GCP Cloud Build to automate and manage the crea
 >
 > Answer:
 
---- question 23 fill here ---
+--- Yes, we successfully wrote an API for our model using FastAPI, which provides an efficient way to build and serve machine learning models. The API exposes two main endpoints: a /predict endpoint for making predictions and a /metrics endpoint for serving Prometheus-compatible metrics for monitoring.
+
+API Endpoint: https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs
+
+The /predict endpoint accepts image files, processes them using a PyTorch model trained for healthy vs. rotten classification, and returns predictions with confidence scores. To ensure the API works seamlessly, we integrated Google Cloud Storage to download the model during startup, allowing the API to always use the latest model version stored in the cloud.
+
+We also implemented custom metrics for monitoring the API's usage and performance, such as request counts, batch sizes, and processing durations. These metrics are pushed to Google Cloud Monitoring using the monitoring_v3 library. Additionally, we used Prometheus for local monitoring and debugging.
+
+Special care was taken to make the API container-friendly, ensuring compatibility with Cloud Run by storing model files in /tmp and dynamically setting the port via environment variables. This setup ensures scalability and deployability while maintaining visibility into API performance and usage.---
 
 ### Question 24
 
@@ -595,7 +619,22 @@ This image highlights our use of GCP Cloud Build to automate and manage the crea
 >
 > Answer:
 
---- question 24 fill here ---
+---
+We successfully deployed our API both locally and in the cloud. Locally, we used **Uvicorn** to serve the FastAPI application for testing and debugging. For the cloud deployment, we utilized **Google Cloud Run**, which allows for serverless deployments. This approach ensures that our application scales automatically and reduces infrastructure management overhead.
+
+To streamline deployment, we set up **continuous integration (CI)** using Google Cloud Build. This CI pipeline automatically builds Docker images and deploys them to Cloud Run whenever we push code to the main branch in our Git repository. This ensures that the latest code is always live in production without manual intervention.
+
+To invoke the deployed service, users can send HTTP requests to the `/predict` endpoint. For example:
+```bash
+curl -X 'POST' \
+  'https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/predict' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'files=@rottenTomato (88).jpg;type=image/jpeg' \
+  -F 'files=@rottenTomato (91).jpg;type=image/jpeg'
+```
+
+This request uploads two image files for classification. The API processes the images in a batch, performs inference using the model, and returns a JSON response with predictions. This setup ensures ease of use, scalability, and seamless deployment of new updates. ---
 
 ### Question 25
 
@@ -625,7 +664,27 @@ This image highlights our use of GCP Cloud Build to automate and manage the crea
 >
 > Answer:
 
---- question 26 fill here ---
+--- 
+### Answer to Question 26
+
+Yes, we successfully implemented monitoring for our deployed model. We used two main approaches: Prometheus-compatible metrics and Google Cloud Monitoring. Prometheus metrics, integrated using the `prometheus_client` library, track key aspects of the application, such as prediction requests, batch sizes, processing durations, and success or failure rates. These metrics are exposed via a `/metrics` endpoint for detailed monitoring.
+
+In Google Cloud Monitoring, we implemented custom metrics such as `custom.googleapis.com/prediction_requests_total`, `custom.googleapis.com/prediction_successes_total`, `custom.googleapis.com/prediction_failures_total`, and more. These metrics are pushed using the `monitoring_v3` API and associated with the `global` resource type for compatibility.
+
+We also defined specific Service Level Objectives (SLOs) to monitor the application’s reliability and performance:
+- **Prediction Failures**: Ensures prediction failures remain below 1% per calendar week.
+- **Prediction Duration**: Tracks that at least 50% of predictions are completed within acceptable response times daily.
+- **Batch Size**: Monitors prediction request sizes, ensuring usage aligns with expectations.
+- **Total Predictions**: Ensures a sufficient number of predictions are made weekly.
+- **Successful Predictions**: Tracks that at least 50% of predictions are successful weekly.
+
+This monitoring setup provides a comprehensive view of the application’s health, enabling us to ensure scalability, reliability, and proactive issue resolution. 
+
+
+![SLOs for Cloud Run](figures/SLOs.png)
+![custom-metrics setup](figures/custom-metrics.png)
+![Cloud Run Dashboard](figures/cloud-run-dashboard.png)
+---
 
 ## Overall discussion of project
 
@@ -644,7 +703,9 @@ This image highlights our use of GCP Cloud Build to automate and manage the crea
 >
 > Answer:
 
---- question 27 fill here ---
+---
+We did almost not use any credits, spending a total of 2.1 dollars throughout the project. The breakdown of our usage is as follows: 1.51 USD for Compute Engine, 0.36 USD for Cloud Run, 0.16 USD, 0.06 USD for additional Cloud Run services, and 0.01 USD for networking. The service costing the most was Compute Engine, mainly due to the computational resources we needed to run our tasks. Despite not relying heavily on cloud services, we found that GCP provided us with flexible and scalable resources when needed. Using the cloud for tasks like running containers and managing virtual machines allowed us to avoid hardware limitations and provided quick setup and deployment. Overall, working in the cloud was a positive experience as it simplified many aspects of the project, though we didn’t end up utilizing it as much as we initially anticipated.
+---
 
 ### Question 28
 
@@ -693,7 +754,15 @@ As an extra thing we made documentation in the same way as in M32. We used our R
 >
 > Answer:
 
---- question 30 fill here ---
+--- 
+Our primary challenge was during the model deployment phase, particularly with image labeling and path inconsistencies. The raw image paths often differed from the processed folder structure, causing significant errors in loading and associating images with their correct labels. Resolving this required looking at the parent folder of the image.
+
+Another major struggle was maintaining functional GitHub Actions workflows. Frequent code changes and iterative experimentation caused pipelines to break frequently, consuming substantial time for debugging and ensuring successful execution. To address this, we incorporated modularized workflows and added extensive logging to pinpoint issues quickly. Additionally, we defined stricter coding guidelines and conducted pre-merge validations to minimize disruptions. Pre-Committing also helped a lot for this issue especially with the linting in the Github Actions.
+
+Lastly, configuring the port and environment for Cloud Run in GCP posed unexpected challenges. Misalignments between local development configurations and Cloud Run's requirements caused deployment failures. To overcome this, we thoroughly reviewed GCP’s documentation and leveraged testing environments to fine-tune our deployment settings. We ensured our containerized application explicitly defined the required port and implemented retry logic for smoother deployments.
+
+While these obstacles demanded significant time and effort, the lessons learned enhanced our ability to anticipate and address similar challenges in future projects.
+---
 
 ### Question 31
 
@@ -704,11 +773,16 @@ As an extra thing we made documentation in the same way as in M32. We used our R
 > Recommended answer length: 50-300 words.
 >
 > Example:
-> *Student sXXXXXX was in charge of developing of setting up the initial cookie cutter project and developing of the*
+> *Student sXXXXXX was in charge of cookiecutter...*
 > *docker containers for training our applications.*
 > *Student sXXXXXX was in charge of training our models in the cloud and deploying them afterwards.*
 > *All members contributed to code by...*
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
---- question 31 fill here ---
+---
+Student s214940 was in charge of cookiecutter, CI to Google Cloud Run of the API incl. automatic build of docker images, and push to cloud run, setup of linting locally and in github actions, Data version control with Google Cloud, Fast API setup & deployment, Project commands with Invoke.
+Student s216163 was in charge of creating configuration files for our experiments, and using Hydra to manage hyperparameters. Additionally, I implemented pre-commit hooks to ensure consistent code quality across the project, wrote the documentation for the application, and contributed to the report.
+All members have worked closely together through out the course, and we have helped each other with all the tasks mentioned above.
+We also used generative AI tools, such as ChatGPT, to assist with debugging, troubleshooting and with the report, and GitHub Copilot helped speed up coding by suggesting solutions for repetitive tasks.
+---

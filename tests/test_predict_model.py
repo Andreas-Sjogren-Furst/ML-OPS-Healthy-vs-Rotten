@@ -1,4 +1,5 @@
 """Test the predict_model module."""
+
 from src.healthy_vs_rotten.predict_model import preprocess_images
 
 from io import BytesIO
@@ -8,7 +9,7 @@ from torch.utils.data import DataLoader
 
 def generate_image_bytes():
     """Generate mock image bytes for testing."""
-    img = Image.new('RGB', (100, 100), color=(73, 109, 137))
+    img = Image.new("RGB", (100, 100), color=(73, 109, 137))
     byte_io = BytesIO()
     img.save(byte_io, "JPEG")
     byte_io.seek(0)

@@ -5,7 +5,6 @@ FastAPI application for Healthy vs. Rotten image classification.
 
 import os
 from pathlib import Path
-from google.cloud import storage
 import time
 from prometheus_client import Counter, Histogram, Gauge, generate_latest, CONTENT_TYPE_LATEST
 
@@ -14,20 +13,22 @@ from fastapi import FastAPI, Response, UploadFile, File, HTTPException, status
 from pydantic import BaseModel
 from typing import List
 import torch
-from google.cloud import monitoring_v3
+from google.cloud import storage, monitoring_v3
 from google.protobuf.timestamp_pb2 import Timestamp
 from google.auth import default
+from google.api_core.exceptions import GoogleAPICallError, RetryError, InvalidArgument
 
 from healthy_vs_rotten.predict_model import load_config, load_model, preprocess_images, run_inference
 
 project_root = Path(__file__).resolve().parents[2]
 CONFIG_DIR = str(project_root / "configs")
-#MODEL_PATH = "models/best_model.pt"
+# MODEL_PATH = "models/best_model.pt"
 CONTAINER_MODEL_PATH = "./tmp/best_model.pt"  # Cloud Run allows writing to /tmp
 BUCKET_NAME = "ml-ops-healthy-vs-rotten-data"
 MODEL_BLOB_PATH = "models/best_model.pt"
 
-def download_model_from_gcs(bucket_name: str, blob_path : str, local_path: str ="./models/best_model.pt"):
+
+def download_model_from_gcs(bucket_name: str, blob_path: str, local_path: str = "./models/best_model.pt"):
     """
     Download model file from Google Cloud Storage to a local path.
     """
@@ -36,6 +37,8 @@ def download_model_from_gcs(bucket_name: str, blob_path : str, local_path: str =
     blob = bucket.blob(blob_path)
     blob.download_to_filename(local_path)
     print(f"[Startup] Model downloaded from GCS: gs://{bucket_name}/{blob_path}")
+
+
 class PredictionResponse(BaseModel):
     """
     Response model for image predictions.
@@ -56,47 +59,24 @@ CONFIG = None
 MODEL = None
 
 # Prometheus metrics
-PREDICTION_REQUESTS = Counter(
-    'prediction_requests_total',
-    'Number of prediction requests received'
-)
+PREDICTION_REQUESTS = Counter("prediction_requests_total", "Number of prediction requests received")
 
-PREDICTION_SUCCESSES = Counter(
-    'prediction_successes_total',
-    'Number of successful predictions'
-)
+PREDICTION_SUCCESSES = Counter("prediction_successes_total", "Number of successful predictions")
 
-PREDICTION_FAILURES = Counter(
-    'prediction_failures_total',
-    'Number of failed predictions'
-)
+PREDICTION_FAILURES = Counter("prediction_failures_total", "Number of failed predictions")
 
 PREDICTION_DURATION = Histogram(
-    'prediction_duration_seconds',
-    'Time spent processing prediction requests',
-    buckets=[0.1, 0.5, 1.0, 2.0, 5.0]
+    "prediction_duration_seconds", "Time spent processing prediction requests", buckets=[0.1, 0.5, 1.0, 2.0, 5.0]
 )
 
-BATCH_SIZE = Histogram(
-    'prediction_batch_size',
-    'Size of prediction batches',
-    buckets=[1, 2, 5, 10, 20, 50]
-)
+BATCH_SIZE = Histogram("prediction_batch_size", "Size of prediction batches", buckets=[1, 2, 5, 10, 20, 50])
 
-MODEL_VERSION = Gauge(
-    'model_version_info',
-    'Information about the currently loaded model version'
-)
-
-
-
-
+MODEL_VERSION = Gauge("model_version_info", "Information about the currently loaded model version")
 
 
 def write_custom_metric(metric_type: str, value: float, labels: dict = None):
     """
-    Write a custom metric to Google Cloud Monitoring.
-
+    Write a custom metric to Google Cloud Monitoring using the 'global' resource type.
     Args:
         metric_type (str): Full name of the custom metric (e.g., "custom.googleapis.com/prediction_requests_total").
         value (float): The value to record for the metric.
@@ -105,27 +85,18 @@ def write_custom_metric(metric_type: str, value: float, labels: dict = None):
     try:
         # Get default credentials and project
         credentials, project_id = default()
-
-        # Initialize the Monitoring client
         client = monitoring_v3.MetricServiceClient(credentials=credentials)
         project_name = f"projects/{project_id}"
 
         # Construct the TimeSeries object
         series = monitoring_v3.TimeSeries()
-        series.metric.type = metric_type  # Custom metric type
+        series.metric.type = metric_type
         if labels:
             series.metric.labels.update(labels)
 
-        # Handle local and production resource types
-        environment = os.getenv("ENVIRONMENT", "local")
-        if environment == "local":
-            series.resource.type = "global"
-            series.resource.labels["project_id"] = project_id
-        else:
-            series.resource.type = "cloud_run_revision"
-            series.resource.labels["project_id"] = project_id
-            series.resource.labels["service_name"] = os.getenv("CLOUD_RUN_SERVICE_NAME", "unknown-service")
-            series.resource.labels["revision_name"] = os.getenv("CLOUD_RUN_REVISION", "unknown-revision")
+        # Use 'global' resource type for all metrics
+        series.resource.type = "global"
+        series.resource.labels["project_id"] = project_id
 
         # Construct the Point object
         now = time.time()
@@ -142,13 +113,13 @@ def write_custom_metric(metric_type: str, value: float, labels: dict = None):
 
         # Send the TimeSeries to Google Cloud Monitoring
         client.create_time_series(name=project_name, time_series=[series])
-        print(f"Metric {metric_type} with value {value} written successfully.")
-
-    except Exception as e:
-        print(f"Error writing custom metric {metric_type}: {e}")
-
-
-
+        print(f"[DEBUG] Metric '{metric_type}' written successfully with value: {value}")
+    except InvalidArgument as e:
+        print(f"[ERROR] Invalid argument error while writing metric '{metric_type}': {e}")
+    except GoogleAPICallError as e:
+        print(f"[ERROR] API call error while writing metric '{metric_type}': {e}")
+    except RetryError as e:
+        print(f"[ERROR] Retry error while writing metric '{metric_type}': {e}")
 
 
 @app.on_event("startup")
@@ -173,39 +144,39 @@ async def read_root():
     """Return welcome message for the API root endpoint."""
     return {"message": "Welcome to the Healthy vs. Rotten API!"}
 
+
 @app.get("/metrics")
 async def metrics():
     """Endpoint for Prometheus metrics."""
-    
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_requests_total",
         value=PREDICTION_REQUESTS._value.get(),
-        labels={"env": os.getenv("ENVIRONMENT", "local")}
+        labels={"env": os.getenv("ENVIRONMENT", "local")},
     )
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_successes_total",
         value=PREDICTION_SUCCESSES._value.get(),
-        labels={"env": os.getenv("ENVIRONMENT", "local")}
+        labels={"env": os.getenv("ENVIRONMENT", "local")},
     )
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_failures_total",
         value=PREDICTION_FAILURES._value.get(),
-        labels={"env": os.getenv("ENVIRONMENT", "local")}
+        labels={"env": os.getenv("ENVIRONMENT", "local")},
     )
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_duration_seconds",
-        value=PREDICTION_DURATION._sum.get(),
-        labels={"env": os.getenv("ENVIRONMENT", "local")}
+        value=PREDICTION_DURATION.collect()[0].samples[0].value,
+        labels={"env": os.getenv("ENVIRONMENT", "local")},
     )
     write_custom_metric(
         metric_type="custom.googleapis.com/prediction_batch_size",
-        value=BATCH_SIZE._sum.get(),
-        labels={"env": os.getenv("ENVIRONMENT", "local")}
+        value=BATCH_SIZE.collect()[0].samples[0].value,
+        labels={"env": os.getenv("ENVIRONMENT", "local")},
     )
     write_custom_metric(
         metric_type="custom.googleapis.com/model_version_info",
         value=MODEL_VERSION._value.get(),
-        labels={"env": os.getenv("ENVIRONMENT", "local")}
+        labels={"env": os.getenv("ENVIRONMENT", "local")},
     )
 
     return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
@@ -219,7 +190,7 @@ async def predict_images(files: List[UploadFile] = File(...)):
     """
     PREDICTION_REQUESTS.inc()
     BATCH_SIZE.observe(len(files))
-    
+
     start_time = time.time()
     try:
         if not files:

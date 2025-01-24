@@ -103,6 +103,12 @@ pip install invoke
   invoke test
   ```
 
+- **Run api locally**: Run the api locally
+  ```bash
+  invoke serve
+  ```
+Requires you are authenticated with gcloud and have the correct service account to download the best model. However, if not, you can also create your own tmp folder and place the best_model.pt file in there.
+
 ## Workflow
 
 1. Create environment: `invoke create-environment`
@@ -110,7 +116,12 @@ pip install invoke
 3. Preprocess data: `invoke preprocess-data`
 4. Train model: `invoke train`
 5. Test code: `invoke test`
+6. Run api locally: `invoke serve` (required gcloud to download model weights, or place them locally in the /tmp folder)
 
+## Run Pre-commit check on all files before comitting
+```
+pre-commit run --all-files
+```
 
 # Google Cloud Storage with DVC
 
@@ -157,11 +168,24 @@ This ensures your data is tracked, versioned, and stored in Google Cloud.
 
 
 
-# API Documentation TODO: finish documenation once deployed. 
-local deveopment
+# API Documentation:
+## Production Endpoint: 
+* Swagger: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs)
+
+
+* Redoc: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc)
+
+## Local Endpoint:
+1. Authencicate with Gcloud. 
+2. It will download model weights from google cloud storage. If not authenticated, place the model weights in the /tmp folder named "best_model.pt"
+
+* local deveopment
  ```invoke serve```
-[api-url](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs)
-[api-url](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc)
+
+* How to run without invoke: 
+ ```uvicorn --reload --port 8000 healthy_vs_rotten.api:app```
+
+
 
 # Docker Setup
 Remeber to open docker desktop. 
