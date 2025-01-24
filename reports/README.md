@@ -503,7 +503,13 @@ These services collectively enabled us to build, manage, and deploy our project 
 >
 > Answer:
 
---- question 18 fill here ---
+--- 
+We leveraged GCP’s Compute Engine primarily through Cloud Run, which offers a serverless computing environment that abstracts much of the complexity of managing virtual machines. While Cloud Run isn't a traditional VM, it operates atop GCP's Compute Engine infrastructure. For our use case, we deployed a containerized application, enabling us to scale effortlessly based on incoming traffic while maintaining high performance and cost efficiency.
+
+The containers ran on instances equivalent to a single virtual CPU with 2 GB of RAM, which provided a balance between computational power and memory for our lightweight tasks. This configuration suited the needs of our preprocessing pipeline, ensuring that each request was handled swiftly without overprovisioning resources.
+
+Our container was based on a custom image built with dependencies tailored for our project, streamlining both deployment and runtime. Additionally, we employed Compute Engine VMs for testing under heavier loads, using n1-standard-2 instances (2 vCPUs, 7.5 GB RAM) to simulate production environments and ensure scalability. This combination of Cloud Run and targeted VM usage optimized resource utilization while maintaining system robustness.
+---
 
 ### Question 19
 
@@ -546,7 +552,7 @@ This image illustrates how we managed and organized our Docker images within the
 --- 
 To address this requirement, we have included a single image from our GCP Cloud Build history:
 myBuild.png: This image shows the history of builds in our project, including details such as the build ID, status, and timestamps. It provides a clear view of the Docker images that were built during the project and demonstrates the successful execution of our build pipeline.
-This image highlights our use of GCP Cloud Build to automate and manage the creation of Docker images, ensuring an efficient and traceable development process. The image is stored under [this figure](figures/myBuild.png).
+This image highlights our use of GCP Cloud Build to automate and manage the creation of Docker images, ensuring an efficient and traceable development process. The image is stored under ![this figure](figures/myBuild.png).
 ---
 
 ### Question 22
