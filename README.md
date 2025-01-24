@@ -21,186 +21,115 @@ By utilising the hugging face framework we can fast and efficiently implement a 
 Hopefully, by creating a well-implemented project we can easily evaluate and compare other models from hugging face for our problem also.
 
 
-# Dataset Setup
+# Fruit and Vegetable Disease Detection
 
-This project uses the [Fruits and Vegetables Disease Dataset](https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten) from Kaggle.
+A machine learning project for detecting diseases in fruits and vegetables using the [Kaggle Fruits and Vegetables Disease Dataset](https://www.kaggle.com/datasets/muhammad0subhan/fruit-and-vegetable-disease-healthy-vs-rotten).
 
-## Download Instructions (Windows)
+## Initial Setup
 
-1. Install requirements:
-   ```powershell
-   pip install kaggle
+1. Install base requirements:
+   ```bash
+   pip install invoke kaggle
    ```
 
-2. Set up Kaggle credentials (unsure whether this is necessary):
-   - Create a Kaggle account if you don't have one
-   - Go to kaggle.com/account
-   - Click "Create New API Token" in the API section
-   - Move the downloaded `kaggle.json` to your `.kaggle` folder:
+2. Set up Kaggle credentials:
+   - Create a Kaggle account
+   - Download API token from kaggle.com/account
+   - Configure credentials:
      ```powershell
      New-Item -Path "$env:USERPROFILE\.kaggle" -ItemType Directory -Force
      Move-Item -Path "$env:USERPROFILE\Downloads\kaggle.json" -Destination "$env:USERPROFILE\.kaggle\kaggle.json"
      ```
 
-3. Run the download script:
-   ```powershell
+3. Configure Weights & Biases:
+   Add to `.env`:
+   - `WANDB_API_KEY`
+   - `WANDB_ENTITY` (from URL: wandb.ai/<entity>/<project>)
+   - `WANDB_PROJECT`
+
+## Environment Setup
+
+1. Create environment:
+   ```bash
+   invoke create-environment
+   ```
+
+2. Install dependencies:
+   ```bash
+   invoke requirements
+   invoke dev-requirements  # For development
+   ```
+
+## Development Workflow
+
+1. Download and preprocess data:
+   ```bash
    python download_dataset.py
+   invoke preprocess-data
    ```
 
-The dataset will be downloaded to `data/raw/`.
+2. Train model:
+   ```bash
+   invoke train
+   ```
 
+3. Run tests:
+   ```bash
+   invoke test
+   pre-commit run --all-files  # Before committing
+   ```
 
-## Wandb Setup
+## API Usage
 
-Add the following secrets to your repository's .env file:
-1. Add `WANDB_API_KEY`
-2. Add `WANDB_ENTITY`
-3. Add `WANDB_PROJECT`
+### Production Endpoints
+- Swagger: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs)
+- Redoc: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc)
 
-### How to Get Entity and Project
-
-You can find your entity and project in the URL:
-```
-https://wandb.ai/<entity>/<project>
-```
-
-# Project Automation with Invoke
-
-This project uses [Invoke](https://www.pyinvoke.org/) for task automation.
-
-## Setup Commands
-
-Ensure you have invoke installed:
+### Local Development
 ```bash
-pip install invoke
+invoke serve  # With Invoke
+# OR
+uvicorn --reload --port 8000 healthy_vs_rotten.api:app  # Without Invoke
 ```
 
-- **Create Environment**: Create a Conda environment.
-  ```bash
-  invoke create-environment
-  ```
-- **Install Requirements**: Install project dependencies.
-  ```bash
-  invoke requirements
-  ```
-- **Install Dev Requirements**: Install development dependencies.
-  ```bash
-  invoke dev-requirements
-  ```
+Note: Requires gcloud authentication or manually placed `best_model.pt` in `/tmp` folder.
 
-## Project Commands
+## Docker
 
-- **Preprocess Data**: Process raw data to create processed datasets.
-  ```bash
-  invoke preprocess-data --raw-data-folder=<raw> --processed-data-folder=<processed>
-  ```
-- **Train Model**: Train the machine learning model.
-  ```bash
-  invoke train
-  ```
-- **Run Tests**: Run tests and generate a coverage report.
-  ```bash
-  invoke test
-  ```
+Prerequisites:
+- Docker Desktop running
+- gcloud authentication or `best_model.pt` in `/tmp`
 
-- **Run api locally**: Run the api locally
-  ```bash
-  invoke serve
-  ```
-Requires you are authenticated with gcloud and have the correct service account to download the best model. However, if not, you can also create your own tmp folder and place the best_model.pt file in there.
+```bash
+# Build
+docker build -f dockerfiles/api.dockerfile . -t api:latest
 
-## Workflow
-
-1. Create environment: `invoke create-environment`
-2. Install dependencies: `invoke requirements`
-3. Preprocess data: `invoke preprocess-data`
-4. Train model: `invoke train`
-5. Test code: `invoke test`
-6. Run api locally: `invoke serve` (required gcloud to download model weights, or place them locally in the /tmp folder)
-
-## Run Pre-commit check on all files before comitting
-```
-pre-commit run --all-files
+# Run
+docker run --rm --name experimentapi api:latest  # Basic
+docker run --rm -p 8000:8000 --name experimentapi api:latest  # Expose locally
 ```
 
-# Google Cloud Storage with DVC
+## Data Version Control (DVC)
 
-## Setup (already done in our repo)
+### Initial Setup
+```bash
+pip install dvc-gs
+dvc remote add -d remote_storage gs://<bucket-name>
+dvc remote modify remote_storage version_aware true
+git add .dvc/config
+git commit -m "Configure DVC remote storage"
+```
 
-1. **Install DVC Google Cloud Extension**  
-   ```bash
-   pip install dvc-gs
-   ```
+### Data Management
+```bash
+dvc add <file_or_folder>  # Track data
+git add <file_or_folder>.dvc
+git commit -m "Track data with DVC"
 
-2. **Configure Remote Storage** 
-   ```bash
-   dvc remote add -d remote_storage gs://<bucket-name>
-   dvc remote modify remote_storage version_aware true
-   git add .dvc/config
-   git commit -m "Configure DVC remote storage"
-   ```
-
-## Workflow with DVC. 
-
-1. **Add Data**  
-   ```bash
-   dvc add <file_or_folder>
-   git add <file_or_folder>.dvc
-   git commit -m "Track data with DVC"
-   ```
-
-2. **Push Data**  
-   ```bash
-   dvc push --no-run-cache
-   ```
-
-3. **Pull Data**  
-   ```bash
-   dvc pull --no-run-cache
-   ```
-
-4. **Verify Storage**  
-   ```bash
-   gsutil ls gs://<bucket-name>
-   ```
-
-This ensures your data is tracked, versioned, and stored in Google Cloud.
-
-
-
-# API Documentation:
-## Production Endpoint: 
-* Swagger: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs)
-
-
-* Redoc: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc)
-
-## Local Endpoint:
-1. Authencicate with Gcloud. 
-2. It will download model weights from google cloud storage. If not authenticated, place the model weights in the /tmp folder named "best_model.pt"
-
-* local deveopment
- ```invoke serve```
-
-* How to run without invoke: 
- ```uvicorn --reload --port 8000 healthy_vs_rotten.api:app```
-
-
-
-# Docker Setup
-Remeber to open docker desktop. 
-Remeber Docker file needs gcloud service account to download model weights, or you can place this manually in the /tmp folder named "best_model.pt"
-
-## How to build Docker
-Example of how to build the docker image for the API:
- ``` docker build -f dockerfiles/api.dockerfile . -t api:latest ```
-
-## How to run Docker
-Example of how to run the docker image for the API:
- ``` docker run --rm --name experimentapi api:latest ```
-
-Example of exposing the api publicly at localhost: 
-   ``` docker run --rm -p 8000:8000 --name experimentapi api:latest ```
+dvc push --no-run-cache  # Upload to storage
+dvc pull --no-run-cache  # Download from storage
+gsutil ls gs://<bucket-name>  # Verify storage
+```
 
 
 ## Project structure
