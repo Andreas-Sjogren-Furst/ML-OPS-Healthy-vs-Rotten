@@ -611,7 +611,22 @@ Special care was taken to make the API container-friendly, ensuring compatibilit
 >
 > Answer:
 
---- question 24 fill here ---
+---
+We successfully deployed our API both locally and in the cloud. Locally, we used **Uvicorn** to serve the FastAPI application for testing and debugging. For the cloud deployment, we utilized **Google Cloud Run**, which allows for serverless deployments. This approach ensures that our application scales automatically and reduces infrastructure management overhead.
+
+To streamline deployment, we set up **continuous integration (CI)** using Google Cloud Build. This CI pipeline automatically builds Docker images and deploys them to Cloud Run whenever we push code to the main branch in our Git repository. This ensures that the latest code is always live in production without manual intervention.
+
+To invoke the deployed service, users can send HTTP requests to the `/predict` endpoint. For example:
+```bash
+curl -X 'POST' \
+  'https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/predict' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'files=@rottenTomato (88).jpg;type=image/jpeg' \
+  -F 'files=@rottenTomato (91).jpg;type=image/jpeg'
+```
+
+This request uploads two image files for classification. The API processes the images in a batch, performs inference using the model, and returns a JSON response with predictions. This setup ensures ease of use, scalability, and seamless deployment of new updates. ---
 
 ### Question 25
 
