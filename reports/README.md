@@ -521,7 +521,7 @@ We did not perform any explicit profiling of our code, as we deemed its performa
 
 We used the following GCP services in our project:
 
-Compute Engine: This service was used to provision virtual machines for running computationally intensive tasks, such as training and fine-tuning the microsoft-resnet model.
+DTU HPC: This service was used to train our machine learning model.
 
 Cloud Storage: We utilized Cloud Storage to store and manage our datasets, pre-trained models, and other artifacts. It provided a scalable and secure solution for handling large amounts of data.
 
