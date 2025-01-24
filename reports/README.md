@@ -261,13 +261,13 @@ In total, we have implemented **two tests**. The first test validates the `Fruit
 > Answer:
 
 --- 
-The total code coverage of our code is **65%**, as measured by the `coverage` tool. This includes modules such as `data.py` (81%) and `model.py` (48%). The provided test suite focuses on verifying key functionalities, such as preprocessing data (`data.py`) and testing the forward pass of the `FruitClassifier` model with different batch sizes (`model.py`). 
+The total code coverage of our code is **65%**, as measured by the `coverage` tool. This includes modules like `data.py` (81%) and `model.py` (48%). The test suite verifies key functionalities, such as preprocessing data (`data.py`) and testing the forward pass of the `FruitClassifier` model with different batch sizes (`model.py`).
 
-While 65% coverage ensures that a significant portion of the code is tested, critical areas remain untested. For example, the data preprocessing tests validate directory structures and file existence but do not handle edge cases like malformed image files or empty directories. Similarly, the model tests only validate the output shape of the forward pass but do not check for numerical stability, overfitting behavior, or inference correctness.
+While 65% coverage ensures a significant portion of the code is tested, critical areas remain untested. For example, data preprocessing tests validate directory structures and file existence but miss edge cases like malformed image files or empty directories. Similarly, model tests validate output shape but don’t check for numerical stability, overfitting behavior, or inference correctness.
 
-Even with 100% coverage, errors could persist because coverage measures whether code is executed, not whether it behaves correctly. For instance, logical errors, untested edge cases, or unexpected data could still lead to failures. Furthermore, integration points between modules (e.g., passing preprocessed data into the model) remain untested.
+Even with 100% coverage, errors could persist since coverage measures execution, not correctness. Logical errors, untested edge cases, or unexpected data could still cause failures. Integration points, like passing preprocessed data into the model, also remain untested.
 
-To improve trust in the system, we need to expand tests to cover edge cases, validate outputs thoroughly, and implement integration tests. This, along with high coverage, will ensure robustness and reliability in real-world scenarios. 
+To build trust in the system, we should expand tests to cover edge cases, validate outputs thoroughly, and implement integration tests. This, combined with high coverage, will ensure robustness and reliability in real-world scenarios.
 ---
 
 ### Question 9
@@ -329,7 +329,8 @@ DVC optimizes the storage of the data by only tracking different versions of the
 >
 > Answer:
 
---- We have organized our continuous integration (CI) setup into a single GitHub Actions workflow that covers unit testing, linting, and compatibility testing across multiple operating systems and Python versions. This setup ensures a robust development pipeline where code quality and compatibility are thoroughly validated.
+--- 
+We have organized our continuous integration (CI) setup into a single GitHub Actions workflow that covers unit testing, linting, and compatibility testing across multiple operating systems and Python versions. This setup ensures a robust development pipeline where code quality and compatibility are thoroughly validated.
 
 Continuous Integration Details:
 Unit Testing:
@@ -370,11 +371,10 @@ This comprehensive CI setup has helped us maintain a high standard of code quali
 > Answer:
 
 --- 
-We used Hydra to configure our experiments, with parameters such as learning rate, batch size, and random seed assigned directly in the configuration files and scripts. The configuration files define all necessary hyperparameters for both training and model setup, ensuring consistency and ease of reproducibility.
+We used Hydra to configure our experiments, with parameters such as learning rate, batch size, and random seed assigned directly in the configuration files and scripts. The configuration files defines hyperparameters for both training and model setup, which makes it easy to use.
+These parameters are loaded automatically using Hydra, eliminating the need for manual argument passing. To run an experiment, we simply execute the script:
 
-In our scripts, these parameters are loaded automatically using Hydra, eliminating the need for manual argument passing. To run an experiment, we simply execute the script:
-
-- python my_script.py
+python my_script.py
 
 Hydra ensures that the parameters in the configuration file are properly integrated into the script, allowing for easy management of experiment settings while keeping the workflow simple and reproducible. 
 ---
@@ -474,7 +474,8 @@ We did not perform any explicit profiling of our code, as we deemed its performa
 >
 > Answer:
 
---- We used the following GCP services in our project:
+--- 
+We used the following GCP services in our project:
 
 Compute Engine: This service was used to provision virtual machines for running computationally intensive tasks, such as training and fine-tuning the microsoft-resnet model.
 
@@ -561,7 +562,8 @@ This image highlights our use of GCP Cloud Build to automate and manage the crea
 >
 > Answer:
 
---- We did not train the model in the cloud because we utilized the High-Performance Computing (HPC) facilities at DTU to train the model. The HPC infrastructure provided the necessary computational power and resources to handle our training workload efficiently. By using the HPC, we had access to dedicated GPUs, high-speed interconnects, and robust storage solutions, which made it a cost-effective and performant alternative to cloud services. Additionally, the DTU HPC environment was preconfigured for our needs, reducing the setup complexity associated with cloud platforms like the Engine or Vertex AI. This allowed us to focus on model development and training rather than managing cloud resources.
+--- 
+We did not train the model in the cloud because we utilized the High-Performance Computing (HPC) facilities at DTU to train the model. The HPC infrastructure provided the necessary computational power and resources to handle our training workload efficiently. By using the HPC, we had access to dedicated GPUs, high-speed interconnects, and robust storage solutions, which made it a cost-effective and performant alternative to cloud services. Additionally, the DTU HPC environment was preconfigured for our needs, reducing the setup complexity associated with cloud platforms like the Engine or Vertex AI. This allowed us to focus on model development and training rather than managing cloud resources.
 ---
 
 ## Deployment
