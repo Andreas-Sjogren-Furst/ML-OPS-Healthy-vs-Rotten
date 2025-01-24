@@ -16,7 +16,7 @@ def test_data():
     dataset = FruitVegDataset(_PATH_TEST_DATA / "raw/Fruit And Vegetable Diseases Dataset")
     assert isinstance(dataset, FruitVegDataset)
 
-    processed_path = _PATH_TEST_DATA / "processed"
+    processed_path = _PATH_TEST_DATA / "processed_test"
 
     os.makedirs(processed_path, exist_ok=True)
 
