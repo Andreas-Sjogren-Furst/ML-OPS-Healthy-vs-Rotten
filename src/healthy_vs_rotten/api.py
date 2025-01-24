@@ -95,8 +95,7 @@ MODEL_VERSION = Gauge(
 
 def write_custom_metric(metric_type: str, value: float, labels: dict = None):
     """
-    Write a custom metric to Google Cloud Monitoring.
-
+    Write a custom metric to Google Cloud Monitoring using the 'global' resource type.
     Args:
         metric_type (str): Full name of the custom metric (e.g., "custom.googleapis.com/prediction_requests_total").
         value (float): The value to record for the metric.
@@ -105,27 +104,18 @@ def write_custom_metric(metric_type: str, value: float, labels: dict = None):
     try:
         # Get default credentials and project
         credentials, project_id = default()
-
-        # Initialize the Monitoring client
         client = monitoring_v3.MetricServiceClient(credentials=credentials)
         project_name = f"projects/{project_id}"
 
         # Construct the TimeSeries object
         series = monitoring_v3.TimeSeries()
-        series.metric.type = metric_type  # Custom metric type
+        series.metric.type = metric_type
         if labels:
             series.metric.labels.update(labels)
 
-        # Handle local and production resource types
-        environment = os.getenv("ENVIRONMENT", "local")
-        if environment == "local":
-            series.resource.type = "global"
-            series.resource.labels["project_id"] = project_id
-        else:
-            series.resource.type = "cloud_run_revision"
-            series.resource.labels["project_id"] = project_id
-            series.resource.labels["service_name"] = os.getenv("CLOUD_RUN_SERVICE_NAME", "unknown-service")
-            series.resource.labels["revision_name"] = os.getenv("CLOUD_RUN_REVISION", "unknown-revision")
+        # Use 'global' resource type for all metrics
+        series.resource.type = "global"
+        series.resource.labels["project_id"] = project_id
 
         # Construct the Point object
         now = time.time()
@@ -142,10 +132,11 @@ def write_custom_metric(metric_type: str, value: float, labels: dict = None):
 
         # Send the TimeSeries to Google Cloud Monitoring
         client.create_time_series(name=project_name, time_series=[series])
-        print(f"Metric {metric_type} with value {value} written successfully.")
+        print(f"[DEBUG] Metric '{metric_type}' written successfully with value: {value}")
 
     except Exception as e:
-        print(f"Error writing custom metric {metric_type}: {e}")
+        print(f"[ERROR] Failed to write metric '{metric_type}': {e}")
+
 
 
 
