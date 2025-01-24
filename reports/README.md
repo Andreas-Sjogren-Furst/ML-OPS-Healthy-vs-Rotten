@@ -682,7 +682,7 @@ This request uploads two image files for classification. The API processes the i
 > Answer:
 
 ---
-We did almost not use any credits, only spending a total of 2.1 dollars. The breakdown of our usage is as follows: we used 1.51 USD for Compute Engine, 0.36 USD for Cloud Run, 0.16 USD, 0.06 USD for additional Cloud Run services, and 0.01 USD for networking. The service costing the most was Compute Engine, primarily due to the computational resources required. In general, working in the cloud was convenient and efficient, as it provided scalable resources for our needs, and we made extensive use of GCP for various aspects of the project.
+We did almost not use any credits, spending a total of 2.1 dollars throughout the project. The breakdown of our usage is as follows: 1.51 USD for Compute Engine, 0.36 USD for Cloud Run, 0.16 USD, 0.06 USD for additional Cloud Run services, and 0.01 USD for networking. The service costing the most was Compute Engine, mainly due to the computational resources we needed to run our tasks. Despite not relying heavily on cloud services, we found that GCP provided us with flexible and scalable resources when needed. Using the cloud for tasks like running containers and managing virtual machines allowed us to avoid hardware limitations and provided quick setup and deployment. Overall, working in the cloud was a positive experience as it simplified many aspects of the project, though we didn’t end up utilizing it as much as we initially anticipated.
 ---
 
 ### Question 28
