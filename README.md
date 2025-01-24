@@ -91,8 +91,8 @@ A machine learning project for detecting diseases in fruits and vegetables using
 ## API Usage
 
 ### Production Endpoints
-- Swagger: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs)
-- Redoc: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc)
+- Swagger: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/docs](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs)
+- Redoc: [https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs/redoc](https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/redoc)
 
 ### Local Development
 
