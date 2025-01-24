@@ -284,7 +284,7 @@ While 55% coverage ensures a significant portion of the code is tested, critical
 
 Even with 100% coverage, errors could persist since coverage measures execution, not correctness. Logical errors, untested edge cases, or unexpected data could still cause failures. Integration points, like passing preprocessed data into the model, also remain untested.
 
-To build trust in the system, we should expand tests to cover edge cases, validate outputs thoroughly, and implement integration tests. This, combined with high coverage, will ensure robustness and reliability in real-world scenarios.
+To build trust in the system, we should expand tests to cover edge cases, validate outputs thoroughly, and implement integration tests.
 
 ---
 
@@ -882,7 +882,7 @@ Student s214940 was in charge of cookiecutter, CI to Google Cloud Run of the API
 Student s216163 was in charge of creating configuration files for our experiments, and using Hydra to manage hyperparameters. Additionally, I implemented pre-commit hooks to ensure consistent code quality across the project, wrote the documentation for the application, and contributed to the report.
 All members have worked closely together through out the course, and we have helped each other with all the tasks mentioned above.
 Student s214925 was in charge unit-tests and creating the docker files. Additionally, he also implemented the alert systems in GCP, creating the distributed dataloading and contributing the report.  
-We also used generative AI tools, such as ChatGPT, to assist with debugging, troubleshooting and with the report, and GitHub Copilot helped speed up coding by suggesting solutions for repetitive tasks. Student s214624 was in charge of creating the data, model and training files including data.py, model.py and train.py and others. He was also in charge of setting the project up on DTU HPC and running the training of the deployed model. He also contributed to creating Hydra configuration files in collaboration with s216163. He also created the streamlit interface as well as tested quantization of the model.
-Student s201189 focused on ensuring a robust workflow, testing, and documentation. I set up pytest for unit testing and Locust for load testing to validate the API's functionality and performance under concurrent traffic. I also tested and debugged the API to ensure reliability. I configured the GitHub project with CI/CD pipelines and contributed to writing the project report. Additionally, I implemented logging for monitoring and debugging, debugged the machine learning model, and created a Conda environment with a requirements file to manage dependencies. Lastly, I ensured code adhered to PEP8 standards, maintaining professionalism and readability.
+We also used generative AI tools, such as ChatGPT, to assist with debugging, troubleshooting and with the report, and GitHub Copilot helped speed up coding by suggesting solutions for repetitive tasks. Student s214624 was in charge of creating the data, model and training files including data.py, model.py and train.py and others. He was also in charge of setting the project up on DTU HPC and running the training of the deployed model. He also created the streamlit interface as well as tested quantization of the model.
+Student s201189 focused on ensuring a robust workflow, testing, and documentation. I set up pytest for unit testing and Locust for load testing to validate the API's functionality and performance under concurrent traffic. I configured the GitHub project with CI/CD pipelines and contributed to writing the project report. I implemented logging for monitoring and debugging, debugged the machine learning model.
 
 ---
