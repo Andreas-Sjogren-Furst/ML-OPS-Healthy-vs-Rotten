@@ -41,7 +41,7 @@ A machine learning project for detecting diseases in fruits and vegetables using
    .\venv\Scripts\activate   # Windows
    
    # OR using conda
-   conda create -n fruit-disease python=3.9
+   conda create -n fruit-disease python=3.11.*
    conda activate fruit-disease
    ```
 
