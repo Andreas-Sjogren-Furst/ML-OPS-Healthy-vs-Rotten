@@ -701,7 +701,15 @@ As an extra thing we made documentation in the same way as in M32. We used our R
 >
 > Answer:
 
---- question 30 fill here ---
+--- 
+Our primary challenge was during the model deployment phase, particularly with image labeling and path inconsistencies. The raw image paths often differed from the processed folder structure, causing significant errors in loading and associating images with their correct labels. Resolving this required looking at the parent folder of the image.
+
+Another major struggle was maintaining functional GitHub Actions workflows. Frequent code changes and iterative experimentation caused pipelines to break frequently, consuming substantial time for debugging and ensuring successful execution. To address this, we incorporated modularized workflows and added extensive logging to pinpoint issues quickly. Additionally, we defined stricter coding guidelines and conducted pre-merge validations to minimize disruptions. Pre-Committing also helped a lot for this issue especially with the linting in the Github Actions.
+
+Lastly, configuring the port and environment for Cloud Run in GCP posed unexpected challenges. Misalignments between local development configurations and Cloud Run's requirements caused deployment failures. To overcome this, we thoroughly reviewed GCP’s documentation and leveraged testing environments to fine-tune our deployment settings. We ensured our containerized application explicitly defined the required port and implemented retry logic for smoother deployments.
+
+While these obstacles demanded significant time and effort, the lessons learned enhanced our ability to anticipate and address similar challenges in future projects.
+---
 
 ### Question 31
 
