@@ -54,7 +54,7 @@ A machine learning project for detecting diseases in fruits and vegetables using
 
 2. Set up Kaggle credentials:
    - Create a Kaggle account
-   - Download API token from kaggle.com/account
+   - Download API token from kaggle.com/settings
    - Configure credentials:
      ```powershell
      New-Item -Path "$env:USERPROFILE\.kaggle" -ItemType Directory -Force
