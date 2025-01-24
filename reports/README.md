@@ -587,7 +587,15 @@ We did not train the model in the cloud because we utilized the High-Performance
 >
 > Answer:
 
---- question 23 fill here ---
+--- Yes, we successfully wrote an API for our model using FastAPI, which provides an efficient way to build and serve machine learning models. The API exposes two main endpoints: a /predict endpoint for making predictions and a /metrics endpoint for serving Prometheus-compatible metrics for monitoring.
+
+API Endpoint: https://ml-healthy-vs-rotten-api-63364934645.europe-west1.run.app/docs
+
+The /predict endpoint accepts image files, processes them using a PyTorch model trained for healthy vs. rotten classification, and returns predictions with confidence scores. To ensure the API works seamlessly, we integrated Google Cloud Storage to download the model during startup, allowing the API to always use the latest model version stored in the cloud.
+
+We also implemented custom metrics for monitoring the API's usage and performance, such as request counts, batch sizes, and processing durations. These metrics are pushed to Google Cloud Monitoring using the monitoring_v3 library. Additionally, we used Prometheus for local monitoring and debugging.
+
+Special care was taken to make the API container-friendly, ensuring compatibility with Cloud Run by storing model files in /tmp and dynamically setting the port via environment variables. This setup ensures scalability and deployability while maintaining visibility into API performance and usage.---
 
 ### Question 24
 
