@@ -196,5 +196,6 @@ wandb/
 
 # Hydra outputs folder
 outputs/
+src/healty_vs_rotten/outputs/
 /data
 tmp/best_model.pt
