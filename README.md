@@ -103,6 +103,12 @@ pip install invoke
   invoke test
   ```
 
+- **Run api locally**: Run the api locally
+  ```bash
+  invoke serve
+  ```
+Requires you are authenticated with gcloud and have the correct service account to download the best model. However, if not, you can also create your own tmp folder and place the best_model.pt file in there.
+
 ## Workflow
 
 1. Create environment: `invoke create-environment`

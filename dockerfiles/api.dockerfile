@@ -14,5 +14,7 @@ COPY tmp tmp/
 RUN pip install -r requirements.txt --no-cache-dir --verbose
 RUN pip install . --no-deps --no-cache-dir --verbose
 
+ENV ENVIRONMENT=production
+
 EXPOSE 8080
 CMD ["sh", "-c", "exec uvicorn healthy_vs_rotten.api:app --host 0.0.0.0 --port ${PORT:-8000}"]
