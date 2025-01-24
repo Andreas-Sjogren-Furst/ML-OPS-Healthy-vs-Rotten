@@ -756,7 +756,7 @@ While these obstacles demanded significant time and effort, the lessons learned 
 > Recommended answer length: 50-300 words.
 >
 > Example:
-> *Student sXXXXXX was in charge of developing of setting up the initial cookie cutter project and developing of the*
+> *Student s214940 was in charge of cookiecutter, CI to Google Cloud Run of the API incl. automatic build of docker images, and push to cloud run, setup of linting locally and in github actions, Data version control with Google Cloud, Fast API setup & deployment, Project commands with Invoke. *
 > *docker containers for training our applications.*
 > *Student sXXXXXX was in charge of training our models in the cloud and deploying them afterwards.*
 > *All members contributed to code by...*
