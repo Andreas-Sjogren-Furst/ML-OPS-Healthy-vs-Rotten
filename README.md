@@ -29,8 +29,8 @@ A machine learning project for detecting diseases in fruits and vegetables using
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd <repository-name>
+   git clone https://github.com/Andreas-Sjogren-Furst/ML-OPS-Healthy-vs-Rotten.git
+   cd ML-OPS-Healthy-vs-Rotten
    ```
 
 2. Create virtual environment:
